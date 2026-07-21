@@ -276,7 +276,7 @@ export class RoomManager {
 
     const connectedCount = Array.from(room.players.values()).filter((p) => p.isConnected).length;
     
-    if (connectedCount < 3) {
+    if (connectedCount < 1) {
       if (!room.isPaused) {
         room.isPaused = true;
         this.io.to(room.code).emit('game-paused', { message: 'Too few players connected. Pausing...' });
@@ -297,8 +297,8 @@ export class RoomManager {
     if (!player || !player.isHost) return { success: false, message: 'Only the host can start the game.' };
 
     const connectedPlayers = Array.from(room.players.values()).filter((p) => p.isConnected);
-    if (connectedPlayers.length < 3) {
-      return { success: false, message: 'Need at least 3 connected players to start!' };
+    if (connectedPlayers.length < 1) {
+      return { success: false, message: 'Need at least 1 connected player to start!' };
     }
 
     const allReady = connectedPlayers.every((p) => p.isHost || p.isReady);

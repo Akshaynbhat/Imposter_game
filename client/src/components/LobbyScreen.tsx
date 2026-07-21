@@ -30,7 +30,7 @@ export const LobbyScreen: React.FC<LobbyScreenProps> = ({
   // Start check: Host is ready. All non-host connected players must be Ready.
   const nonHosts = roomState.players.filter((p) => !p.isHost && p.isConnected);
   const allReady = nonHosts.every((p) => p.isReady);
-  const canStart = isHost && connectedCount >= 3 && allReady;
+  const canStart = isHost && connectedCount >= 1 && allReady;
 
   const handleCopyCode = () => {
     sound.playClick();
@@ -228,7 +228,7 @@ export const LobbyScreen: React.FC<LobbyScreenProps> = ({
                 <Users className="w-4 h-4 text-neon-cyan" /> Crew {connectedCount}/10
               </span>
               <span className="text-[10px] bg-purple-950 px-2 py-0.5 rounded border border-purple-500/30 text-purple-300 font-bold">
-                Min 3
+                Min 1
               </span>
             </div>
 
@@ -289,14 +289,14 @@ export const LobbyScreen: React.FC<LobbyScreenProps> = ({
 
           <div className="pt-6 border-t border-purple-500/15 mt-4 space-y-3">
             {/* Display status flags */}
-            {connectedCount < 3 && (
+            {connectedCount < 1 && (
               <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-300 text-[11px] font-semibold flex items-center gap-1.5">
                 <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" />
-                <span>Need 3+ connected players.</span>
+                <span>Need 1+ connected players.</span>
               </div>
             )}
 
-            {connectedCount >= 3 && !allReady && (
+            {connectedCount >= 1 && !allReady && (
               <div className="p-2.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-300 text-[11px] font-semibold flex items-center gap-1.5">
                 <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" />
                 <span>All players must mark themselves Ready.</span>
