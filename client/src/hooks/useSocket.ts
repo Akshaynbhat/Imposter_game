@@ -4,10 +4,10 @@ import { RoomPublicState, PersonalRolePayload, GameSettings } from '../types/gam
 import { sound } from '../services/sound';
 
 function getSessionId(): string {
-  let id = sessionStorage.getItem('imposter_session_id');
+  let id = localStorage.getItem('imposter_session_id');
   if (!id) {
     id = 'sess_' + Math.random().toString(36).substring(2, 9) + Date.now().toString(36);
-    sessionStorage.setItem('imposter_session_id', id);
+    localStorage.setItem('imposter_session_id', id);
   }
   return id;
 }
@@ -20,7 +20,7 @@ export function useSocket() {
   const [roomState, setRoomState] = useState<RoomPublicState | null>(null);
   const [myRolePayload, setMyRolePayload] = useState<PersonalRolePayload | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [playerName, setPlayerName] = useState<string>(() => sessionStorage.getItem('imposter_player_name') || '');
+  const [playerName, setPlayerName] = useState<string>(() => localStorage.getItem('imposter_player_name') || '');
   
   const prevTimerRef = useRef<number>(-1);
   const prevPhaseRef = useRef<string>('');
@@ -38,12 +38,12 @@ export function useSocket() {
       setError(null);
 
       // Attempt auto-reconnect if session exists
-      const savedCode = sessionStorage.getItem('imposter_room_code');
+      const savedCode = localStorage.getItem('imposter_room_code');
       const sessionId = getSessionId();
       if (savedCode) {
         s.emit('reconnect-session', { code: savedCode, sessionId }, (res: { success: boolean }) => {
           if (!res.success) {
-            sessionStorage.removeItem('imposter_room_code');
+            localStorage.removeItem('imposter_room_code');
             setRoomState(null);
           }
         });
@@ -99,11 +99,11 @@ export function useSocket() {
       if (!socket) return resolve(false);
       const sessionId = getSessionId();
       setPlayerName(name);
-      sessionStorage.setItem('imposter_player_name', name);
+      localStorage.setItem('imposter_player_name', name);
 
       socket.emit('create-room', { name, sessionId }, (res: { success: boolean; code?: string; message?: string }) => {
         if (res.success && res.code) {
-          sessionStorage.setItem('imposter_room_code', res.code);
+          localStorage.setItem('imposter_room_code', res.code);
           setError(null);
           sound.playJoin();
           resolve(true);
@@ -120,11 +120,11 @@ export function useSocket() {
       if (!socket) return resolve(false);
       const sessionId = getSessionId();
       setPlayerName(name);
-      sessionStorage.setItem('imposter_player_name', name);
+      localStorage.setItem('imposter_player_name', name);
 
       socket.emit('join-room', { code, name, sessionId }, (res: { success: boolean; message?: string }) => {
         if (res.success) {
-          sessionStorage.setItem('imposter_room_code', code.toUpperCase());
+          localStorage.setItem('imposter_room_code', code.toUpperCase());
           setError(null);
           sound.playJoin();
           resolve(true);
@@ -147,13 +147,17 @@ export function useSocket() {
     socket.emit('update-settings', { code: roomState.code, settings });
   }, [socket, roomState]);
 
-  const startGame = useCallback(() => {
+  const startGame = useCallback((customCivilianWord?: string, customImposterWord?: string) => {
     if (!socket || !roomState) return;
-    socket.emit('start-game', { code: roomState.code }, (res: { success: boolean; message?: string }) => {
-      if (!res.success) {
-        setError(res.message || 'Failed to start game');
+    socket.emit(
+      'start-game',
+      { code: roomState.code, customCivilianWord, customImposterWord },
+      (res: { success: boolean; message?: string }) => {
+        if (!res.success) {
+          setError(res.message || 'Failed to start game');
+        }
       }
-    });
+    );
   }, [socket, roomState]);
 
   const submitClue = useCallback((clue: string): Promise<boolean> => {
@@ -200,7 +204,7 @@ export function useSocket() {
   }, [socket, roomState]);
 
   const leaveRoom = useCallback(() => {
-    sessionStorage.removeItem('imposter_room_code');
+    localStorage.removeItem('imposter_room_code');
     setRoomState(null);
     setMyRolePayload(null);
     if (socket) {

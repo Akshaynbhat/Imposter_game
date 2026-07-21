@@ -276,7 +276,7 @@ export class RoomManager {
 
     const connectedCount = Array.from(room.players.values()).filter((p) => p.isConnected).length;
     
-    if (connectedCount < 1) {
+    if (connectedCount < 3) {
       if (!room.isPaused) {
         room.isPaused = true;
         this.io.to(room.code).emit('game-paused', { message: 'Too few players connected. Pausing...' });
@@ -289,7 +289,12 @@ export class RoomManager {
     }
   }
 
-  public startGame(socket: Socket, roomCode: string): { success: boolean; message?: string } {
+  public startGame(
+    socket: Socket,
+    roomCode: string,
+    customCivilianWord?: string,
+    customImposterWord?: string
+  ): { success: boolean; message?: string } {
     const room = this.rooms.get(roomCode);
     if (!room) return { success: false, message: 'Room not found.' };
 
@@ -297,8 +302,8 @@ export class RoomManager {
     if (!player || !player.isHost) return { success: false, message: 'Only the host can start the game.' };
 
     const connectedPlayers = Array.from(room.players.values()).filter((p) => p.isConnected);
-    if (connectedPlayers.length < 1) {
-      return { success: false, message: 'Need at least 1 connected player to start!' };
+    if (connectedPlayers.length < 3) {
+      return { success: false, message: 'Need at least 3 connected players to start!' };
     }
 
     const allReady = connectedPlayers.every((p) => p.isHost || p.isReady);
@@ -306,24 +311,50 @@ export class RoomManager {
       return { success: false, message: 'Waiting for all players to be Ready!' };
     }
 
-    // Filter words matching host settings
-    let pool = wordPairs;
-    if (room.settings.category !== 'All') {
-      pool = pool.filter((w) => w.category === room.settings.category);
-    }
-    if (room.settings.difficulty !== 'All') {
-      pool = pool.filter((w) => w.difficulty === room.settings.difficulty);
-    }
+    if (room.settings.category === 'Custom') {
+      const civ = (customCivilianWord || '').trim();
+      const imp = (customImposterWord || '').trim();
 
-    // Fallback if no words match the filtered pool
-    if (pool.length === 0) {
-      pool = wordPairs;
-    }
+      if (!civ || !imp) {
+        return { success: false, message: 'Please enter both custom Civilian and Imposter words!' };
+      }
 
-    // Pick random word pair
-    const pair = pool[Math.floor(Math.random() * pool.length)];
-    room.civilianWord = pair.civilian;
-    room.imposterWord = pair.imposter;
+      // Validations: letters only, max 20 length
+      const lettersOnly = /^[a-zA-Z]+$/;
+      if (!lettersOnly.test(civ) || !lettersOnly.test(imp)) {
+        return { success: false, message: 'Custom words must contain letters only (no spaces, numbers, or special characters)!' };
+      }
+
+      if (civ.length > 20 || imp.length > 20) {
+        return { success: false, message: 'Custom words must be 20 characters or less!' };
+      }
+
+      if (civ.toLowerCase() === imp.toLowerCase()) {
+        return { success: false, message: 'Civilian and Imposter words must be different!' };
+      }
+
+      room.civilianWord = civ;
+      room.imposterWord = imp;
+    } else {
+      // Filter words matching host settings
+      let pool = wordPairs;
+      if (room.settings.category !== 'All') {
+        pool = pool.filter((w) => w.category === room.settings.category);
+      }
+      if (room.settings.difficulty !== 'All') {
+        pool = pool.filter((w) => w.difficulty === room.settings.difficulty);
+      }
+
+      // Fallback if no words match the filtered pool
+      if (pool.length === 0) {
+        pool = wordPairs;
+      }
+
+      // Pick random word pair
+      const pair = pool[Math.floor(Math.random() * pool.length)];
+      room.civilianWord = pair.civilian;
+      room.imposterWord = pair.imposter;
+    }
 
     // Pick random imposter
     const imposterIndex = Math.floor(Math.random() * connectedPlayers.length);

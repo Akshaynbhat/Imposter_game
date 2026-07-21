@@ -101,9 +101,9 @@ io.on('connection', (socket) => {
   });
 
   // 4. Start Game
-  socket.on('start-game', ({ code }, callback) => {
+  socket.on('start-game', ({ code, customCivilianWord, customImposterWord }, callback) => {
     try {
-      const result = roomManager.startGame(socket, code);
+      const result = roomManager.startGame(socket, code, customCivilianWord, customImposterWord);
       if (typeof callback === 'function') {
         callback(result);
       }

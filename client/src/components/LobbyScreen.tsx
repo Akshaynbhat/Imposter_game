@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Crown, Users, Copy, Check, Play, AlertCircle, Sparkles, CheckSquare, Square, Settings, Clock, Layers } from 'lucide-react';
+import { Crown, Users, Copy, Check, Play, AlertCircle, Sparkles, Settings, Clock, Layers } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { RoomPublicState, GameSettings } from '../types/game';
 import { sound } from '../services/sound';
@@ -7,7 +7,7 @@ import { sound } from '../services/sound';
 interface LobbyScreenProps {
   roomState: RoomPublicState;
   myId?: string;
-  onStartGame: () => void;
+  onStartGame: (customCivilian?: string, customImposter?: string) => void;
   onToggleReady: () => void;
   onUpdateSettings: (settings: GameSettings) => void;
   error?: string | null;
@@ -22,6 +22,11 @@ export const LobbyScreen: React.FC<LobbyScreenProps> = ({
   error,
 }) => {
   const [copied, setCopied] = useState<boolean>(false);
+  
+  // Custom word state (only relevant for host starting custom games)
+  const [customCivilian, setCustomCivilian] = useState<string>('');
+  const [customImposter, setCustomImposter] = useState<string>('');
+  const [customError, setCustomError] = useState<string | null>(null);
 
   const me = roomState.players.find((p) => p.id === myId);
   const isHost = me?.isHost ?? false;
@@ -30,7 +35,36 @@ export const LobbyScreen: React.FC<LobbyScreenProps> = ({
   // Start check: Host is ready. All non-host connected players must be Ready.
   const nonHosts = roomState.players.filter((p) => !p.isHost && p.isConnected);
   const allReady = nonHosts.every((p) => p.isReady);
-  const canStart = isHost && connectedCount >= 1 && allReady;
+
+  // Validate custom words
+  useEffect(() => {
+    if (roomState.settings.category === 'Custom') {
+      const lettersOnly = /^[a-zA-Z]*$/;
+      if (customCivilian.length > 0 && !lettersOnly.test(customCivilian)) {
+        setCustomError('Words must contain letters only (no spaces or numbers)!');
+      } else if (customImposter.length > 0 && !lettersOnly.test(customImposter)) {
+        setCustomError('Words must contain letters only (no spaces or numbers)!');
+      } else if (customCivilian.length > 20 || customImposter.length > 20) {
+        setCustomError('Words must be 20 characters or less!');
+      } else if (
+        customCivilian.length > 0 &&
+        customImposter.length > 0 &&
+        customCivilian.toLowerCase() === customImposter.toLowerCase()
+      ) {
+        setCustomError('Civilian and Imposter words must be different!');
+      } else {
+        setCustomError(null);
+      }
+    } else {
+      setCustomError(null);
+    }
+  }, [customCivilian, customImposter, roomState.settings.category]);
+
+  const isCustomValid = roomState.settings.category === 'Custom'
+    ? customCivilian.trim().length > 0 && customImposter.trim().length > 0 && !customError
+    : true;
+
+  const canStart = isHost && connectedCount >= 3 && allReady && isCustomValid;
 
   const handleCopyCode = () => {
     sound.playClick();
@@ -77,7 +111,7 @@ export const LobbyScreen: React.FC<LobbyScreenProps> = ({
       exit={{ opacity: 0, scale: 0.98 }}
       className="w-full max-w-4xl mx-auto px-4 py-6 grid grid-cols-1 md:grid-cols-3 gap-6"
     >
-      {/* LEFT COLUMN: Room Info & Host Settings Panel (2 cols on md) */}
+      {/* LEFT COLUMN: Room Info & Host Settings Panel */}
       <div className="md:col-span-2 space-y-6">
         
         {/* Room Code Card */}
@@ -121,100 +155,154 @@ export const LobbyScreen: React.FC<LobbyScreenProps> = ({
             <h3 className="text-base font-black text-white uppercase tracking-wider">Game Setup</h3>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {/* Category Select */}
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-purple-300 mb-1.5 flex items-center gap-1">
-                <Layers className="w-3.5 h-3.5 text-neon-cyan" /> Word Category
-              </label>
-              {isHost ? (
-                <select
-                  value={roomState.settings.category}
-                  onChange={(e) => handleSettingsChange('category', e.target.value)}
-                  className="w-full px-3 py-2.5 rounded-xl bg-dark-900 border border-purple-500/25 text-sm font-semibold text-white focus:outline-none focus:border-neon-cyan"
-                >
-                  <option value="All">All Categories</option>
-                  <option value="Food & Drink">Food & Drink</option>
-                  <option value="Animals & Nature">Animals & Nature</option>
-                  <option value="Professions & Roles">Professions & Roles</option>
-                  <option value="Technology & Science">Technology & Science</option>
-                  <option value="Household & Daily Life">Household & Daily Life</option>
-                  <option value="Sports & Hobbies">Sports & Hobbies</option>
-                  <option value="Places & Travel">Places & Travel</option>
-                </select>
-              ) : (
-                <div className="px-3 py-2.5 rounded-xl bg-dark-900/50 border border-purple-500/10 text-sm font-semibold text-neon-cyan">
-                  {roomState.settings.category}
-                </div>
-              )}
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Category Select */}
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-purple-300 mb-1.5 flex items-center gap-1">
+                  <Layers className="w-3.5 h-3.5 text-neon-cyan" /> Word Category
+                </label>
+                {isHost ? (
+                  <select
+                    value={roomState.settings.category}
+                    onChange={(e) => handleSettingsChange('category', e.target.value)}
+                    className="w-full px-3 py-2.5 rounded-xl bg-dark-900 border border-purple-500/25 text-sm font-semibold text-white focus:outline-none focus:border-neon-cyan"
+                  >
+                    <option value="All">All Categories</option>
+                    <option value="Food">Food</option>
+                    <option value="Animals">Animals</option>
+                    <option value="Technology">Technology</option>
+                    <option value="Sports">Sports</option>
+                    <option value="Movies">Movies</option>
+                    <option value="Places">Places</option>
+                    <option value="Custom">Custom Words</option>
+                  </select>
+                ) : (
+                  <div className="px-3 py-2.5 rounded-xl bg-dark-900/50 border border-purple-500/10 text-sm font-semibold text-neon-cyan">
+                    {roomState.settings.category}
+                  </div>
+                )}
+              </div>
+
+              {/* Difficulty Select */}
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-purple-300 mb-1.5 flex items-center gap-1">
+                  <Sparkles className="w-3.5 h-3.5 text-neon-gold" /> Difficulty
+                </label>
+                {isHost ? (
+                  <select
+                    value={roomState.settings.difficulty}
+                    disabled={roomState.settings.category === 'Custom'}
+                    onChange={(e) => handleSettingsChange('difficulty', e.target.value)}
+                    className="w-full px-3 py-2.5 rounded-xl bg-dark-900 border border-purple-500/25 text-sm font-semibold text-white focus:outline-none focus:border-neon-cyan disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    <option value="All">All Difficulties</option>
+                    <option value="Easy">Easy</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Hard">Hard</option>
+                  </select>
+                ) : (
+                  <div className="px-3 py-2.5 rounded-xl bg-dark-900/50 border border-purple-500/10 text-sm font-semibold text-neon-gold">
+                    {roomState.settings.category === 'Custom' ? 'N/A' : roomState.settings.difficulty}
+                  </div>
+                )}
+              </div>
+
+              {/* Clue Timer Select */}
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-purple-300 mb-1.5 flex items-center gap-1">
+                  <Clock className="w-3.5 h-3.5 text-rose-400" /> Clue Submission Limit
+                </label>
+                {isHost ? (
+                  <select
+                    value={roomState.settings.roundTimer}
+                    onChange={(e) => handleSettingsChange('roundTimer', Number(e.target.value))}
+                    className="w-full px-3 py-2.5 rounded-xl bg-dark-900 border border-purple-500/25 text-sm font-semibold text-white focus:outline-none focus:border-neon-cyan"
+                  >
+                    <option value={15}>15 Seconds (Default)</option>
+                    <option value={30}>30 Seconds</option>
+                    <option value={45}>45 Seconds</option>
+                  </select>
+                ) : (
+                  <div className="px-3 py-2.5 rounded-xl bg-dark-900/50 border border-purple-500/10 text-sm font-semibold text-purple-200">
+                    {roomState.settings.roundTimer} Seconds
+                  </div>
+                )}
+              </div>
+
+              {/* Discussion Timer Select */}
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-purple-300 mb-1.5 flex items-center gap-1">
+                  <Clock className="w-3.5 h-3.5 text-emerald-400" /> Discussion Length
+                </label>
+                {isHost ? (
+                  <select
+                    value={roomState.settings.discussionTimer}
+                    onChange={(e) => handleSettingsChange('discussionTimer', Number(e.target.value))}
+                    className="w-full px-3 py-2.5 rounded-xl bg-dark-900 border border-purple-500/25 text-sm font-semibold text-white focus:outline-none focus:border-neon-cyan"
+                  >
+                    <option value={30}>30 Seconds</option>
+                    <option value={45}>45 Seconds (Default)</option>
+                    <option value={60}>60 Seconds</option>
+                  </select>
+                ) : (
+                  <div className="px-3 py-2.5 rounded-xl bg-dark-900/50 border border-purple-500/10 text-sm font-semibold text-purple-200">
+                    {roomState.settings.discussionTimer} Seconds
+                  </div>
+                )}
+              </div>
             </div>
 
-            {/* Difficulty Select */}
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-purple-300 mb-1.5 flex items-center gap-1">
-                <Sparkles className="w-3.5 h-3.5 text-neon-gold" /> Difficulty
-              </label>
-              {isHost ? (
-                <select
-                  value={roomState.settings.difficulty}
-                  onChange={(e) => handleSettingsChange('difficulty', e.target.value)}
-                  className="w-full px-3 py-2.5 rounded-xl bg-dark-900 border border-purple-500/25 text-sm font-semibold text-white focus:outline-none focus:border-neon-cyan"
-                >
-                  <option value="All">All Difficulties</option>
-                  <option value="Easy">Easy</option>
-                  <option value="Medium">Medium</option>
-                  <option value="Hard">Hard</option>
-                </select>
-              ) : (
-                <div className="px-3 py-2.5 rounded-xl bg-dark-900/50 border border-purple-500/10 text-sm font-semibold text-neon-gold">
-                  {roomState.settings.difficulty}
-                </div>
-              )}
-            </div>
-
-            {/* Clue Timer Select */}
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-purple-300 mb-1.5 flex items-center gap-1">
-                <Clock className="w-3.5 h-3.5 text-rose-400" /> Clue Submission Limit
-              </label>
-              {isHost ? (
-                <select
-                  value={roomState.settings.roundTimer}
-                  onChange={(e) => handleSettingsChange('roundTimer', Number(e.target.value))}
-                  className="w-full px-3 py-2.5 rounded-xl bg-dark-900 border border-purple-500/25 text-sm font-semibold text-white focus:outline-none focus:border-neon-cyan"
-                >
-                  <option value={15}>15 Seconds (Default)</option>
-                  <option value={30}>30 Seconds</option>
-                  <option value={45}>45 Seconds</option>
-                </select>
-              ) : (
-                <div className="px-3 py-2.5 rounded-xl bg-dark-900/50 border border-purple-500/10 text-sm font-semibold text-purple-200">
-                  {roomState.settings.roundTimer} Seconds
-                </div>
-              )}
-            </div>
-
-            {/* Discussion Timer Select */}
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-purple-300 mb-1.5 flex items-center gap-1">
-                <Clock className="w-3.5 h-3.5 text-emerald-400" /> Discussion Length
-              </label>
-              {isHost ? (
-                <select
-                  value={roomState.settings.discussionTimer}
-                  onChange={(e) => handleSettingsChange('discussionTimer', Number(e.target.value))}
-                  className="w-full px-3 py-2.5 rounded-xl bg-dark-900 border border-purple-500/25 text-sm font-semibold text-white focus:outline-none focus:border-neon-cyan"
-                >
-                  <option value={30}>30 Seconds</option>
-                  <option value={45}>45 Seconds (Default)</option>
-                  <option value={60}>60 Seconds</option>
-                </select>
-              ) : (
-                <div className="px-3 py-2.5 rounded-xl bg-dark-900/50 border border-purple-500/10 text-sm font-semibold text-purple-200">
-                  {roomState.settings.discussionTimer} Seconds
-                </div>
-              )}
-            </div>
+            {/* Custom Words Inputs */}
+            {roomState.settings.category === 'Custom' && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                className="mt-4 pt-4 border-t border-purple-500/15 space-y-3"
+              >
+                <h4 className="text-xs font-black uppercase text-purple-300 tracking-wider">
+                  Configure Custom Words
+                </h4>
+                {isHost ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-[11px] font-bold text-gray-400 mb-1">
+                        Civilian Word
+                      </label>
+                      <input
+                        type="text"
+                        value={customCivilian}
+                        onChange={(e) => setCustomCivilian(e.target.value.replace(/[^a-zA-Z]/g, ''))}
+                        placeholder="e.g. Apple"
+                        className="w-full px-3 py-2.5 rounded-xl bg-dark-900 border border-purple-500/25 text-xs text-white focus:outline-none focus:border-neon-cyan font-semibold"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[11px] font-bold text-gray-400 mb-1">
+                        Imposter Word
+                      </label>
+                      <input
+                        type="text"
+                        value={customImposter}
+                        onChange={(e) => setCustomImposter(e.target.value.replace(/[^a-zA-Z]/g, ''))}
+                        placeholder="e.g. Pear"
+                        className="w-full px-3 py-2.5 rounded-xl bg-dark-900 border border-purple-500/25 text-xs text-white focus:outline-none focus:border-neon-cyan font-semibold"
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="p-3 rounded-xl bg-purple-950/40 border border-purple-500/10 text-center text-xs text-purple-300 font-semibold italic">
+                    Host is configuring secret custom words...
+                  </div>
+                )}
+                {customError && (
+                  <div className="p-2 bg-rose-500/15 border border-rose-500/30 rounded-xl text-[11px] font-semibold text-rose-400 flex items-center gap-1.5">
+                    <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" />
+                    <span>{customError}</span>
+                  </div>
+                )}
+              </motion.div>
+            )}
           </div>
         </div>
       </div>
@@ -228,11 +316,11 @@ export const LobbyScreen: React.FC<LobbyScreenProps> = ({
                 <Users className="w-4 h-4 text-neon-cyan" /> Crew {connectedCount}/10
               </span>
               <span className="text-[10px] bg-purple-950 px-2 py-0.5 rounded border border-purple-500/30 text-purple-300 font-bold">
-                Min 1
+                Min 3
               </span>
             </div>
 
-            {/* Players scrolling grid */}
+            {/* Players list */}
             <div className="space-y-2 max-h-[250px] overflow-y-auto pr-1">
               {roomState.players.map((player, idx) => {
                 const isMe = player.id === myId;
@@ -289,17 +377,24 @@ export const LobbyScreen: React.FC<LobbyScreenProps> = ({
 
           <div className="pt-6 border-t border-purple-500/15 mt-4 space-y-3">
             {/* Display status flags */}
-            {connectedCount < 1 && (
+            {connectedCount < 3 && (
               <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-300 text-[11px] font-semibold flex items-center gap-1.5">
                 <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" />
-                <span>Need 1+ connected players.</span>
+                <span>Need 3+ connected players.</span>
               </div>
             )}
 
-            {connectedCount >= 1 && !allReady && (
+            {connectedCount >= 3 && !allReady && (
               <div className="p-2.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-300 text-[11px] font-semibold flex items-center gap-1.5">
                 <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" />
                 <span>All players must mark themselves Ready.</span>
+              </div>
+            )}
+
+            {isHost && roomState.settings.category === 'Custom' && (!customCivilian.trim() || !customImposter.trim() || customError) && (
+              <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-300 text-[11px] font-semibold flex items-center gap-1.5">
+                <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" />
+                <span>Please complete custom words configuration.</span>
               </div>
             )}
 
@@ -335,7 +430,7 @@ export const LobbyScreen: React.FC<LobbyScreenProps> = ({
                 whileTap={canStart ? { scale: 0.97 } : {}}
                 onClick={() => {
                   sound.playClick();
-                  onStartGame();
+                  onStartGame(customCivilian, customImposter);
                 }}
                 disabled={!canStart}
                 className="w-full py-3.5 rounded-2xl neon-btn-primary font-black text-sm text-white flex items-center justify-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed shadow-xl"
