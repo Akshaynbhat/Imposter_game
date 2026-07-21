@@ -209,6 +209,15 @@ export function useSocket() {
     }
   }, [socket]);
 
+  const sendChatMessage = useCallback((message: string): Promise<boolean> => {
+    return new Promise((resolve) => {
+      if (!socket || !roomState) return resolve(false);
+      socket.emit('send-chat-message', { code: roomState.code, message }, (res: { success: boolean }) => {
+        resolve(res?.success || false);
+      });
+    });
+  }, [socket, roomState]);
+
   const clearError = useCallback(() => {
     setError(null);
   }, []);
@@ -229,6 +238,7 @@ export function useSocket() {
     vote,
     playAgain,
     leaveRoom,
+    sendChatMessage,
     clearError,
   };
 }

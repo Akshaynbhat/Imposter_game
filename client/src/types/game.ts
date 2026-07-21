@@ -36,6 +36,13 @@ export interface ClueSubmission {
   clue: string;
 }
 
+export interface ChatMessage {
+  senderId: string;
+  senderName: string;
+  message: string;
+  timestamp: string;
+}
+
 export interface RoomPublicState {
   code: string;
   phase: GamePhase;
@@ -46,6 +53,7 @@ export interface RoomPublicState {
   settings: GameSettings;
   isPaused: boolean;
   tieBreakCandidates: string[];
+  chatHistory: ChatMessage[];
   voteCounts?: { [playerId: string]: number };
   eliminatedPlayer?: { id: string; name: string; isImposter: boolean };
   winner?: 'CIVILIANS' | 'IMPOSTER';

@@ -156,6 +156,20 @@ io.on('connection', (socket) => {
     }
   });
 
+  // 7b. Chat Messages
+  socket.on('send-chat-message', ({ code, message }, callback) => {
+    try {
+      const success = roomManager.addChatMessage(socket, code, message);
+      if (typeof callback === 'function') {
+        callback({ success });
+      }
+    } catch (err: any) {
+      if (typeof callback === 'function') {
+        callback({ success: false });
+      }
+    }
+  });
+
   // 8. Disconnect
   socket.on('disconnect', () => {
     roomManager.handleDisconnect(socket);

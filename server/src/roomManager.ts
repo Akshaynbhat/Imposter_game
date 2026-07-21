@@ -24,6 +24,7 @@ interface Room {
   isPaused: boolean;
   tieBreakCandidates: string[];
   tieBreakIteration: number; // 0 = first tie break
+  chatHistory: { senderId: string; senderName: string; message: string; timestamp: string }[];
 }
 
 export class RoomManager {
@@ -81,6 +82,7 @@ export class RoomManager {
       isPaused: false,
       tieBreakCandidates: [],
       tieBreakIteration: 0,
+      chatHistory: [],
     };
 
     this.rooms.set(code, room);
@@ -646,6 +648,7 @@ export class RoomManager {
     room.tieBreakCandidates = [];
     room.tieBreakIteration = 0;
     room.isPaused = false;
+    room.chatHistory = [];
 
     // Reset player configurations, clear roles, set non-hosts isReady = false (must mark ready again)
     for (const p of room.players.values()) {
@@ -656,6 +659,33 @@ export class RoomManager {
 
     this.broadcastRoomState(room.code);
     return { success: true };
+  }
+
+  public addChatMessage(socket: Socket, roomCode: string, messageText: string): boolean {
+    const room = this.rooms.get(roomCode);
+    if (!room) return false;
+
+    const player = room.players.get(socket.id);
+    if (!player) return false;
+
+    const msg = messageText.trim();
+    if (!msg || msg.length > 200) return false;
+
+    const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const chatMsg = {
+      senderId: player.id,
+      senderName: player.name,
+      message: msg,
+      timestamp,
+    };
+
+    room.chatHistory.push(chatMsg);
+    if (room.chatHistory.length > 50) {
+      room.chatHistory.shift();
+    }
+
+    this.broadcastRoomState(room.code);
+    return true;
   }
 
   private broadcastRoomState(roomCode: string) {
@@ -688,6 +718,7 @@ export class RoomManager {
       settings: room.settings,
       isPaused: room.isPaused,
       tieBreakCandidates: room.tieBreakCandidates,
+      chatHistory: room.chatHistory,
       voteCounts: room.phase === 'GAME_OVER' ? voteCounts : undefined,
       eliminatedPlayer: room.eliminatedPlayerId
         ? {

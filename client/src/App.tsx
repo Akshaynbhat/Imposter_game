@@ -28,6 +28,7 @@ export const App: React.FC = () => {
     vote,
     playAgain,
     leaveRoom,
+    sendChatMessage,
     clearError,
   } = useSocket();
 
@@ -74,7 +75,7 @@ export const App: React.FC = () => {
 
       case 'DISCUSSION_1':
       case 'DISCUSSION_2':
-        return <DiscussionPhase roomState={roomState} myId={socketId} />;
+        return <DiscussionPhase roomState={roomState} myId={socketId} onSendMessage={sendChatMessage} />;
 
       case 'VOTING':
       case 'TIE_BREAK_VOTING':
