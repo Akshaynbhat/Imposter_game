@@ -1,5 +1,6 @@
 import React from 'react';
 import { Clock } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 interface TimerProps {
   seconds: number;
@@ -7,7 +8,7 @@ interface TimerProps {
   label?: string;
 }
 
-export const Timer: React.FC<TimerProps> = ({ seconds, totalSeconds, label = 'Time Remaining' }) => {
+export const Timer: React.FC<TimerProps> = React.memo(({ seconds, totalSeconds, label = 'Time Remaining' }) => {
   const percentage = Math.max(0, Math.min(100, (seconds / totalSeconds) * 100));
   const isUrgent = seconds <= 5 && seconds > 0;
 
@@ -28,7 +29,7 @@ export const Timer: React.FC<TimerProps> = ({ seconds, totalSeconds, label = 'Ti
             strokeWidth="8"
             fill="transparent"
           />
-          <circle
+          <motion.circle
             cx="56"
             cy="56"
             r={radius}
@@ -39,7 +40,8 @@ export const Timer: React.FC<TimerProps> = ({ seconds, totalSeconds, label = 'Ti
             }`}
             strokeWidth="8"
             strokeDasharray={circumference}
-            strokeDashoffset={strokeDashoffset}
+            animate={{ strokeDashoffset }}
+            transition={{ duration: 1, ease: "linear" }}
             strokeLinecap="round"
             fill="transparent"
           />
@@ -47,15 +49,18 @@ export const Timer: React.FC<TimerProps> = ({ seconds, totalSeconds, label = 'Ti
 
         {/* Center Countdown Display */}
         <div className="absolute flex flex-col items-center justify-center">
-          <span
+          <motion.span
+            key={seconds}
+            initial={{ scale: 0.8, opacity: 0.5 }}
+            animate={{ scale: 1, opacity: 1 }}
             className={`text-3xl font-black tracking-tight ${
               isUrgent
-                ? 'text-rose-500 animate-ping-slow neon-text-red'
+                ? 'text-rose-500 neon-text-red animate-pulse'
                 : 'text-white neon-text-blue'
             }`}
           >
             {seconds}
-          </span>
+          </motion.span>
           <span className="text-[10px] uppercase tracking-wider text-purple-300 font-semibold flex items-center gap-1">
             <Clock className="w-3 h-3" /> Sec
           </span>
@@ -65,4 +70,6 @@ export const Timer: React.FC<TimerProps> = ({ seconds, totalSeconds, label = 'Ti
       {label && <p className="text-xs text-purple-300 font-medium tracking-wide mt-2">{label}</p>}
     </div>
   );
-};
+});
+
+Timer.displayName = 'Timer';

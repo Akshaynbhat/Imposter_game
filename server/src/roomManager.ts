@@ -1,5 +1,5 @@
 import { Server, Socket } from 'socket.io';
-import { GamePhase, Player, RoomPublicState, PersonalRolePayload, WordPair } from './types.js';
+import { GamePhase, Player, RoomPublicState, PersonalRolePayload, WordPair, GameSettings } from './types.js';
 import wordPairsData from './words.json' with { type: 'json' };
 
 const wordPairs: WordPair[] = wordPairsData as WordPair[];
@@ -12,6 +12,7 @@ interface Room {
   timerInterval: NodeJS.Timeout | null;
   players: Map<string, Player>; // socketId -> Player
   sessionToSocketMap: Map<string, string>; // sessionId -> socketId
+  joinOrder: string[]; // List of session IDs in join order
   civilianWord: string;
   imposterWord: string;
   imposterId: string;
@@ -19,6 +20,10 @@ interface Room {
   votes: Map<string, string>; // voterId -> targetId
   eliminatedPlayerId?: string;
   winner?: 'CIVILIANS' | 'IMPOSTER';
+  settings: GameSettings;
+  isPaused: boolean;
+  tieBreakCandidates: string[];
+  tieBreakIteration: number; // 0 = first tie break
 }
 
 export class RoomManager {
@@ -45,11 +50,12 @@ export class RoomManager {
     const code = this.generateRoomCode();
     const player: Player = {
       id: socket.id,
-      name: playerName.trim() || 'Player 1',
+      name: playerName.trim() || 'Host',
       isHost: true,
       isImposter: false,
       secretWord: '',
       isConnected: true,
+      isReady: true, // Host is ready by default
     };
 
     const room: Room = {
@@ -60,15 +66,29 @@ export class RoomManager {
       timerInterval: null,
       players: new Map([[socket.id, player]]),
       sessionToSocketMap: new Map([[sessionId, socket.id]]),
+      joinOrder: [sessionId],
       civilianWord: '',
       imposterWord: '',
       imposterId: '',
       clues: [],
       votes: new Map(),
+      settings: {
+        category: 'All',
+        difficulty: 'All',
+        roundTimer: 15,
+        discussionTimer: 45,
+      },
+      isPaused: false,
+      tieBreakCandidates: [],
+      tieBreakIteration: 0,
     };
 
     this.rooms.set(code, room);
     socket.join(code);
+    
+    // Fix: Critical Create Room Transition Bug
+    // We must broadcast the initial room state to the host's socket right after creation!
+    this.broadcastRoomState(code);
 
     return { code, player };
   }
@@ -85,6 +105,14 @@ export class RoomManager {
       return { success: false, message: 'Game in progress. Cannot join right now.' };
     }
 
+    // Check if name is duplicate in this room
+    const nameExists = Array.from(room.players.values()).some(
+      (p) => p.isConnected && p.name.toLowerCase() === playerName.trim().toLowerCase()
+    );
+    if (nameExists) {
+      return { success: false, message: 'Name already taken in this room. Choose a unique name!' };
+    }
+
     if (room.players.size >= 10) {
       return { success: false, message: 'Room is full (Maximum 10 players).' };
     }
@@ -96,14 +124,50 @@ export class RoomManager {
       isImposter: false,
       secretWord: '',
       isConnected: true,
+      isReady: false, // Players must mark ready
     };
 
     room.players.set(socket.id, player);
     room.sessionToSocketMap.set(sessionId, socket.id);
+    if (!room.joinOrder.includes(sessionId)) {
+      room.joinOrder.push(sessionId);
+    }
     socket.join(code);
 
     this.broadcastRoomState(code);
     return { success: true, player };
+  }
+
+  public toggleReady(socket: Socket, roomCode: string): { success: boolean; ready?: boolean } {
+    const room = this.rooms.get(roomCode);
+    if (!room) return { success: false };
+
+    const player = room.players.get(socket.id);
+    if (!player) return { success: false };
+
+    player.isReady = !player.isReady;
+    this.broadcastRoomState(roomCode);
+    return { success: true, ready: player.isReady };
+  }
+
+  public updateSettings(socket: Socket, roomCode: string, settings: GameSettings): { success: boolean; message?: string } {
+    const room = this.rooms.get(roomCode);
+    if (!room) return { success: false, message: 'Room not found.' };
+
+    const player = room.players.get(socket.id);
+    if (!player || !player.isHost) {
+      return { success: false, message: 'Only the host can modify settings.' };
+    }
+
+    room.settings = {
+      category: settings.category || 'All',
+      difficulty: settings.difficulty || 'All',
+      roundTimer: Number(settings.roundTimer) || 15,
+      discussionTimer: Number(settings.discussionTimer) || 45,
+    };
+
+    this.broadcastRoomState(roomCode);
+    return { success: true };
   }
 
   public reconnect(socket: Socket, roomCode: string, sessionId: string): boolean {
@@ -124,6 +188,14 @@ export class RoomManager {
     room.players.set(socket.id, existingPlayer);
     room.sessionToSocketMap.set(sessionId, socket.id);
 
+    // Update votes map if they voted
+    for (const [voter, target] of room.votes.entries()) {
+      if (voter === oldSocketId) {
+        room.votes.delete(voter);
+        room.votes.set(socket.id, target);
+      }
+    }
+
     socket.join(code);
 
     // Send secret word to reconnected player if game in progress
@@ -133,6 +205,9 @@ export class RoomManager {
         secretWord: existingPlayer.secretWord,
       } as PersonalRolePayload);
     }
+
+    // Check if we need to resume a paused game
+    this.checkPauseStatus(room);
 
     this.broadcastRoomState(code);
     return true;
@@ -144,17 +219,38 @@ export class RoomManager {
         const player = room.players.get(socket.id)!;
         player.isConnected = false;
 
-        // Check if host disconnected
+        // Automatically transfer host if host disconnected
         if (player.isHost) {
           player.isHost = false;
-          // Find next active player to transfer host
-          const nextHost = Array.from(room.players.values()).find((p) => p.isConnected);
-          if (nextHost) {
-            nextHost.isHost = true;
+          
+          // Oldest connected player migration logic using joinOrder
+          let newHostFound = false;
+          for (const sessId of room.joinOrder) {
+            const sockId = room.sessionToSocketMap.get(sessId);
+            if (sockId) {
+              const p = room.players.get(sockId);
+              if (p && p.isConnected) {
+                p.isHost = true;
+                p.isReady = true; // Host is always ready
+                newHostFound = true;
+                this.io.to(code).emit('host-changed', { newHostName: p.name });
+                break;
+              }
+            }
+          }
+          
+          if (!newHostFound) {
+            // Fallback to any connected player
+            const nextHost = Array.from(room.players.values()).find((p) => p.isConnected);
+            if (nextHost) {
+              nextHost.isHost = true;
+              nextHost.isReady = true;
+              this.io.to(code).emit('host-changed', { newHostName: nextHost.name });
+            }
           }
         }
 
-        // If all players disconnected, clean up room
+        // Clean up empty room
         const activePlayersCount = Array.from(room.players.values()).filter((p) => p.isConnected).length;
         if (activePlayersCount === 0) {
           if (room.timerInterval) clearInterval(room.timerInterval);
@@ -162,7 +258,31 @@ export class RoomManager {
           return;
         }
 
+        // Check if we need to pause the active game
+        this.checkPauseStatus(room);
+
         this.broadcastRoomState(code);
+      }
+    }
+  }
+
+  private checkPauseStatus(room: Room) {
+    if (room.phase === 'LOBBY' || room.phase === 'GAME_OVER') {
+      room.isPaused = false;
+      return;
+    }
+
+    const connectedCount = Array.from(room.players.values()).filter((p) => p.isConnected).length;
+    
+    if (connectedCount < 3) {
+      if (!room.isPaused) {
+        room.isPaused = true;
+        this.io.to(room.code).emit('game-paused', { message: 'Too few players connected. Pausing...' });
+      }
+    } else {
+      if (room.isPaused) {
+        room.isPaused = false;
+        this.io.to(room.code).emit('game-resumed', { message: 'Players reconnected. Resuming!' });
       }
     }
   }
@@ -179,8 +299,27 @@ export class RoomManager {
       return { success: false, message: 'Need at least 3 connected players to start!' };
     }
 
+    const allReady = connectedPlayers.every((p) => p.isHost || p.isReady);
+    if (!allReady) {
+      return { success: false, message: 'Waiting for all players to be Ready!' };
+    }
+
+    // Filter words matching host settings
+    let pool = wordPairs;
+    if (room.settings.category !== 'All') {
+      pool = pool.filter((w) => w.category === room.settings.category);
+    }
+    if (room.settings.difficulty !== 'All') {
+      pool = pool.filter((w) => w.difficulty === room.settings.difficulty);
+    }
+
+    // Fallback if no words match the filtered pool
+    if (pool.length === 0) {
+      pool = wordPairs;
+    }
+
     // Pick random word pair
-    const pair = wordPairs[Math.floor(Math.random() * wordPairs.length)];
+    const pair = pool[Math.floor(Math.random() * pool.length)];
     room.civilianWord = pair.civilian;
     room.imposterWord = pair.imposter;
 
@@ -200,11 +339,14 @@ export class RoomManager {
       }
     }
 
-    // Reset clues & votes
+    // Reset clues, votes, and tie break variables
     room.clues = [];
     room.votes.clear();
     room.eliminatedPlayerId = undefined;
     room.winner = undefined;
+    room.tieBreakCandidates = [];
+    room.tieBreakIteration = 0;
+    room.isPaused = false;
 
     // Send secret word ONLY to respective sockets
     for (const p of room.players.values()) {
@@ -227,11 +369,14 @@ export class RoomManager {
 
     room.phase = roundNumber === 1 ? 'ROUND_1' : 'ROUND_2';
     room.currentRound = roundNumber;
-    room.timerSeconds = 15;
+    room.timerSeconds = room.settings.roundTimer;
 
     this.broadcastRoomState(room.code);
 
     room.timerInterval = setInterval(() => {
+      // If paused, freeze timers
+      if (room.isPaused) return;
+
       room.timerSeconds -= 1;
       this.broadcastRoomState(room.code);
 
@@ -256,25 +401,25 @@ export class RoomManager {
     // Check if already submitted for current round
     const existing = room.clues.find((c) => c.playerId === socket.id && c.round === room.currentRound);
     if (existing) {
-      return { success: false, message: 'You have already submitted a clue for this round.' };
+      return { success: false, message: 'Already submitted for this round.' };
     }
 
-    // Validate clue: strictly single word, no spaces
-    const cleanClue = clueText.trim();
-    if (cleanClue.includes(' ') || cleanClue.includes('\t') || cleanClue.includes('\n')) {
-      return { success: false, message: 'Clue must be exactly ONE word with no spaces!' };
+    // Strictly validate clue: ONE word, letters only, no spaces, emojis, numbers, special characters, max 20 chars
+    const cleaned = clueText.trim();
+    if (!/^[a-zA-Z]{1,20}$/.test(cleaned)) {
+      return { success: false, message: 'Clue must be exactly ONE word with only letters (no spaces, numbers, emojis or special characters, max 20 letters)!' };
     }
 
     room.clues.push({
       playerId: player.id,
       playerName: player.name,
       round: room.currentRound as 1 | 2,
-      clue: cleanClue || '-',
+      clue: cleaned,
     });
 
     this.broadcastRoomState(room.code);
 
-    // Check if all connected players submitted for this round
+    // Check if all connected players submitted clue
     const activePlayers = Array.from(room.players.values()).filter((p) => p.isConnected);
     const roundClues = room.clues.filter((c) => c.round === room.currentRound);
 
@@ -295,7 +440,7 @@ export class RoomManager {
           playerId: player.id,
           playerName: player.name,
           round: room.currentRound as 1 | 2,
-          clue: '-',
+          clue: '', // Blank clue on timeout
         });
       }
     }
@@ -318,6 +463,28 @@ export class RoomManager {
     this.broadcastRoomState(room.code);
 
     room.timerInterval = setInterval(() => {
+      if (room.isPaused) return;
+
+      room.timerSeconds -= 1;
+      this.broadcastRoomState(room.code);
+
+      if (room.timerSeconds <= 0) {
+        if (room.timerInterval) clearInterval(room.timerInterval);
+        this.startDiscussionPhase(room, nextTarget);
+      }
+    }, 1000);
+  }
+
+  private startDiscussionPhase(room: Room, nextTarget: 2 | 'VOTING') {
+    if (room.timerInterval) clearInterval(room.timerInterval);
+
+    room.phase = nextTarget === 2 ? 'DISCUSSION_1' : 'DISCUSSION_2';
+    room.timerSeconds = room.settings.discussionTimer;
+    this.broadcastRoomState(room.code);
+
+    room.timerInterval = setInterval(() => {
+      if (room.isPaused) return;
+
       room.timerSeconds -= 1;
       this.broadcastRoomState(room.code);
 
@@ -326,22 +493,24 @@ export class RoomManager {
         if (nextTarget === 2) {
           this.startRound(room, 2);
         } else {
-          this.startVotingPhase(room);
+          this.startVotingPhase(room, 'VOTING');
         }
       }
     }, 1000);
   }
 
-  private startVotingPhase(room: Room) {
+  private startVotingPhase(room: Room, phase: 'VOTING' | 'TIE_BREAK_VOTING') {
     if (room.timerInterval) clearInterval(room.timerInterval);
 
-    room.phase = 'VOTING';
+    room.phase = phase;
     room.timerSeconds = 30;
     room.votes.clear();
 
     this.broadcastRoomState(room.code);
 
     room.timerInterval = setInterval(() => {
+      if (room.isPaused) return;
+
       room.timerSeconds -= 1;
       this.broadcastRoomState(room.code);
 
@@ -356,14 +525,17 @@ export class RoomManager {
     const room = this.rooms.get(roomCode);
     if (!room) return { success: false, message: 'Room not found.' };
 
-    if (room.phase !== 'VOTING') return { success: false, message: 'Voting phase is not active.' };
+    if (room.phase !== 'VOTING' && room.phase !== 'TIE_BREAK_VOTING') {
+      return { success: false, message: 'Voting is not active.' };
+    }
 
     if (socket.id === targetPlayerId) {
       return { success: false, message: 'You cannot vote for yourself!' };
     }
 
-    if (!room.players.has(targetPlayerId)) {
-      return { success: false, message: 'Target player not found in room.' };
+    // If in tie break, you can only vote for players in the tie candidates list
+    if (room.phase === 'TIE_BREAK_VOTING' && !room.tieBreakCandidates.includes(targetPlayerId)) {
+      return { success: false, message: 'Must vote for one of the tied players!' };
     }
 
     room.votes.set(socket.id, targetPlayerId);
@@ -382,37 +554,67 @@ export class RoomManager {
   private finishVoting(room: Room) {
     if (room.timerInterval) clearInterval(room.timerInterval);
 
-    // Calculate vote counts
+    const activePlayers = Array.from(room.players.values()).filter((p) => p.isConnected);
+    
+    // Calculate vote counts (only active players can be voted for)
     const tally: { [playerId: string]: number } = {};
-    for (const targetId of room.votes.values()) {
-      tally[targetId] = (tally[targetId] || 0) + 1;
+    for (const p of activePlayers) {
+      tally[p.id] = 0;
     }
 
-    let maxVotes = 0;
-    let candidates: string[] = [];
-
-    for (const [playerId, count] of Object.entries(tally)) {
-      if (count > maxVotes) {
-        maxVotes = count;
-        candidates = [playerId];
-      } else if (count === maxVotes) {
-        candidates.push(playerId);
+    for (const [voterId, targetId] of room.votes.entries()) {
+      // Validate voter is still connected
+      const voter = room.players.get(voterId);
+      if (voter && voter.isConnected && tally[targetId] !== undefined) {
+        tally[targetId] += 1;
       }
     }
 
-    // Tie-breaker: pick randomly among candidates if tied or if no votes cast, pick random active player
-    let eliminatedId: string;
-    if (candidates.length > 0) {
-      eliminatedId = candidates[Math.floor(Math.random() * candidates.length)];
-    } else {
-      const activePlayers = Array.from(room.players.values()).filter((p) => p.isConnected);
-      eliminatedId = activePlayers[Math.floor(Math.random() * activePlayers.length)].id;
+    let maxVotes = -1;
+    let candidates: string[] = [];
+
+    // Determine candidate list based on voting phase restrictions
+    const listToCheck = room.phase === 'TIE_BREAK_VOTING' ? room.tieBreakCandidates : activePlayers.map(p => p.id);
+
+    for (const id of listToCheck) {
+      const count = tally[id] || 0;
+      if (count > maxVotes) {
+        maxVotes = count;
+        candidates = [id];
+      } else if (count === maxVotes) {
+        candidates.push(id);
+      }
     }
 
-    room.eliminatedPlayerId = eliminatedId;
-    const eliminatedPlayer = room.players.get(eliminatedId);
+    // Handle ties
+    if (candidates.length > 1) {
+      // Tie Break Logic
+      if (room.tieBreakIteration === 0) {
+        // Trigger Tie Break Voting Phase
+        room.tieBreakCandidates = candidates;
+        room.tieBreakIteration = 1;
+        this.io.to(room.code).emit('tie-break-triggered', { candidates });
+        this.startVotingPhase(room, 'TIE_BREAK_VOTING');
+        return;
+      } else {
+        // If still tied on tie break, pick random among candidates to prevent endless loops
+        const randomElim = candidates[Math.floor(Math.random() * candidates.length)];
+        this.eliminatePlayer(room, randomElim);
+      }
+    } else if (candidates.length === 1) {
+      this.eliminatePlayer(room, candidates[0]);
+    } else {
+      // No votes cast -> pick random among all active players
+      const randomElim = activePlayers[Math.floor(Math.random() * activePlayers.length)].id;
+      this.eliminatePlayer(room, randomElim);
+    }
+  }
 
-    if (eliminatedPlayer && eliminatedPlayer.isImposter) {
+  private eliminatePlayer(room: Room, playerId: string) {
+    room.eliminatedPlayerId = playerId;
+    const player = room.players.get(playerId);
+
+    if (player && player.isImposter) {
       room.winner = 'CIVILIANS';
     } else {
       room.winner = 'IMPOSTER';
@@ -427,7 +629,7 @@ export class RoomManager {
     if (!room) return { success: false, message: 'Room not found.' };
 
     const player = room.players.get(socket.id);
-    if (!player || !player.isHost) return { success: false, message: 'Only the host can restart the game.' };
+    if (!player || !player.isHost) return { success: false, message: 'Only the host can reset the lobby.' };
 
     if (room.timerInterval) clearInterval(room.timerInterval);
 
@@ -441,10 +643,15 @@ export class RoomManager {
     room.civilianWord = '';
     room.imposterWord = '';
     room.imposterId = '';
+    room.tieBreakCandidates = [];
+    room.tieBreakIteration = 0;
+    room.isPaused = false;
 
+    // Reset player configurations, clear roles, set non-hosts isReady = false (must mark ready again)
     for (const p of room.players.values()) {
       p.isImposter = false;
       p.secretWord = '';
+      p.isReady = p.isHost; // Host is automatically ready
     }
 
     this.broadcastRoomState(room.code);
@@ -473,10 +680,14 @@ export class RoomManager {
         name: p.name,
         isHost: p.isHost,
         isConnected: p.isConnected,
+        isReady: p.isReady,
         hasSubmittedClue: room.clues.some((c) => c.playerId === p.id && c.round === room.currentRound),
         hasVoted: room.votes.has(p.id),
       })),
       clues: room.clues,
+      settings: room.settings,
+      isPaused: room.isPaused,
+      tieBreakCandidates: room.tieBreakCandidates,
       voteCounts: room.phase === 'GAME_OVER' ? voteCounts : undefined,
       eliminatedPlayer: room.eliminatedPlayerId
         ? {

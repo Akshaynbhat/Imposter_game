@@ -3,19 +3,30 @@ export type GamePhase =
   | 'ROLE_ASSIGNMENT'
   | 'ROUND_1'
   | 'CLUES_REVEAL_1'
+  | 'DISCUSSION_1'
   | 'ROUND_2'
   | 'CLUES_REVEAL_2'
+  | 'DISCUSSION_2'
   | 'VOTING'
+  | 'TIE_BREAK_VOTING'
   | 'VOTE_RESULTS'
   | 'GAME_OVER';
 
+export interface GameSettings {
+  category: string;
+  difficulty: 'All' | 'Easy' | 'Medium' | 'Hard';
+  roundTimer: number; // in seconds
+  discussionTimer: number; // in seconds
+}
+
 export interface Player {
-  id: string; // Socket ID or Session ID
+  id: string;
   name: string;
   isHost: boolean;
   isImposter: boolean;
   secretWord: string;
   isConnected: boolean;
+  isReady: boolean;
   voteForId?: string;
 }
 
@@ -27,8 +38,20 @@ export interface ClueSubmission {
 }
 
 export interface WordPair {
+  category: string;
+  difficulty: 'Easy' | 'Medium' | 'Hard';
   civilian: string;
   imposter: string;
+}
+
+export interface PlayerPublic {
+  id: string;
+  name: string;
+  isHost: boolean;
+  isConnected: boolean;
+  isReady: boolean;
+  hasSubmittedClue?: boolean;
+  hasVoted?: boolean;
 }
 
 export interface RoomPublicState {
@@ -36,15 +59,11 @@ export interface RoomPublicState {
   phase: GamePhase;
   currentRound: number;
   timerSeconds: number;
-  players: {
-    id: string;
-    name: string;
-    isHost: boolean;
-    isConnected: boolean;
-    hasSubmittedClue?: boolean;
-    hasVoted?: boolean;
-  }[];
+  players: PlayerPublic[];
   clues: ClueSubmission[];
+  settings: GameSettings;
+  isPaused: boolean;
+  tieBreakCandidates: string[];
   voteCounts?: { [playerId: string]: number };
   eliminatedPlayer?: { id: string; name: string; isImposter: boolean };
   winner?: 'CIVILIANS' | 'IMPOSTER';

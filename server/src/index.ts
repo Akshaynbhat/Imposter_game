@@ -72,6 +72,34 @@ io.on('connection', (socket) => {
     }
   });
 
+  // 3b. Toggle Ready
+  socket.on('toggle-ready', ({ code }, callback) => {
+    try {
+      const result = roomManager.toggleReady(socket, code);
+      if (typeof callback === 'function') {
+        callback(result);
+      }
+    } catch (err: any) {
+      if (typeof callback === 'function') {
+        callback({ success: false });
+      }
+    }
+  });
+
+  // 3c. Update Settings
+  socket.on('update-settings', ({ code, settings }, callback) => {
+    try {
+      const result = roomManager.updateSettings(socket, code, settings);
+      if (typeof callback === 'function') {
+        callback(result);
+      }
+    } catch (err: any) {
+      if (typeof callback === 'function') {
+        callback({ success: false, message: err?.message || 'Failed to update settings' });
+      }
+    }
+  });
+
   // 4. Start Game
   socket.on('start-game', ({ code }, callback) => {
     try {

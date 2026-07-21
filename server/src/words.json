@@ -1,365 +1,6062 @@
 [
-  { "civilian": "Apple", "imposter": "Tomato" },
-  { "civilian": "Doctor", "imposter": "Nurse" },
-  { "civilian": "Dog", "imposter": "Wolf" },
-  { "civilian": "Pizza", "imposter": "Burger" },
-  { "civilian": "Ocean", "imposter": "Beach" },
-  { "civilian": "School", "imposter": "College" },
-  { "civilian": "Laptop", "imposter": "Computer" },
-  { "civilian": "Coffee", "imposter": "Tea" },
-  { "civilian": "Sun", "imposter": "Moon" },
-  { "civilian": "Lion", "imposter": "Tiger" },
-  { "civilian": "Car", "imposter": "Bus" },
-  { "civilian": "Mountain", "imposter": "Hill" },
-  { "civilian": "Airport", "imposter": "Railway Station" },
-  { "civilian": "Hospital", "imposter": "Pharmacy" },
-  { "civilian": "Rain", "imposter": "Snow" },
-  { "civilian": "Pancake", "imposter": "Waffle" },
-  { "civilian": "Cookie", "imposter": "Biscuit" },
-  { "civilian": "Cat", "imposter": "Cheetah" },
-  { "civilian": "Eagle", "imposter": "Hawk" },
-  { "civilian": "Dolphin", "imposter": "Whale" },
-  { "civilian": "River", "imposter": "Stream" },
-  { "civilian": "Teacher", "imposter": "Professor" },
-  { "civilian": "Pilot", "imposter": "Astronaut" },
-  { "civilian": "Chef", "imposter": "Baker" },
-  { "civilian": "Police", "imposter": "Detective" },
-  { "civilian": "Phone", "imposter": "Tablet" },
-  { "civilian": "Keyboard", "imposter": "Keypad" },
-  { "civilian": "Monitor", "imposter": "TV" },
-  { "civilian": "Mouse", "imposter": "Trackpad" },
-  { "civilian": "Cinema", "imposter": "Theater" },
-  { "civilian": "Park", "imposter": "Garden" },
-  { "civilian": "Hotel", "imposter": "Motel" },
-  { "civilian": "Shirt", "imposter": "T-Shirt" },
-  { "civilian": "Jacket", "imposter": "Coat" },
-  { "civilian": "Shoes", "imposter": "Sneakers" },
-  { "civilian": "Ring", "imposter": "Bracelet" },
-  { "civilian": "Hat", "imposter": "Cap" },
-  { "civilian": "Glasses", "imposter": "Sunglasses" },
-  { "civilian": "Chair", "imposter": "Stool" },
-  { "civilian": "Sofa", "imposter": "Couch" },
-  { "civilian": "Table", "imposter": "Desk" },
-  { "civilian": "Pillow", "imposter": "Cushion" },
-  { "civilian": "Mirror", "imposter": "Glass" },
-  { "civilian": "Lamp", "imposter": "Bulb" },
-  { "civilian": "Bicycle", "imposter": "Scooter" },
-  { "civilian": "Helicopter", "imposter": "Airplane" },
-  { "civilian": "Train", "imposter": "Subway" },
-  { "civilian": "Boat", "imposter": "Ship" },
-  { "civilian": "Soccer", "imposter": "Football" },
-  { "civilian": "Tennis", "imposter": "Badminton" },
-  { "civilian": "Piano", "imposter": "Guitar" },
-  { "civilian": "Painting", "imposter": "Drawing" },
-  { "civilian": "Star", "imposter": "Planet" },
-  { "civilian": "Telescope", "imposter": "Microscope" },
-  { "civilian": "Rocket", "imposter": "Satellite" },
-  { "civilian": "Atom", "imposter": "Molecule" },
-  { "civilian": "Storm", "imposter": "Tornado" },
-  { "civilian": "Morning", "imposter": "Evening" },
-  { "civilian": "Summer", "imposter": "Spring" },
-  { "civilian": "Clock", "imposter": "Watch" },
-  { "civilian": "Orange", "imposter": "Tangerine" },
-  { "civilian": "Lemon", "imposter": "Lime" },
-  { "civilian": "Peach", "imposter": "Nectarine" },
-  { "civilian": "Strawberry", "imposter": "Raspberry" },
-  { "civilian": "Butter", "imposter": "Margarine" },
-  { "civilian": "Milk", "imposter": "Cream" },
-  { "civilian": "Cake", "imposter": "Cupcake" },
-  { "civilian": "Donut", "imposter": "Bagel" },
-  { "civilian": "Spaghetti", "imposter": "Noodles" },
-  { "civilian": "Rice", "imposter": "Quinoa" },
-  { "civilian": "Bread", "imposter": "Toast" },
-  { "civilian": "Sandwich", "imposter": "Wrap" },
-  { "civilian": "Taco", "imposter": "Burrito" },
-  { "civilian": "Soup", "imposter": "Stew" },
-  { "civilian": "Salad", "imposter": "Coleslaw" },
-  { "civilian": "Ice Cream", "imposter": "Gelato" },
-  { "civilian": "Chocolate", "imposter": "Fudge" },
-  { "civilian": "Juice", "imposter": "Smoothie" },
-  { "civilian": "Beer", "imposter": "Cider" },
-  { "civilian": "Wine", "imposter": "Champagne" },
-  { "civilian": "Whiskey", "imposter": "Bourbon" },
-  { "civilian": "Salt", "imposter": "Pepper" },
-  { "civilian": "Sugar", "imposter": "Honey" },
-  { "civilian": "Garlic", "imposter": "Onion" },
-  { "civilian": "Potato", "imposter": "Yam" },
-  { "civilian": "Carrot", "imposter": "Parsnip" },
-  { "civilian": "Cucumber", "imposter": "Zucchini" },
-  { "civilian": "Spinach", "imposter": "Lettuce" },
-  { "civilian": "Mushroom", "imposter": "Truffle" },
-  { "civilian": "Croissant", "imposter": "Danishing" },
-  { "civilian": "Brownie", "imposter": "Blondie" },
-  { "civilian": "Mustard", "imposter": "Ketchup" },
-  { "civilian": "Mayo", "imposter": "Aioli" },
-  { "civilian": "Watermelon", "imposter": "Cantaloupe" },
-  { "civilian": "Pineapple", "imposter": "Mango" },
-  { "civilian": "Grape", "imposter": "Raisin" },
-  { "civilian": "Plum", "imposter": "Prune" },
-  { "civilian": "Walnut", "imposter": "Pecan" },
-  { "civilian": "Almond", "imposter": "Cashew" },
-  { "civilian": "Horse", "imposter": "Donkey" },
-  { "civilian": "Zebra", "imposter": "Giraffe" },
-  { "civilian": "Crocodile", "imposter": "Alligator" },
-  { "civilian": "Frog", "imposter": "Toad" },
-  { "civilian": "Turtle", "imposter": "Tortoise" },
-  { "civilian": "Butterfly", "imposter": "Moth" },
-  { "civilian": "Bee", "imposter": "Wasp" },
-  { "civilian": "Ant", "imposter": "Termite" },
-  { "civilian": "Spider", "imposter": "Scorpion" },
-  { "civilian": "Falcon", "imposter": "Vulture" },
-  { "civilian": "Owl", "imposter": "Bat" },
-  { "civilian": "Penguin", "imposter": "Puffin" },
-  { "civilian": "Duck", "imposter": "Goose" },
-  { "civilian": "Swan", "imposter": "Flamingo" },
-  { "civilian": "Rabbit", "imposter": "Hare" },
-  { "civilian": "Rat", "imposter": "Mouse" },
-  { "civilian": "Squirrel", "imposter": "Chipmunk" },
-  { "civilian": "Fox", "imposter": "Coyote" },
-  { "civilian": "Leopard", "imposter": "Panther" },
-  { "civilian": "Jaguar", "imposter": "Cougar" },
-  { "civilian": "Bear", "imposter": "Grizzly" },
-  { "civilian": "Gorilla", "imposter": "Chimpanzee" },
-  { "civilian": "Monkey", "imposter": "Baboon" },
-  { "civilian": "Camel", "imposter": "Llama" },
-  { "civilian": "Goat", "imposter": "Sheep" },
-  { "civilian": "Cow", "imposter": "Bull" },
-  { "civilian": "Pig", "imposter": "Boar" },
-  { "civilian": "Shark", "imposter": "Ray" },
-  { "civilian": "Octopus", "imposter": "Squid" },
-  { "civilian": "Crab", "imposter": "Lobster" },
-  { "civilian": "Seal", "imposter": "Walrus" },
-  { "civilian": "Deer", "imposter": "Moose" },
-  { "civilian": "Hippo", "imposter": "Rhino" },
-  { "civilian": "Koala", "imposter": "Kangaroo" },
-  { "civilian": "Parrot", "imposter": "Macaw" },
-  { "civilian": "Crow", "imposter": "Raven" },
-  { "civilian": "Pigeon", "imposter": "Dove" },
-  { "civilian": "Firefighter", "imposter": "Paramedic" },
-  { "civilian": "Soldier", "imposter": "Marine" },
-  { "civilian": "Judge", "imposter": "Lawyer" },
-  { "civilian": "Scientist", "imposter": "Researcher" },
-  { "civilian": "Architect", "imposter": "Engineer" },
-  { "civilian": "Dentist", "imposter": "Orthodontist" },
-  { "civilian": "Barber", "imposter": "Hairdresser" },
-  { "civilian": "Photographer", "imposter": "Videographer" },
-  { "civilian": "Singer", "imposter": "Musician" },
-  { "civilian": "Actor", "imposter": "Director" },
-  { "civilian": "Author", "imposter": "Poet" },
-  { "civilian": "Journalist", "imposter": "Reporter" },
-  { "civilian": "Farmer", "imposter": "Gardener" },
-  { "civilian": "Plumber", "imposter": "Electrician" },
-  { "civilian": "Carpenter", "imposter": "Mason" },
-  { "civilian": "Mechanic", "imposter": "Technician" },
-  { "civilian": "Banker", "imposter": "Accountant" },
-  { "civilian": "Waiter", "imposter": "Bartender" },
-  { "civilian": "Librarian", "imposter": "Archivist" },
-  { "civilian": "Sailor", "imposter": "Captain" },
-  { "civilian": "Mayor", "imposter": "Governor" },
-  { "civilian": "King", "imposter": "Prince" },
-  { "civilian": "Queen", "imposter": "Princess" },
-  { "civilian": "Wizard", "imposter": "Sorcerer" },
-  { "civilian": "Knight", "imposter": "Paladin" },
-  { "civilian": "Ninja", "imposter": "Samurai" },
-  { "civilian": "Pirate", "imposter": "Corsair" },
-  { "civilian": "Vampire", "imposter": "Werewolf" },
-  { "civilian": "Ghost", "imposter": "Phantom" },
-  { "civilian": "Alien", "imposter": "Martian" },
-  { "civilian": "Robot", "imposter": "Android" },
-  { "civilian": "Camera", "imposter": "Camcorder" },
-  { "civilian": "Speaker", "imposter": "Headphones" },
-  { "civilian": "Earbuds", "imposter": "Headset" },
-  { "civilian": "Microphone", "imposter": "Recorder" },
-  { "civilian": "Printer", "imposter": "Scanner" },
-  { "civilian": "Router", "imposter": "Modem" },
-  { "civilian": "USB", "imposter": "Hard Drive" },
-  { "civilian": "Screen", "imposter": "Display" },
-  { "civilian": "Charger", "imposter": "Powerbank" },
-  { "civilian": "Battery", "imposter": "Accumulator" },
-  { "civilian": "Console", "imposter": "PC" },
-  { "civilian": "Controller", "imposter": "Joystick" },
-  { "civilian": "Calculator", "imposter": "Abacus" },
-  { "civilian": "Projector", "imposter": "Screen" },
-  { "civilian": "Radio", "imposter": "Stereo" },
-  { "civilian": "Drone", "imposter": "Quadcopter" },
-  { "civilian": "Radar", "imposter": "Sonar" },
-  { "civilian": "Laser", "imposter": "Beam" },
-  { "civilian": "Flashlight", "imposter": "Torch" },
-  { "civilian": "Library", "imposter": "Bookstore" },
-  { "civilian": "Museum", "imposter": "Gallery" },
-  { "civilian": "Stadium", "imposter": "Arena" },
-  { "civilian": "Gym", "imposter": "Fitness Center" },
-  { "civilian": "Castle", "imposter": "Palace" },
-  { "civilian": "Tower", "imposter": "Skyscraper" },
-  { "civilian": "Bridge", "imposter": "Tunnel" },
-  { "civilian": "Factory", "imposter": "Plant" },
-  { "civilian": "Warehouse", "imposter": "Depot" },
-  { "civilian": "Church", "imposter": "Cathedral" },
-  { "civilian": "Temple", "imposter": "Shrine" },
-  { "civilian": "Farm", "imposter": "Ranch" },
-  { "civilian": "Zoo", "imposter": "Aquarium" },
-  { "civilian": "Circus", "imposter": "Fair" },
-  { "civilian": "Casino", "imposter": "Arcade" },
-  { "civilian": "Bakery", "imposter": "Deli" },
-  { "civilian": "Supermarket", "imposter": "Grocery" },
-  { "civilian": "Mall", "imposter": "Plaza" },
-  { "civilian": "Island", "imposter": "Peninsula" },
-  { "civilian": "Desert", "imposter": "Oasis" },
-  { "civilian": "Forest", "imposter": "Jungle" },
-  { "civilian": "Cave", "imposter": "Cavern" },
-  { "civilian": "Volcano", "imposter": "Geyser" },
-  { "civilian": "Waterfall", "imposter": "Rapids" },
-  { "civilian": "Swamp", "imposter": "Marsh" },
-  { "civilian": "Valley", "imposter": "Canyon" },
-  { "civilian": "Glacier", "imposter": "Iceberg" },
-  { "civilian": "Pants", "imposter": "Jeans" },
-  { "civilian": "Shorts", "imposter": "Trunks" },
-  { "civilian": "Skirt", "imposter": "Dress" },
-  { "civilian": "Sweater", "imposter": "Hoodie" },
-  { "civilian": "Socks", "imposter": "Stockings" },
-  { "civilian": "Gloves", "imposter": "Mittens" },
-  { "civilian": "Scarf", "imposter": "Shawl" },
-  { "civilian": "Belt", "imposter": "Sash" },
-  { "civilian": "Tie", "imposter": "Bowtie" },
-  { "civilian": "Boots", "imposter": "Shoes" },
-  { "civilian": "Sandals", "imposter": "Flip-Flops" },
-  { "civilian": "Suit", "imposter": "Tuxedo" },
-  { "civilian": "Pyjamas", "imposter": "Robe" },
-  { "civilian": "Necklace", "imposter": "Pendant" },
-  { "civilian": "Earring", "imposter": "Stud" },
-  { "civilian": "Wallet", "imposter": "Purse" },
-  { "civilian": "Backpack", "imposter": "Duffle Bag" },
-  { "civilian": "Suitcase", "imposter": "Luggage" },
-  { "civilian": "Umbrella", "imposter": "Raincoat" },
-  { "civilian": "Crown", "imposter": "Tiara" },
-  { "civilian": "Helmet", "imposter": "Cap" },
-  { "civilian": "Bed", "imposter": "Mattress" },
-  { "civilian": "Blanket", "imposter": "Duvet" },
-  { "civilian": "Sheet", "imposter": "Cover" },
-  { "civilian": "Curtain", "imposter": "Blinds" },
-  { "civilian": "Carpet", "imposter": "Rug" },
-  { "civilian": "Clock", "imposter": "Timer" },
-  { "civilian": "Door", "imposter": "Gate" },
-  { "civilian": "Window", "imposter": "Skylight" },
-  { "civilian": "Fence", "imposter": "Wall" },
-  { "civilian": "Roof", "imposter": "Ceiling" },
-  { "civilian": "Stairs", "imposter": "Elevator" },
-  { "civilian": "Fireplace", "imposter": "Heater" },
-  { "civilian": "Fan", "imposter": "Air Conditioner" },
-  { "civilian": "Fridge", "imposter": "Freezer" },
-  { "civilian": "Oven", "imposter": "Microwave" },
-  { "civilian": "Toaster", "imposter": "Grill" },
-  { "civilian": "Blender", "imposter": "Mixer" },
-  { "civilian": "Kettle", "imposter": "Pot" },
-  { "civilian": "Pan", "imposter": "Skillet" },
-  { "civilian": "Plate", "imposter": "Dish" },
-  { "civilian": "Bowl", "imposter": "Basin" },
-  { "civilian": "Fork", "imposter": "Spoon" },
-  { "civilian": "Knife", "imposter": "Cleaver" },
-  { "civilian": "Cup", "imposter": "Mug" },
-  { "civilian": "Glass", "imposter": "Goblet" },
-  { "civilian": "Napkin", "imposter": "Towel" },
-  { "civilian": "Broom", "imposter": "Mop" },
-  { "civilian": "Bucket", "imposter": "Pail" },
-  { "civilian": "Trash Can", "imposter": "Dumpster" },
-  { "civilian": "Soap", "imposter": "Shampoo" },
-  { "civilian": "Toothbrush", "imposter": "Floss" },
-  { "civilian": "Comb", "imposter": "Brush" },
-  { "civilian": "Scissors", "imposter": "Shears" },
-  { "civilian": "Pen", "imposter": "Pencil" },
-  { "civilian": "Marker", "imposter": "Highlighter" },
-  { "civilian": "Paper", "imposter": "Cardboard" },
-  { "civilian": "Notebook", "imposter": "Journal" },
-  { "civilian": "Envelope", "imposter": "Letter" },
-  { "civilian": "Stamp", "imposter": "Postcard" },
-  { "civilian": "Book", "imposter": "Novel" },
-  { "civilian": "Magazine", "imposter": "Newspaper" },
-  { "civilian": "Folder", "imposter": "Binder" },
-  { "civilian": "Glue", "imposter": "Tape" },
-  { "civilian": "Ruler", "imposter": "Tape Measure" },
-  { "civilian": "Eraser", "imposter": "Correction Tape" },
-  { "civilian": "Motorcycle", "imposter": "Moped" },
-  { "civilian": "Van", "imposter": "Truck" },
-  { "civilian": "Tractor", "imposter": "Bulldozer" },
-  { "civilian": "Ambulance", "imposter": "Fire Truck" },
-  { "civilian": "Police Car", "imposter": "Patrol Unit" },
-  { "civilian": "Tram", "imposter": "Trolley" },
-  { "civilian": "Yacht", "imposter": "Cruise Ship" },
-  { "civilian": "Canoe", "imposter": "Kayak" },
-  { "civilian": "Raft", "imposter": "Dinghy" },
-  { "civilian": "Submarine", "imposter": "Torpedo" },
-  { "civilian": "Jet", "imposter": "Glider" },
-  { "civilian": "Blimp", "imposter": "Hot Air Balloon" },
-  { "civilian": "Basketball", "imposter": "Volleyball" },
-  { "civilian": "Baseball", "imposter": "Softball" },
-  { "civilian": "Golf", "imposter": "Billiards" },
-  { "civilian": "Bowling", "imposter": "Curling" },
-  { "civilian": "Skiing", "imposter": "Snowboarding" },
-  { "civilian": "Surfing", "imposter": "Skateboarding" },
-  { "civilian": "Boxing", "imposter": "Wrestling" },
-  { "civilian": "Karate", "imposter": "Judo" },
-  { "civilian": "Archery", "imposter": "Fencing" },
-  { "civilian": "Chess", "imposter": "Checkers" },
-  { "civilian": "Dominoes", "imposter": "Dice" },
-  { "civilian": "Cards", "imposter": "Poker" },
-  { "civilian": "Puzzle", "imposter": "Riddle" },
-  { "civilian": "Violin", "imposter": "Cello" },
-  { "civilian": "Flute", "imposter": "Clarinet" },
-  { "civilian": "Trumpet", "imposter": "Trombone" },
-  { "civilian": "Drums", "imposter": "Tambourine" },
-  { "civilian": "Accordion", "imposter": "Harmonica" },
-  { "civilian": "Harp", "imposter": "Lyre" },
-  { "civilian": "Galaxy", "imposter": "Nebula" },
-  { "civilian": "Comet", "imposter": "Asteroid" },
-  { "civilian": "Black Hole", "imposter": "Supernova" },
-  { "civilian": "Orbit", "imposter": "Gravity" },
-  { "civilian": "Oxygen", "imposter": "Hydrogen" },
-  { "civilian": "Gold", "imposter": "Silver" },
-  { "civilian": "Diamond", "imposter": "Ruby" },
-  { "civilian": "Emerald", "imposter": "Sapphire" },
-  { "civilian": "Iron", "imposter": "Steel" },
-  { "civilian": "Copper", "imposter": "Bronze" },
-  { "civilian": "Lightning", "imposter": "Thunder" },
-  { "civilian": "Fog", "imposter": "Mist" },
-  { "civilian": "Wind", "imposter": "Breeze" },
-  { "civilian": "Frost", "imposter": "Ice" },
-  { "civilian": "Wave", "imposter": "Tide" },
-  { "civilian": "Shadow", "imposter": "Silhouette" },
-  { "civilian": "Fire", "imposter": "Flame" },
-  { "civilian": "Smoke", "imposter": "Ash" },
-  { "civilian": "Dust", "imposter": "Dirt" },
-  { "civilian": "Sand", "imposter": "Gravel" },
-  { "civilian": "Rock", "imposter": "Boulder" },
-  { "civilian": "Leaf", "imposter": "Petal" },
-  { "civilian": "Branch", "imposter": "Twig" },
-  { "civilian": "Root", "imposter": "Stem" },
-  { "civilian": "Flower", "imposter": "Blossom" },
-  { "civilian": "Tree", "imposter": "Bush" },
-  { "civilian": "Grass", "imposter": "Moss" },
-  { "civilian": "Seed", "imposter": "Nut" },
-  { "civilian": "Vine", "imposter": "Ivy" },
-  { "civilian": "Cactus", "imposter": "Succulent" },
-  { "civilian": "Mushroom", "imposter": "Fungus" },
-  { "civilian": "Seashell", "imposter": "Coral" },
-  { "civilian": "Feather", "imposter": "Wing" },
-  { "civilian": "Horn", "imposter": "Antler" },
-  { "civilian": "Tail", "imposter": "Fin" },
-  { "civilian": "Claw", "imposter": "Hoof" },
-  { "civilian": "Fur", "imposter": "Scales" },
-  { "civilian": "Whiskers", "imposter": "Beard" },
-  { "civilian": "Armor", "imposter": "Shield" },
-  { "civilian": "Sword", "imposter": "Dagger" },
-  { "civilian": "Spear", "imposter": "Javelin" },
-  { "civilian": "Bow", "imposter": "Crossbow" },
-  { "civilian": "Arrow", "imposter": "Dart" },
-  { "civilian": "Cannon", "imposter": "Catapult" },
-  { "civilian": "Bomb", "imposter": "Dynamite" },
-  { "civilian": "Map", "imposter": "Compass" },
-  { "civilian": "Anchor", "imposter": "Rudder" },
-  { "civilian": "Lantern", "imposter": "Candle" },
-  { "civilian": "Key", "imposter": "Lock" },
-  { "civilian": "Chain", "imposter": "Rope" },
-  { "civilian": "Chest", "imposter": "Vault" },
-  { "civilian": "Coin", "imposter": "Medal" },
-  { "civilian": "Trophy", "imposter": "Ribbon" }
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Apple",
+    "imposter": "Tomato"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Pizza",
+    "imposter": "Burger"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Coffee",
+    "imposter": "Tea"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Pancake",
+    "imposter": "Waffle"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Cookie",
+    "imposter": "Biscuit"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Milk",
+    "imposter": "Cream"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Cake",
+    "imposter": "Cupcake"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Spaghetti",
+    "imposter": "Noodles"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Rice",
+    "imposter": "Quinoa"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Bread",
+    "imposter": "Toast"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Taco",
+    "imposter": "Burrito"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Soup",
+    "imposter": "Stew"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Salad",
+    "imposter": "Coleslaw"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Ice Cream",
+    "imposter": "Gelato"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Chocolate",
+    "imposter": "Fudge"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Beer",
+    "imposter": "Cider"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Wine",
+    "imposter": "Champagne"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Garlic",
+    "imposter": "Onion"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Potato",
+    "imposter": "Yam"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Lemon",
+    "imposter": "Lime"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Peach",
+    "imposter": "Nectarine"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Orange",
+    "imposter": "Tangerine"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Walnut",
+    "imposter": "Pecan"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Almond",
+    "imposter": "Cashew"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Butter",
+    "imposter": "Margarine"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Donut",
+    "imposter": "Bagel"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Sandwich",
+    "imposter": "Wrap"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Juice",
+    "imposter": "Smoothie"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Whiskey",
+    "imposter": "Bourbon"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Salt",
+    "imposter": "Pepper"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Sugar",
+    "imposter": "Honey"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Carrot",
+    "imposter": "Parsnip"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Cucumber",
+    "imposter": "Zucchini"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Spinach",
+    "imposter": "Lettuce"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Medium",
+    "civilian": "Mushroom",
+    "imposter": "Truffle"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Mustard",
+    "imposter": "Ketchup"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Medium",
+    "civilian": "Mayo",
+    "imposter": "Aioli"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Watermelon",
+    "imposter": "Cantaloupe"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Pineapple",
+    "imposter": "Mango"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Grape",
+    "imposter": "Raisin"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Plum",
+    "imposter": "Prune"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Medium",
+    "civilian": "Croissant",
+    "imposter": "Danish"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Medium",
+    "civilian": "Brownie",
+    "imposter": "Blondie"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Medium",
+    "civilian": "Vodka",
+    "imposter": "Gin"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Medium",
+    "civilian": "Sushi",
+    "imposter": "Sashimi"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Medium",
+    "civilian": "Espresso",
+    "imposter": "Americano"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Latte",
+    "imposter": "Cappuccino"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Medium",
+    "civilian": "Peanut",
+    "imposter": "Hazelnut"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Onion Ring",
+    "imposter": "French Fry"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Steak",
+    "imposter": "Pork Chop"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Medium",
+    "civilian": "Cabbage",
+    "imposter": "Kale"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Bacon",
+    "imposter": "Sausage"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Ham",
+    "imposter": "Turkey"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Medium",
+    "civilian": "Shrimp",
+    "imposter": "Prawn"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Hard",
+    "civilian": "Lobster",
+    "imposter": "Crayfish"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Medium",
+    "civilian": "Oyster",
+    "imposter": "Clam"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Salmon",
+    "imposter": "Tuna"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Vanilla",
+    "imposter": "Caramel"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Medium",
+    "civilian": "Mint",
+    "imposter": "Menthol"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Hard",
+    "civilian": "Cinnamon",
+    "imposter": "Nutmeg"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Hard",
+    "civilian": "Basil",
+    "imposter": "Oregano"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Medium",
+    "civilian": "Parsley",
+    "imposter": "Cilantro"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Hard",
+    "civilian": "Saffron",
+    "imposter": "Turmeric"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Hard",
+    "civilian": "Ginger",
+    "imposter": "Ginseng"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Medium",
+    "civilian": "Pepperoni",
+    "imposter": "Salami"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Cheddar",
+    "imposter": "Mozzarella"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Hard",
+    "civilian": "Parmesan",
+    "imposter": "Pecorino"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Hard",
+    "civilian": "Brie",
+    "imposter": "Camembert"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Medium",
+    "civilian": "Yogurt",
+    "imposter": "Kefir"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Medium",
+    "civilian": "Pickle",
+    "imposter": "Relish"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Jam",
+    "imposter": "Jelly"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Medium",
+    "civilian": "Pesto",
+    "imposter": "Marinara"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Salsa",
+    "imposter": "Guacamole"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Medium",
+    "civilian": "Rum",
+    "imposter": "Tequila"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Medium",
+    "civilian": "Mocha",
+    "imposter": "Macchiato"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Popcorn",
+    "imposter": "Pretzel"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Noodle",
+    "imposter": "Ramen"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Medium",
+    "civilian": "Tortilla",
+    "imposter": "Naan"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Medium",
+    "civilian": "Muffin",
+    "imposter": "Scone"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Hard",
+    "civilian": "Cider",
+    "imposter": "Mead"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Hard",
+    "civilian": "Whip Cream",
+    "imposter": "Merinque"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Hard",
+    "civilian": "Truffle",
+    "imposter": "Caviar"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Hard",
+    "civilian": "Pistachio",
+    "imposter": "Macadamia"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Hard",
+    "civilian": "Grapefruit",
+    "imposter": "Pomelo"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Cherry",
+    "imposter": "Cranberry"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Blueberry",
+    "imposter": "Blackberry"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Hard",
+    "civilian": "Raspberry",
+    "imposter": "Boysenberry"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Medium",
+    "civilian": "Plum",
+    "imposter": "Apricot"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Hard",
+    "civilian": "Date",
+    "imposter": "Fig"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Medium",
+    "civilian": "Olive Oil",
+    "imposter": "Coconut Oil"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Medium",
+    "civilian": "Vinegar",
+    "imposter": "Vinaigrette"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Soy Sauce",
+    "imposter": "Teriyaki"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Hard",
+    "civilian": "Hummus",
+    "imposter": "Tahini"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Hot Sauce",
+    "imposter": "Sriracha"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Medium",
+    "civilian": "Chili",
+    "imposter": "Curry"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Medium",
+    "civilian": "Oatmeal",
+    "imposter": "Porridge"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Hard",
+    "civilian": "Granola",
+    "imposter": "Muesli"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Coke",
+    "imposter": "Pepsi"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Easy",
+    "civilian": "Sprite",
+    "imposter": "7Up"
+  },
+  {
+    "category": "Food & Drink",
+    "difficulty": "Hard",
+    "civilian": "Tofu",
+    "imposter": "Tempeh"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Dog",
+    "imposter": "Wolf"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Lion",
+    "imposter": "Tiger"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Cat",
+    "imposter": "Cheetah"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Eagle",
+    "imposter": "Hawk"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Dolphin",
+    "imposter": "Whale"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "River",
+    "imposter": "Stream"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Ocean",
+    "imposter": "Beach"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Mountain",
+    "imposter": "Hill"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Rain",
+    "imposter": "Snow"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Zebra",
+    "imposter": "Giraffe"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Crocodile",
+    "imposter": "Alligator"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Frog",
+    "imposter": "Toad"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Turtle",
+    "imposter": "Tortoise"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Butterfly",
+    "imposter": "Moth"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Bee",
+    "imposter": "Wasp"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Ant",
+    "imposter": "Termite"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Spider",
+    "imposter": "Scorpion"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Medium",
+    "civilian": "Falcon",
+    "imposter": "Vulture"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Owl",
+    "imposter": "Bat"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Medium",
+    "civilian": "Penguin",
+    "imposter": "Puffin"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Duck",
+    "imposter": "Goose"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Swan",
+    "imposter": "Flamingo"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Medium",
+    "civilian": "Rabbit",
+    "imposter": "Hare"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Rat",
+    "imposter": "Mouse"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Squirrel",
+    "imposter": "Chipmunk"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Medium",
+    "civilian": "Fox",
+    "imposter": "Coyote"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Medium",
+    "civilian": "Leopard",
+    "imposter": "Panther"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Medium",
+    "civilian": "Jaguar",
+    "imposter": "Cougar"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Bear",
+    "imposter": "Grizzly"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Gorilla",
+    "imposter": "Chimpanzee"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Medium",
+    "civilian": "Monkey",
+    "imposter": "Baboon"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Medium",
+    "civilian": "Camel",
+    "imposter": "Llama"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Goat",
+    "imposter": "Sheep"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Cow",
+    "imposter": "Bull"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Medium",
+    "civilian": "Pig",
+    "imposter": "Boar"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Medium",
+    "civilian": "Shark",
+    "imposter": "Ray"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Medium",
+    "civilian": "Octopus",
+    "imposter": "Squid"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Crab",
+    "imposter": "Lobster"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Medium",
+    "civilian": "Seal",
+    "imposter": "Walrus"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Deer",
+    "imposter": "Moose"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Hippo",
+    "imposter": "Rhino"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Koala",
+    "imposter": "Kangaroo"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Medium",
+    "civilian": "Parrot",
+    "imposter": "Macaw"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Medium",
+    "civilian": "Crow",
+    "imposter": "Raven"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Pigeon",
+    "imposter": "Dove"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Horse",
+    "imposter": "Donkey"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Hard",
+    "civilian": "Hyena",
+    "imposter": "Jackal"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Hard",
+    "civilian": "Badger",
+    "imposter": "Wolverine"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Medium",
+    "civilian": "Otter",
+    "imposter": "Beaver"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Hard",
+    "civilian": "Platypus",
+    "imposter": "Echidna"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Panda",
+    "imposter": "Koala"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Medium",
+    "civilian": "Sloth",
+    "imposter": "Anteater"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Medium",
+    "civilian": "Ostrich",
+    "imposter": "Emu"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Hard",
+    "civilian": "Seagull",
+    "imposter": "Albatross"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Medium",
+    "civilian": "Woodpecker",
+    "imposter": "Hummingbird"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Snake",
+    "imposter": "Lizard"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Hard",
+    "civilian": "Python",
+    "imposter": "Viper"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Hard",
+    "civilian": "Cobra",
+    "imposter": "Mamba"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Medium",
+    "civilian": "Chameleon",
+    "imposter": "Gecko"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Medium",
+    "civilian": "Iguana",
+    "imposter": "Komodo Dragon"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Hard",
+    "civilian": "Salamander",
+    "imposter": "Newt"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Hard",
+    "civilian": "Jellyfish",
+    "imposter": "Anemone"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Medium",
+    "civilian": "Starfish",
+    "imposter": "Sea Urchin"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Snail",
+    "imposter": "Slug"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Worm",
+    "imposter": "Caterpillar"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Hard",
+    "civilian": "Centipede",
+    "imposter": "Millipede"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Medium",
+    "civilian": "Cicada",
+    "imposter": "Cricket"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Medium",
+    "civilian": "Grasshopper",
+    "imposter": "Locust"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Mosquito",
+    "imposter": "Flea"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Hard",
+    "civilian": "Tick",
+    "imposter": "Lice"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Lake",
+    "imposter": "Pond"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Medium",
+    "civilian": "Sea",
+    "imposter": "Gulf"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Hard",
+    "civilian": "Bay",
+    "imposter": "Lagoon"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Forest",
+    "imposter": "Jungle"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Medium",
+    "civilian": "Woods",
+    "imposter": "Grove"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Desert",
+    "imposter": "Dunes"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Canyon",
+    "imposter": "Valley"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Medium",
+    "civilian": "Cave",
+    "imposter": "Cavern"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Hard",
+    "civilian": "Glacier",
+    "imposter": "Ice Sheet"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Medium",
+    "civilian": "Volcano",
+    "imposter": "Geyser"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Medium",
+    "civilian": "Waterfall",
+    "imposter": "Spring"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Hard",
+    "civilian": "Swamp",
+    "imposter": "Bog"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Medium",
+    "civilian": "Prairie",
+    "imposter": "Meadow"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Hard",
+    "civilian": "Tundra",
+    "imposter": "Taiga"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Hard",
+    "civilian": "Cliff",
+    "imposter": "Crag"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Hard",
+    "civilian": "Island",
+    "imposter": "Atoll"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Hard",
+    "civilian": "Coral Reef",
+    "imposter": "Kelps"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Tree",
+    "imposter": "Shrub"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Medium",
+    "civilian": "Oak",
+    "imposter": "Maple"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Medium",
+    "civilian": "Pine",
+    "imposter": "Cedar"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Medium",
+    "civilian": "Palm",
+    "imposter": "Fern"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Flower",
+    "imposter": "Weed"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Rose",
+    "imposter": "Tulip"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Daisy",
+    "imposter": "Sunflower"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Medium",
+    "civilian": "Lily",
+    "imposter": "Orchid"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Medium",
+    "civilian": "Cactus",
+    "imposter": "Aloe"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Easy",
+    "civilian": "Ivy",
+    "imposter": "Vine"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Hard",
+    "civilian": "Moss",
+    "imposter": "Lichen"
+  },
+  {
+    "category": "Animals & Nature",
+    "difficulty": "Medium",
+    "civilian": "Mushroom",
+    "imposter": "Mold"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Easy",
+    "civilian": "Doctor",
+    "imposter": "Nurse"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Easy",
+    "civilian": "Teacher",
+    "imposter": "Professor"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Easy",
+    "civilian": "Pilot",
+    "imposter": "Astronaut"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Easy",
+    "civilian": "Chef",
+    "imposter": "Baker"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Easy",
+    "civilian": "Police",
+    "imposter": "Detective"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Easy",
+    "civilian": "Firefighter",
+    "imposter": "Paramedic"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Easy",
+    "civilian": "Soldier",
+    "imposter": "Marine"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Easy",
+    "civilian": "Judge",
+    "imposter": "Lawyer"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Medium",
+    "civilian": "Scientist",
+    "imposter": "Researcher"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Medium",
+    "civilian": "Architect",
+    "imposter": "Engineer"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Medium",
+    "civilian": "Dentist",
+    "imposter": "Orthodontist"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Easy",
+    "civilian": "Barber",
+    "imposter": "Hairdresser"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Medium",
+    "civilian": "Photographer",
+    "imposter": "Videographer"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Easy",
+    "civilian": "Singer",
+    "imposter": "Musician"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Easy",
+    "civilian": "Actor",
+    "imposter": "Director"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Medium",
+    "civilian": "Author",
+    "imposter": "Poet"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Medium",
+    "civilian": "Journalist",
+    "imposter": "Reporter"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Easy",
+    "civilian": "Farmer",
+    "imposter": "Gardener"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Easy",
+    "civilian": "Plumber",
+    "imposter": "Electrician"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Medium",
+    "civilian": "Carpenter",
+    "imposter": "Mason"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Medium",
+    "civilian": "Mechanic",
+    "imposter": "Technician"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Medium",
+    "civilian": "Banker",
+    "imposter": "Accountant"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Easy",
+    "civilian": "Waiter",
+    "imposter": "Bartender"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Hard",
+    "civilian": "Librarian",
+    "imposter": "Archivist"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Easy",
+    "civilian": "Sailor",
+    "imposter": "Captain"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Medium",
+    "civilian": "Mayor",
+    "imposter": "Governor"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Easy",
+    "civilian": "King",
+    "imposter": "Prince"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Easy",
+    "civilian": "Queen",
+    "imposter": "Princess"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Medium",
+    "civilian": "Wizard",
+    "imposter": "Sorcerer"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Hard",
+    "civilian": "Knight",
+    "imposter": "Paladin"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Medium",
+    "civilian": "Ninja",
+    "imposter": "Samurai"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Hard",
+    "civilian": "Pirate",
+    "imposter": "Corsair"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Medium",
+    "civilian": "President",
+    "imposter": "Prime Minister"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Hard",
+    "civilian": "Senator",
+    "imposter": "Congressman"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Hard",
+    "civilian": "Diplomat",
+    "imposter": "Ambassador"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Easy",
+    "civilian": "Agent",
+    "imposter": "Spy"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Medium",
+    "civilian": "Bodyguard",
+    "imposter": "Bouncer"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Hard",
+    "civilian": "Soldier",
+    "imposter": "Mercenary"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Hard",
+    "civilian": "General",
+    "imposter": "Admiral"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Medium",
+    "civilian": "Priest",
+    "imposter": "Bishop"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Easy",
+    "civilian": "Monk",
+    "imposter": "Nun"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Medium",
+    "civilian": "Pastor",
+    "imposter": "Preacher"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Hard",
+    "civilian": "Rabbi",
+    "imposter": "Imam"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Easy",
+    "civilian": "Coach",
+    "imposter": "Manager"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Medium",
+    "civilian": "Referee",
+    "imposter": "Umpire"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Easy",
+    "civilian": "Athlete",
+    "imposter": "Gymnast"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Easy",
+    "civilian": "Runner",
+    "imposter": "Sprinter"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Easy",
+    "civilian": "Cyclist",
+    "imposter": "Biker"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Easy",
+    "civilian": "Swimmer",
+    "imposter": "Diver"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Medium",
+    "civilian": "Clown",
+    "imposter": "Mime"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Medium",
+    "civilian": "Juggler",
+    "imposter": "Magician"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Hard",
+    "civilian": "Acrobat",
+    "imposter": "Contortionist"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Easy",
+    "civilian": "Dancer",
+    "imposter": "Ballerina"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Medium",
+    "civilian": "Painter",
+    "imposter": "Sculptor"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Medium",
+    "civilian": "Designer",
+    "imposter": "Stylist"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Hard",
+    "civilian": "Tailor",
+    "imposter": "Seamstress"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Easy",
+    "civilian": "Model",
+    "imposter": "Mannequin"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Medium",
+    "civilian": "Cashier",
+    "imposter": "Teller"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Medium",
+    "civilian": "Manager",
+    "imposter": "Supervisor"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Hard",
+    "civilian": "Director",
+    "imposter": "Executive"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Easy",
+    "civilian": "Secretary",
+    "imposter": "Receptionist"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Hard",
+    "civilian": "Clerk",
+    "imposter": "Registrar"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Hard",
+    "civilian": "Broker",
+    "imposter": "Trader"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Medium",
+    "civilian": "Merchant",
+    "imposter": "Vendor"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Hard",
+    "civilian": "Miner",
+    "imposter": "Quarryman"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Easy",
+    "civilian": "Logger",
+    "imposter": "Lumberjack"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Hard",
+    "civilian": "Fisherman",
+    "imposter": "Trawler"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Hard",
+    "civilian": "Hunter",
+    "imposter": "Poacher"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Medium",
+    "civilian": "Guide",
+    "imposter": "Scout"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Medium",
+    "civilian": "Sheriff",
+    "imposter": "Deputy"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Medium",
+    "civilian": "Warden",
+    "imposter": "Guard"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Hard",
+    "civilian": "Executioner",
+    "imposter": "Assassin"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Medium",
+    "civilian": "Thief",
+    "imposter": "Burglar"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Medium",
+    "civilian": "Robber",
+    "imposter": "Bandit"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Hard",
+    "civilian": "Smuggler",
+    "imposter": "Dealer"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Hard",
+    "civilian": "Hacker",
+    "imposter": "Cracker"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Easy",
+    "civilian": "Developer",
+    "imposter": "Programmer"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Medium",
+    "civilian": "Coder",
+    "imposter": "Scripter"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Hard",
+    "civilian": "Tester",
+    "imposter": "Auditor"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Hard",
+    "civilian": "Analyst",
+    "imposter": "Consultant"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Hard",
+    "civilian": "Economist",
+    "imposter": "Statistician"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Hard",
+    "civilian": "Philosopher",
+    "imposter": "Thinker"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Hard",
+    "civilian": "Historian",
+    "imposter": "Biographer"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Hard",
+    "civilian": "Geologist",
+    "imposter": "Meteorologist"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Hard",
+    "civilian": "Archaeologist",
+    "imposter": "Paleontologist"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Hard",
+    "civilian": "Astronomer",
+    "imposter": "Astrophysicist"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Hard",
+    "civilian": "Psychologist",
+    "imposter": "Psychiatrist"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Medium",
+    "civilian": "Therapist",
+    "imposter": "Counselor"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Medium",
+    "civilian": "Coach",
+    "imposter": "Mentor"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Easy",
+    "civilian": "Tutor",
+    "imposter": "Instructor"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Hard",
+    "civilian": "Scholar",
+    "imposter": "Academic"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Medium",
+    "civilian": "Dean",
+    "imposter": "Principal"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Easy",
+    "civilian": "Student",
+    "imposter": "Apprentice"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Medium",
+    "civilian": "Intern",
+    "imposter": "Trainee"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Easy",
+    "civilian": "Volunteer",
+    "imposter": "Charity"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Easy",
+    "civilian": "Maid",
+    "imposter": "Butler"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Easy",
+    "civilian": "Nanny",
+    "imposter": "Babysitter"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Easy",
+    "civilian": "Janitor",
+    "imposter": "Cleaner"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Hard",
+    "civilian": "Host",
+    "imposter": "Compere"
+  },
+  {
+    "category": "Professions & Roles",
+    "difficulty": "Medium",
+    "civilian": "Speaker",
+    "imposter": "Lecturer"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Easy",
+    "civilian": "Laptop",
+    "imposter": "Computer"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Easy",
+    "civilian": "Phone",
+    "imposter": "Tablet"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Easy",
+    "civilian": "Keyboard",
+    "imposter": "Keypad"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Easy",
+    "civilian": "Monitor",
+    "imposter": "TV"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Easy",
+    "civilian": "Mouse",
+    "imposter": "Trackpad"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Easy",
+    "civilian": "Star",
+    "imposter": "Planet"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Easy",
+    "civilian": "Telescope",
+    "imposter": "Microscope"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Easy",
+    "civilian": "Rocket",
+    "imposter": "Satellite"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Easy",
+    "civilian": "Atom",
+    "imposter": "Molecule"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Easy",
+    "civilian": "Camera",
+    "imposter": "Camcorder"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Easy",
+    "civilian": "Speaker",
+    "imposter": "Headphones"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Easy",
+    "civilian": "Earbuds",
+    "imposter": "Headset"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Easy",
+    "civilian": "Microphone",
+    "imposter": "Recorder"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Easy",
+    "civilian": "Printer",
+    "imposter": "Scanner"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Easy",
+    "civilian": "Router",
+    "imposter": "Modem"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Easy",
+    "civilian": "USB",
+    "imposter": "Hard Drive"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Easy",
+    "civilian": "Screen",
+    "imposter": "Display"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Easy",
+    "civilian": "Charger",
+    "imposter": "Powerbank"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Medium",
+    "civilian": "Battery",
+    "imposter": "Accumulator"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Easy",
+    "civilian": "Console",
+    "imposter": "PC"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Easy",
+    "civilian": "Controller",
+    "imposter": "Joystick"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Medium",
+    "civilian": "Calculator",
+    "imposter": "Abacus"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Easy",
+    "civilian": "Projector",
+    "imposter": "Screen"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Easy",
+    "civilian": "Radio",
+    "imposter": "Stereo"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Medium",
+    "civilian": "Drone",
+    "imposter": "Quadcopter"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Hard",
+    "civilian": "Radar",
+    "imposter": "Sonar"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Easy",
+    "civilian": "Laser",
+    "imposter": "Beam"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Easy",
+    "civilian": "Flashlight",
+    "imposter": "Torch"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Hard",
+    "civilian": "Server",
+    "imposter": "Mainframe"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Medium",
+    "civilian": "Database",
+    "imposter": "Spreadsheet"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Easy",
+    "civilian": "Software",
+    "imposter": "Application"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Easy",
+    "civilian": "Website",
+    "imposter": "Webpage"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Medium",
+    "civilian": "Browser",
+    "imposter": "Search Engine"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Hard",
+    "civilian": "Internet",
+    "imposter": "Intranet"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Easy",
+    "civilian": "Wifi",
+    "imposter": "Bluetooth"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Medium",
+    "civilian": "Network",
+    "imposter": "Grid"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Hard",
+    "civilian": "Data",
+    "imposter": "Metadata"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Hard",
+    "civilian": "Algorithm",
+    "imposter": "Heuristic"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Medium",
+    "civilian": "Code",
+    "imposter": "Script"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Easy",
+    "civilian": "Bug",
+    "imposter": "Glitch"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Easy",
+    "civilian": "Virus",
+    "imposter": "Malware"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Medium",
+    "civilian": "Firewall",
+    "imposter": "Antivirus"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Medium",
+    "civilian": "Encryption",
+    "imposter": "Decryption"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Medium",
+    "civilian": "Cipher",
+    "imposter": "Code"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Easy",
+    "civilian": "Password",
+    "imposter": "PIN"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Hard",
+    "civilian": "Biometrics",
+    "imposter": "Passcode"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Medium",
+    "civilian": "Sensor",
+    "imposter": "Detector"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Medium",
+    "civilian": "Microchip",
+    "imposter": "Processor"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Hard",
+    "civilian": "RAM",
+    "imposter": "ROM"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Easy",
+    "civilian": "Cloud",
+    "imposter": "Drive"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Easy",
+    "civilian": "Email",
+    "imposter": "Chat"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Easy",
+    "civilian": "Text",
+    "imposter": "Call"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Easy",
+    "civilian": "AI",
+    "imposter": "Robot"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Hard",
+    "civilian": "Cyberspace",
+    "imposter": "Metaverse"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Hard",
+    "civilian": "Simulate",
+    "imposter": "Emulate"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Hard",
+    "civilian": "Virtual",
+    "imposter": "Augmented"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Hard",
+    "civilian": "Hologram",
+    "imposter": "Projection"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Medium",
+    "civilian": "Gravity",
+    "imposter": "Magnetism"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Medium",
+    "civilian": "Electricity",
+    "imposter": "Electronics"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Hard",
+    "civilian": "Friction",
+    "imposter": "Traction"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Hard",
+    "civilian": "Optics",
+    "imposter": "Lenses"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Hard",
+    "civilian": "Laser",
+    "imposter": "Maser"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Hard",
+    "civilian": "Quantum",
+    "imposter": "Relativity"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Hard",
+    "civilian": "Fusion",
+    "imposter": "Fission"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Hard",
+    "civilian": "Radiation",
+    "imposter": "Convection"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Medium",
+    "civilian": "Acid",
+    "imposter": "Base"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Hard",
+    "civilian": "Alkali",
+    "imposter": "Salt"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Medium",
+    "civilian": "Chemical",
+    "imposter": "Element"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Hard",
+    "civilian": "Compound",
+    "imposter": "Mixture"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Medium",
+    "civilian": "Gas",
+    "imposter": "Vapor"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Hard",
+    "civilian": "Liquid",
+    "imposter": "Fluid"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Medium",
+    "civilian": "Solid",
+    "imposter": "Crystal"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Medium",
+    "civilian": "Metal",
+    "imposter": "Alloy"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Hard",
+    "civilian": "Mineral",
+    "imposter": "Ore"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Medium",
+    "civilian": "Fossil",
+    "imposter": "Artifact"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Hard",
+    "civilian": "DNA",
+    "imposter": "RNA"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Hard",
+    "civilian": "Gene",
+    "imposter": "Chromosome"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Medium",
+    "civilian": "Cell",
+    "imposter": "Tissue"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Hard",
+    "civilian": "Organ",
+    "imposter": "Gland"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Medium",
+    "civilian": "Virus",
+    "imposter": "Bacteria"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Hard",
+    "civilian": "Fungus",
+    "imposter": "Spore"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Medium",
+    "civilian": "Immune",
+    "imposter": "Vaccine"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Hard",
+    "civilian": "Antibody",
+    "imposter": "Antigen"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Hard",
+    "civilian": "Hormone",
+    "imposter": "Enzyme"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Medium",
+    "civilian": "Protein",
+    "imposter": "Vitamin"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Hard",
+    "civilian": "Calorie",
+    "imposter": "Joule"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Easy",
+    "civilian": "Celsius",
+    "imposter": "Fahrenheit"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Hard",
+    "civilian": "Kelvin",
+    "imposter": "Rankine"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Hard",
+    "civilian": "Volt",
+    "imposter": "Ampere"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Hard",
+    "civilian": "Watt",
+    "imposter": "Ohm"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Medium",
+    "civilian": "Gram",
+    "imposter": "Ounce"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Easy",
+    "civilian": "Meter",
+    "imposter": "Yard"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Easy",
+    "civilian": "Liter",
+    "imposter": "Gallon"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Easy",
+    "civilian": "Mile",
+    "imposter": "Kilometer"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Medium",
+    "civilian": "Velocity",
+    "imposter": "Speed"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Hard",
+    "civilian": "Force",
+    "imposter": "Pressure"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Medium",
+    "civilian": "Energy",
+    "imposter": "Power"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Hard",
+    "civilian": "Mass",
+    "imposter": "Weight"
+  },
+  {
+    "category": "Technology & Science",
+    "difficulty": "Medium",
+    "civilian": "Time",
+    "imposter": "Space"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Chair",
+    "imposter": "Stool"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Sofa",
+    "imposter": "Couch"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Table",
+    "imposter": "Desk"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Pillow",
+    "imposter": "Cushion"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Mirror",
+    "imposter": "Glass"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Lamp",
+    "imposter": "Bulb"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Bed",
+    "imposter": "Mattress"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Blanket",
+    "imposter": "Duvet"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Sheet",
+    "imposter": "Cover"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Curtain",
+    "imposter": "Blinds"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Carpet",
+    "imposter": "Rug"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Clock",
+    "imposter": "Timer"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Door",
+    "imposter": "Gate"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Window",
+    "imposter": "Skylight"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Fence",
+    "imposter": "Wall"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Roof",
+    "imposter": "Ceiling"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Stairs",
+    "imposter": "Elevator"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Fireplace",
+    "imposter": "Heater"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Fan",
+    "imposter": "Air Conditioner"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Fridge",
+    "imposter": "Freezer"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Oven",
+    "imposter": "Microwave"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Toaster",
+    "imposter": "Grill"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Blender",
+    "imposter": "Mixer"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Kettle",
+    "imposter": "Pot"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Pan",
+    "imposter": "Skillet"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Plate",
+    "imposter": "Dish"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Bowl",
+    "imposter": "Basin"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Fork",
+    "imposter": "Spoon"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Knife",
+    "imposter": "Cleaver"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Cup",
+    "imposter": "Mug"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Glass",
+    "imposter": "Goblet"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Napkin",
+    "imposter": "Towel"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Broom",
+    "imposter": "Mop"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Bucket",
+    "imposter": "Pail"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Trash Can",
+    "imposter": "Dumpster"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Soap",
+    "imposter": "Shampoo"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Toothbrush",
+    "imposter": "Floss"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Comb",
+    "imposter": "Brush"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Scissors",
+    "imposter": "Shears"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Pen",
+    "imposter": "Pencil"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Marker",
+    "imposter": "Highlighter"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Paper",
+    "imposter": "Cardboard"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Notebook",
+    "imposter": "Journal"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Envelope",
+    "imposter": "Letter"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Stamp",
+    "imposter": "Postcard"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Book",
+    "imposter": "Novel"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Magazine",
+    "imposter": "Newspaper"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Folder",
+    "imposter": "Binder"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Glue",
+    "imposter": "Tape"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Ruler",
+    "imposter": "Tape Measure"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Eraser",
+    "imposter": "Correction Tape"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Key",
+    "imposter": "Lock"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Chain",
+    "imposter": "Rope"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Chest",
+    "imposter": "Vault"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Wardrobe",
+    "imposter": "Closet"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Drawer",
+    "imposter": "Cabinet"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Shelf",
+    "imposter": "Rack"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Vase",
+    "imposter": "Pot"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Candle",
+    "imposter": "Lantern"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Match",
+    "imposter": "Lighter"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Hanger",
+    "imposter": "Hook"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Iron",
+    "imposter": "Steamer"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Vacuum",
+    "imposter": "Sweeper"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Sink",
+    "imposter": "Washbasin"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Faucet",
+    "imposter": "Tap"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Shower",
+    "imposter": "Bath"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Toilet",
+    "imposter": "Urinal"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Tiles",
+    "imposter": "Bricks"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Hammer",
+    "imposter": "Mallet"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Screwdriver",
+    "imposter": "Wrench"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Nail",
+    "imposter": "Screw"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Saw",
+    "imposter": "Blade"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Drill",
+    "imposter": "Borer"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Pliers",
+    "imposter": "Tongs"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Ladder",
+    "imposter": "Scaffold"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Paint",
+    "imposter": "Wallpaper"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Medium",
+    "civilian": "Glue",
+    "imposter": "Epoxy"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Wire",
+    "imposter": "Cable"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Plug",
+    "imposter": "Socket"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Switch",
+    "imposter": "Dimmer"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Hard",
+    "civilian": "Fuse",
+    "imposter": "Breaker"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Hose",
+    "imposter": "Sprinkler"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Rake",
+    "imposter": "Shovel"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Mower",
+    "imposter": "Trimmer"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Wheelbarrow",
+    "imposter": "Cart"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Gloves",
+    "imposter": "Mittens"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Medium",
+    "civilian": "Apron",
+    "imposter": "Smock"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Towel",
+    "imposter": "Bathrobe"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Slippers",
+    "imposter": "Sandals"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Pajamas",
+    "imposter": "Nightgown"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Sponge",
+    "imposter": "Scrubber"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Duster",
+    "imposter": "Rag"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Bleach",
+    "imposter": "Detergent"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Polish",
+    "imposter": "Wax"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Medium",
+    "civilian": "Starch",
+    "imposter": "Fabric Softener"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Medium",
+    "civilian": "Thermometer",
+    "imposter": "Barometer"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Easy",
+    "civilian": "Scale",
+    "imposter": "Balance"
+  },
+  {
+    "category": "Household & Daily Life",
+    "difficulty": "Medium",
+    "civilian": "Compass",
+    "imposter": "Protractor"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Soccer",
+    "imposter": "Football"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Tennis",
+    "imposter": "Badminton"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Billiard",
+    "imposter": "Pool"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Medium",
+    "civilian": "Bowling",
+    "imposter": "Skittles"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Golf",
+    "imposter": "Minigolf"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Running",
+    "imposter": "Jogging"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Hiking",
+    "imposter": "Trekking"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Medium",
+    "civilian": "Climbing",
+    "imposter": "Mountaineering"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Skiing",
+    "imposter": "Snowboarding"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Skating",
+    "imposter": "Blading"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Surfing",
+    "imposter": "Windsurfing"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Sailing",
+    "imposter": "Yachting"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Rowing",
+    "imposter": "Canoeing"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Kayaking",
+    "imposter": "Rafting"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Fishing",
+    "imposter": "Angling"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Hunting",
+    "imposter": "Trapping"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Shooting",
+    "imposter": "Archery"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Boxing",
+    "imposter": "Kickboxing"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Wrestling",
+    "imposter": "Grappling"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Judo",
+    "imposter": "Karate"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Taekwondo",
+    "imposter": "Kung Fu"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Medium",
+    "civilian": "Fencing",
+    "imposter": "Swordplay"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Gymnastics",
+    "imposter": "Acrobatics"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Yoga",
+    "imposter": "Pilates"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Aerobics",
+    "imposter": "Zumba"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Dancing",
+    "imposter": "Ballet"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Chess",
+    "imposter": "Checkers"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Cards",
+    "imposter": "Bridge"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Poker",
+    "imposter": "Blackjack"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Roulette",
+    "imposter": "Slots"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Hard",
+    "civilian": "Darts",
+    "imposter": "Quoits"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Medium",
+    "civilian": "Dominoes",
+    "imposter": "Mahjong"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Monopoly",
+    "imposter": "Scrabble"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Puzzle",
+    "imposter": "Crossword"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Hard",
+    "civilian": "Sudoku",
+    "imposter": "Kakuro"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Medium",
+    "civilian": "Origami",
+    "imposter": "Papercraft"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Medium",
+    "civilian": "Knitting",
+    "imposter": "Crochet"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Medium",
+    "civilian": "Sewing",
+    "imposter": "Embroidery"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Hard",
+    "civilian": "Quilting",
+    "imposter": "Weaving"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Medium",
+    "civilian": "Spinning",
+    "imposter": "Pottery"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Medium",
+    "civilian": "Sculpture",
+    "imposter": "Carving"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Painting",
+    "imposter": "Sketching"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Drawing",
+    "imposter": "Doodling"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Medium",
+    "civilian": "Calligraphy",
+    "imposter": "Lettering"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Photography",
+    "imposter": "Filming"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Hard",
+    "civilian": "Birdwatching",
+    "imposter": "Botany"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Gardening",
+    "imposter": "Lawnmowing"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Cooking",
+    "imposter": "Baking"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Hard",
+    "civilian": "Homebrew",
+    "imposter": "Winemaking"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Medium",
+    "civilian": "Camping",
+    "imposter": "Glamping"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Guitar",
+    "imposter": "Ukulele"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Hard",
+    "civilian": "Violin",
+    "imposter": "Viola"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Medium",
+    "civilian": "Cello",
+    "imposter": "Bass"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Hard",
+    "civilian": "Flute",
+    "imposter": "Piccolo"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Hard",
+    "civilian": "Clarinet",
+    "imposter": "Oboe"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Saxophone",
+    "imposter": "Trumpet"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Medium",
+    "civilian": "Trombone",
+    "imposter": "Tuba"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Drums",
+    "imposter": "Cymbals"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Piano",
+    "imposter": "Keyboard"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Medium",
+    "civilian": "Organ",
+    "imposter": "Accordion"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Hard",
+    "civilian": "Harp",
+    "imposter": "Lyre"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Harmonica",
+    "imposter": "Whistle"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Singing",
+    "imposter": "Choir"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Karaoke",
+    "imposter": "Lip Sync"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Acting",
+    "imposter": "Improv"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Reading",
+    "imposter": "Browsing"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Writing",
+    "imposter": "Journaling"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Blogging",
+    "imposter": "Vlogging"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Gaming",
+    "imposter": "Streaming"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Cosplay",
+    "imposter": "Costume"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Gym",
+    "imposter": "Workout"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Running",
+    "imposter": "Sprint"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Medium",
+    "civilian": "Marathon",
+    "imposter": "Triathlon"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Hard",
+    "civilian": "Decathlon",
+    "imposter": "Heptathlon"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "High Jump",
+    "imposter": "Long Jump"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Medium",
+    "civilian": "Pole Vault",
+    "imposter": "Hurdles"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Medium",
+    "civilian": "Discus",
+    "imposter": "Javelin"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Hard",
+    "civilian": "Shot Put",
+    "imposter": "Hammer Throw"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Cricket",
+    "imposter": "Baseball"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Hard",
+    "civilian": "Softball",
+    "imposter": "Rounders"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Medium",
+    "civilian": "Lacrosse",
+    "imposter": "Hockey"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Hard",
+    "civilian": "Rugby",
+    "imposter": "Gridiron"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Medium",
+    "civilian": "Basketball",
+    "imposter": "Netball"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Volleyball",
+    "imposter": "Dodgeball"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Medium",
+    "civilian": "Handball",
+    "imposter": "Waterpolo"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Hard",
+    "civilian": "Squash",
+    "imposter": "Racquetball"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Table Tennis",
+    "imposter": "Ping Pong"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Skateboarding",
+    "imposter": "Scootering"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Medium",
+    "civilian": "Parkour",
+    "imposter": "Freerunning"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Bungee Jump",
+    "imposter": "Skydiving"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Hard",
+    "civilian": "Paragliding",
+    "imposter": "Hang Gliding"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Medium",
+    "civilian": "Motorsport",
+    "imposter": "Rally"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Easy",
+    "civilian": "Go Kart",
+    "imposter": "Quad Bike"
+  },
+  {
+    "category": "Sports & Hobbies",
+    "difficulty": "Medium",
+    "civilian": "Snooker",
+    "imposter": "Billiards"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Airport",
+    "imposter": "Railway Station"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Hospital",
+    "imposter": "Pharmacy"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Cinema",
+    "imposter": "Theater"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Park",
+    "imposter": "Garden"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Hotel",
+    "imposter": "Motel"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "School",
+    "imposter": "College"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Library",
+    "imposter": "Bookstore"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Museum",
+    "imposter": "Gallery"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Stadium",
+    "imposter": "Arena"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Gym",
+    "imposter": "Fitness Center"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Castle",
+    "imposter": "Palace"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Tower",
+    "imposter": "Skyscraper"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Bridge",
+    "imposter": "Tunnel"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Factory",
+    "imposter": "Plant"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Warehouse",
+    "imposter": "Depot"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Church",
+    "imposter": "Cathedral"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Temple",
+    "imposter": "Shrine"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Farm",
+    "imposter": "Ranch"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Zoo",
+    "imposter": "Aquarium"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Circus",
+    "imposter": "Fair"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Casino",
+    "imposter": "Arcade"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Bakery",
+    "imposter": "Deli"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Supermarket",
+    "imposter": "Grocery"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Mall",
+    "imposter": "Plaza"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Restaurant",
+    "imposter": "Diner"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Cafe",
+    "imposter": "Bistro"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Pub",
+    "imposter": "Bar"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Club",
+    "imposter": "Lounge"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Medium",
+    "civilian": "Office",
+    "imposter": "HQ"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Medium",
+    "civilian": "Studio",
+    "imposter": "Workshop"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Hard",
+    "civilian": "Lab",
+    "imposter": "Observatory"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Medium",
+    "civilian": "Base",
+    "imposter": "Station"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Medium",
+    "civilian": "Fort",
+    "imposter": "Outpost"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Medium",
+    "civilian": "Bunker",
+    "imposter": "Shelter"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Cabin",
+    "imposter": "Cottage"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Villa",
+    "imposter": "Mansion"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Apartment",
+    "imposter": "Condo"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "House",
+    "imposter": "Bungalow"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Medium",
+    "civilian": "Tent",
+    "imposter": "Yurt"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Caravan",
+    "imposter": "Motorhome"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Medium",
+    "civilian": "Bus Station",
+    "imposter": "Terminus"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Harbor",
+    "imposter": "Port"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Medium",
+    "civilian": "Marina",
+    "imposter": "Pier"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Hard",
+    "civilian": "Dock",
+    "imposter": "Quay"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Beach",
+    "imposter": "Coast"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Island",
+    "imposter": "Peninsula"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Desert",
+    "imposter": "Oasis"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Forest",
+    "imposter": "Jungle"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Cave",
+    "imposter": "Cavern"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Waterfall",
+    "imposter": "Rapids"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Swamp",
+    "imposter": "Marsh"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Valley",
+    "imposter": "Canyon"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Glacier",
+    "imposter": "Iceberg"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "City",
+    "imposter": "Town"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Medium",
+    "civilian": "Village",
+    "imposter": "Hamlet"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Medium",
+    "civilian": "Suburb",
+    "imposter": "Ghetto"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Street",
+    "imposter": "Avenue"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Road",
+    "imposter": "Highway"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Lane",
+    "imposter": "Alley"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Path",
+    "imposter": "Trail"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Medium",
+    "civilian": "Square",
+    "imposter": "Piazza"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Medium",
+    "civilian": "Market",
+    "imposter": "Bazaar"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Shop",
+    "imposter": "Boutique"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Store",
+    "imposter": "Outlet"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Salon",
+    "imposter": "Spa"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Medium",
+    "civilian": "Clinic",
+    "imposter": "Surgery"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Hard",
+    "civilian": "Asylum",
+    "imposter": "Sanatorium"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Prison",
+    "imposter": "Jail"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Medium",
+    "civilian": "Court",
+    "imposter": "Chamber"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Hard",
+    "civilian": "Embassy",
+    "imposter": "Consulate"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Hard",
+    "civilian": "City Hall",
+    "imposter": "Guildhall"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Medium",
+    "civilian": "Monastery",
+    "imposter": "Convent"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Medium",
+    "civilian": "Mosque",
+    "imposter": "Synagogue"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Hard",
+    "civilian": "Pagoda",
+    "imposter": "Stupa"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Cemetery",
+    "imposter": "Graveyard"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Hard",
+    "civilian": "Tomb",
+    "imposter": "Mausoleum"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Monument",
+    "imposter": "Statue"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Fountain",
+    "imposter": "Pool"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Playground",
+    "imposter": "Sandpit"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Zoo",
+    "imposter": "Safari"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Theme Park",
+    "imposter": "Waterpark"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Medium",
+    "civilian": "Resort",
+    "imposter": "Retreat"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Medium",
+    "civilian": "Camp",
+    "imposter": "Basecamp"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Station",
+    "imposter": "Stop"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Terminal",
+    "imposter": "Gate"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Medium",
+    "civilian": "Runway",
+    "imposter": "Tarmac"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Platform",
+    "imposter": "Track"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Hard",
+    "civilian": "Bridge",
+    "imposter": "Viaduct"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Medium",
+    "civilian": "Tunnel",
+    "imposter": "Underpass"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Junction",
+    "imposter": "Crossroad"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Medium",
+    "civilian": "Roundabout",
+    "imposter": "Flyover"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Easy",
+    "civilian": "Border",
+    "imposter": "Checkpoint"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Medium",
+    "civilian": "Customs",
+    "imposter": "Immigration"
+  },
+  {
+    "category": "Places & Travel",
+    "difficulty": "Medium",
+    "civilian": "Duty Free",
+    "imposter": "Lounge"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Sword",
+    "imposter": "Dagger"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Shield",
+    "imposter": "Armor"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Bow",
+    "imposter": "Crossbow"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Spear",
+    "imposter": "Javelin"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Arrow",
+    "imposter": "Bolt"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Helmet",
+    "imposter": "Visor"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Boots",
+    "imposter": "Greaves"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Gloves",
+    "imposter": "Gauntlets"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Ring",
+    "imposter": "Amulet"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Crown",
+    "imposter": "Tiara"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Scepter",
+    "imposter": "Staff"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Wand",
+    "imposter": "Rod"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Book",
+    "imposter": "Tome"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Scroll",
+    "imposter": "Map"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Key",
+    "imposter": "Lockpick"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Chest",
+    "imposter": "Crate"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Coin",
+    "imposter": "Token"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Gem",
+    "imposter": "Jewel"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Gold",
+    "imposter": "Ingot"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Silver",
+    "imposter": "Ore"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Potion",
+    "imposter": "Elixir"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Flask",
+    "imposter": "Vial"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Herb",
+    "imposter": "Root"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Seed",
+    "imposter": "Grain"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Fire",
+    "imposter": "Ember"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Ice",
+    "imposter": "Frost"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Lightning",
+    "imposter": "Spark"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Wind",
+    "imposter": "Gale"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Water",
+    "imposter": "Mist"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Earth",
+    "imposter": "Clay"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Rock",
+    "imposter": "Stone"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Dust",
+    "imposter": "Ash"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Light",
+    "imposter": "Glow"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Dark",
+    "imposter": "Shadow"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Sun",
+    "imposter": "Solar"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Moon",
+    "imposter": "Lunar"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Star",
+    "imposter": "Comet"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Sky",
+    "imposter": "Cloud"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Rain",
+    "imposter": "Drizzle"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Storm",
+    "imposter": "Tempest"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Wave",
+    "imposter": "Ripple"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Flame",
+    "imposter": "Blaze"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Smoke",
+    "imposter": "Fume"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Steam",
+    "imposter": "Vapor"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Metal",
+    "imposter": "Iron"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Wood",
+    "imposter": "Timber"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Glass",
+    "imposter": "Crystal"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Bone",
+    "imposter": "Skull"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Leather",
+    "imposter": "Hide"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Cloth",
+    "imposter": "Silk"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Wool",
+    "imposter": "Felt"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Thread",
+    "imposter": "Yarn"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Needle",
+    "imposter": "Pin"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Nail",
+    "imposter": "Tack"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Screw",
+    "imposter": "Bolt"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Rivet",
+    "imposter": "Nut"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Hammer",
+    "imposter": "Gavel"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Axe",
+    "imposter": "Hatchet"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Knife",
+    "imposter": "Blade"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Dagger",
+    "imposter": "Stiletto"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Spear",
+    "imposter": "Lance"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Halberd",
+    "imposter": "Pike"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Mace",
+    "imposter": "Flail"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Club",
+    "imposter": "Cudgel"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Staff",
+    "imposter": "Cane"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Whip",
+    "imposter": "Lash"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Sling",
+    "imposter": "Catapult"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Bow",
+    "imposter": "Longbow"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Gun",
+    "imposter": "Pistol"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Rifle",
+    "imposter": "Musket"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Cannon",
+    "imposter": "Mortar"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Bomb",
+    "imposter": "Grenade"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Mine",
+    "imposter": "Trap"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Net",
+    "imposter": "Web"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Chain",
+    "imposter": "Shackle"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Rope",
+    "imposter": "Cord"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Knot",
+    "imposter": "Lash"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Lock",
+    "imposter": "Latch"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Key",
+    "imposter": "Passkey"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Door",
+    "imposter": "Hatch"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Gate",
+    "imposter": "Portal"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Wall",
+    "imposter": "Barrier"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Fence",
+    "imposter": "Hedge"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Ditch",
+    "imposter": "Moat"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Tower",
+    "imposter": "Keep"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Castle",
+    "imposter": "Fortress"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Palace",
+    "imposter": "Manor"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Temple",
+    "imposter": "Cathedral"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Shrine",
+    "imposter": "Altar"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Statue",
+    "imposter": "Bust"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Painting",
+    "imposter": "Mural"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Tapestry",
+    "imposter": "Banner"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Flag",
+    "imposter": "Pennant"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Shield",
+    "imposter": "Crest"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Sigil",
+    "imposter": "Rune"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Glyph",
+    "imposter": "Symbol"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Letter",
+    "imposter": "Char"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Word",
+    "imposter": "Phrase"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Name",
+    "imposter": "Title"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Sign",
+    "imposter": "Signal"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Bell",
+    "imposter": "Gong"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Drum",
+    "imposter": "Gong"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Horn",
+    "imposter": "Trumpet"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Flute",
+    "imposter": "Pipe"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Harp",
+    "imposter": "Lyre"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Lute",
+    "imposter": "Guitar"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Violin",
+    "imposter": "Fiddle"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Pipe",
+    "imposter": "Whistle"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Song",
+    "imposter": "Tune"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Poem",
+    "imposter": "Verse"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Story",
+    "imposter": "Tale"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Play",
+    "imposter": "Drama"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Dance",
+    "imposter": "Waltz"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Game",
+    "imposter": "Sport"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Play",
+    "imposter": "Toy"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Doll",
+    "imposter": "Puppet"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Card",
+    "imposter": "Tile"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Dice",
+    "imposter": "Coin"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Board",
+    "imposter": "Mat"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Table",
+    "imposter": "Desk"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Chair",
+    "imposter": "Bench"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Bed",
+    "imposter": "Cot"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Couch",
+    "imposter": "Sofa"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Stool",
+    "imposter": "Ottoman"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Chest",
+    "imposter": "Trunk"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Box",
+    "imposter": "Case"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Bag",
+    "imposter": "Sack"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Pouch",
+    "imposter": "Purse"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Basket",
+    "imposter": "Crate"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Barrel",
+    "imposter": "Keg"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Jar",
+    "imposter": "Pot"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Bottle",
+    "imposter": "Flask"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Cup",
+    "imposter": "Glass"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Bowl",
+    "imposter": "Dish"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Plate",
+    "imposter": "Platter"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Spoon",
+    "imposter": "Ladle"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Fork",
+    "imposter": "Skewer"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Knife",
+    "imposter": "Scalpel"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Scissors",
+    "imposter": "Shears"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Scale",
+    "imposter": "Balance"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Clock",
+    "imposter": "Dial"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Watch",
+    "imposter": "Timer"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Glass",
+    "imposter": "Lens"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Mirror",
+    "imposter": "Glass"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Window",
+    "imposter": "Pane"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Light",
+    "imposter": "Lamp"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Torch",
+    "imposter": "Lantern"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Candle",
+    "imposter": "Taper"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Fire",
+    "imposter": "Hearth"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Stove",
+    "imposter": "Oven"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Pot",
+    "imposter": "Pan"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Kettle",
+    "imposter": "Urn"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Soap",
+    "imposter": "Suds"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Water",
+    "imposter": "Sud"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Comb",
+    "imposter": "Brush"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Mirror",
+    "imposter": "Glass"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Razor",
+    "imposter": "Blade"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Towel",
+    "imposter": "Cloth"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Sheet",
+    "imposter": "Blanket"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Pillow",
+    "imposter": "Bolster"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Mat",
+    "imposter": "Rug"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Broom",
+    "imposter": "Mop"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Bucket",
+    "imposter": "Pail"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Tub",
+    "imposter": "Basin"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Sink",
+    "imposter": "Drain"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Pipe",
+    "imposter": "Tube"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Hose",
+    "imposter": "Line"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Pump",
+    "imposter": "Siphon"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Valve",
+    "imposter": "Tap"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Plug",
+    "imposter": "Socket"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Cord",
+    "imposter": "Wire"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Switch",
+    "imposter": "Button"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Bell",
+    "imposter": "Chime"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Buzzer",
+    "imposter": "Alarm"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Horn",
+    "imposter": "Siren"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Light",
+    "imposter": "Beacon"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Flag",
+    "imposter": "Signal"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Sign",
+    "imposter": "Post"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Map",
+    "imposter": "Chart"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Globe",
+    "imposter": "Sphere"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Compass",
+    "imposter": "Dial"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Ruler",
+    "imposter": "Scale"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Level",
+    "imposter": "Plumb"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Square",
+    "imposter": "Rule"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Gauge",
+    "imposter": "Meter"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Glass",
+    "imposter": "Tube"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Flask",
+    "imposter": "Beaker"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Funnel",
+    "imposter": "Cone"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Filter",
+    "imposter": "Sieve"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Press",
+    "imposter": "Crush"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Mill",
+    "imposter": "Grind"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Oven",
+    "imposter": "Kiln"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Forge",
+    "imposter": "Anvil"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Bellows",
+    "imposter": "Fan"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Coal",
+    "imposter": "Coke"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Wood",
+    "imposter": "Charcoal"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Oil",
+    "imposter": "Grease"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Wax",
+    "imposter": "Tallow"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Tar",
+    "imposter": "Pitch"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Glue",
+    "imposter": "Paste"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Ink",
+    "imposter": "Dye"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Paint",
+    "imposter": "Stain"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Chalk",
+    "imposter": "Crayon"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Lead",
+    "imposter": "Graphite"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Pen",
+    "imposter": "Quill"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Brush",
+    "imposter": "Pencil"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Paper",
+    "imposter": "Parchment"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Slate",
+    "imposter": "Board"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Book",
+    "imposter": "Ledger"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "File",
+    "imposter": "Folder"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Sheet",
+    "imposter": "Leaf"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Card",
+    "imposter": "Slip"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Stamp",
+    "imposter": "Seal"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Wax",
+    "imposter": "Seal"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Ribbon",
+    "imposter": "Tape"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "String",
+    "imposter": "Twine"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Thread",
+    "imposter": "Fiber"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Wire",
+    "imposter": "Cable"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Chain",
+    "imposter": "Link"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Rope",
+    "imposter": "Cable"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Belt",
+    "imposter": "Strap"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Ring",
+    "imposter": "Band"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Hook",
+    "imposter": "Eye"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Loop",
+    "imposter": "Noose"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Knot",
+    "imposter": "Hitch"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Pin",
+    "imposter": "Peg"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Nail",
+    "imposter": "Spike"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Screw",
+    "imposter": "Bolt"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Key",
+    "imposter": "Wrench"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Driver",
+    "imposter": "Wrench"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Hammer",
+    "imposter": "Sledge"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Axe",
+    "imposter": "Adze"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Saw",
+    "imposter": "File"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Chisel",
+    "imposter": "Gouge"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Plane",
+    "imposter": "Shave"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Drill",
+    "imposter": "Auger"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Bit",
+    "imposter": "Brace"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Plier",
+    "imposter": "Pincers"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Clamp",
+    "imposter": "Vise"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Anvil",
+    "imposter": "Block"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Bellow",
+    "imposter": "Pump"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Hose",
+    "imposter": "Pipe"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Nozzle",
+    "imposter": "Jet"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Valve",
+    "imposter": "Gate"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Tank",
+    "imposter": "Vat"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Bin",
+    "imposter": "Hopper"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Shed",
+    "imposter": "Barn"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Tent",
+    "imposter": "Canopy"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Cabin",
+    "imposter": "Shack"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "House",
+    "imposter": "Home"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Room",
+    "imposter": "Hall"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Cell",
+    "imposter": "Room"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Cage",
+    "imposter": "Pen"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Stall",
+    "imposter": "Booth"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Shop",
+    "imposter": "Store"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Office",
+    "imposter": "Desk"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Bench",
+    "imposter": "Seat"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Table",
+    "imposter": "Board"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Shelf",
+    "imposter": "Rack"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Hook",
+    "imposter": "Peg"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Line",
+    "imposter": "Cord"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Net",
+    "imposter": "Mesh"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Trap",
+    "imposter": "Snare"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Pit",
+    "imposter": "Well"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Pond",
+    "imposter": "Pool"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Lake",
+    "imposter": "Sea"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Ocean",
+    "imposter": "Gulf"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Bay",
+    "imposter": "Cove"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Port",
+    "imposter": "Dock"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Pier",
+    "imposter": "Wharf"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Bridge",
+    "imposter": "Viaduct"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Tunnel",
+    "imposter": "Shaft"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Mine",
+    "imposter": "Pit"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Cave",
+    "imposter": "Grotto"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Valley",
+    "imposter": "Glen"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Hill",
+    "imposter": "Mount"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Peak",
+    "imposter": "Ridge"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Cliff",
+    "imposter": "Bluff"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Rock",
+    "imposter": "Crag"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Stone",
+    "imposter": "Pebble"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Sand",
+    "imposter": "Dust"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Mud",
+    "imposter": "Silt"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Clay",
+    "imposter": "Loam"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Soil",
+    "imposter": "Dirt"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Grass",
+    "imposter": "Sod"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Turf",
+    "imposter": "Moss"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Fern",
+    "imposter": "Bracken"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Weed",
+    "imposter": "Thistle"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Flower",
+    "imposter": "Bloom"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Rose",
+    "imposter": "Thorn"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Leaf",
+    "imposter": "Frond"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Stem",
+    "imposter": "Stalk"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Root",
+    "imposter": "Tuber"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Seed",
+    "imposter": "Nut"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Fruit",
+    "imposter": "Berry"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Cone",
+    "imposter": "Pod"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Bark",
+    "imposter": "Rind"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Wood",
+    "imposter": "Pith"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Sap",
+    "imposter": "Resin"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Gum",
+    "imposter": "Latex"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Fibre",
+    "imposter": "Flax"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Cotton",
+    "imposter": "Boll"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Silk",
+    "imposter": "Cocoon"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Wool",
+    "imposter": "Fleece"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Hair",
+    "imposter": "Fur"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Feather",
+    "imposter": "Down"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Scale",
+    "imposter": "Scute"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Shell",
+    "imposter": "Carapace"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Horn",
+    "imposter": "Antler"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Tusk",
+    "imposter": "Tooth"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Bone",
+    "imposter": "Antler"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Claw",
+    "imposter": "Talon"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Hoof",
+    "imposter": "Claw"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Foot",
+    "imposter": "Paw"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Tail",
+    "imposter": "Brush"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Wing",
+    "imposter": "Pinion"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Fin",
+    "imposter": "Flipper"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Gill",
+    "imposter": "Lung"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Heart",
+    "imposter": "Pulse"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Brain",
+    "imposter": "Nerve"
+  },
+  {
+    "category": "Concepts",
+    "difficulty": "Hard",
+    "civilian": "Eye",
+    "imposter": "Lens"
+  },
+  {
+    "category": "Geek & Gaming",
+    "difficulty": "Easy",
+    "civilian": "Ear",
+    "imposter": "Drum"
+  },
+  {
+    "category": "Nature & Space",
+    "difficulty": "Medium",
+    "civilian": "Nose",
+    "imposter": "Snout"
+  },
+  {
+    "category": "Fashion & Lifestyle",
+    "difficulty": "Hard",
+    "civilian": "Beak",
+    "imposter": "Bill"
+  },
+  {
+    "category": "Objects",
+    "difficulty": "Easy",
+    "civilian": "Mouth",
+    "imposter": "Jaw"
+  },
+  {
+    "category": "Abstract",
+    "difficulty": "Medium",
+    "civilian": "Tooth",
+    "imposter": "Fang"
+  }
 ]

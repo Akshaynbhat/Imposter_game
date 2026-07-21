@@ -1,5 +1,6 @@
 import React from 'react';
 import { Eye, Sparkles } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { RoomPublicState } from '../types/game';
 
 interface ClueRevealPhaseProps {
@@ -9,17 +10,21 @@ interface ClueRevealPhaseProps {
 
 export const ClueRevealPhase: React.FC<ClueRevealPhaseProps> = ({ roomState, myId }) => {
   const currentRoundClues = roomState.clues.filter((c) => c.round === roomState.currentRound);
-  const isFinalRound = roomState.currentRound === 2;
 
   return (
-    <div className="w-full max-w-xl mx-auto px-4 py-8">
+    <motion.div
+      initial={{ opacity: 0, y: 15 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -15 }}
+      className="w-full max-w-xl mx-auto px-4 py-8"
+    >
       {/* Header */}
       <div className="text-center mb-6">
         <span className="px-4 py-1.5 rounded-full bg-purple-900/60 border border-purple-500/30 text-neon-cyan font-extrabold text-xs tracking-widest uppercase">
           ROUND {roomState.currentRound} CLUES REVEALED
         </span>
         <h2 className="text-2xl sm:text-3xl font-black text-white mt-2 flex items-center justify-center gap-2">
-          <Eye className="w-6 h-6 text-neon-blue" />
+          <Eye className="w-6 h-6 text-neon-blue animate-pulse" />
           <span>Submitted Clues</span>
         </h2>
       </div>
@@ -35,10 +40,13 @@ export const ClueRevealPhase: React.FC<ClueRevealPhaseProps> = ({ roomState, myI
               </tr>
             </thead>
             <tbody className="divide-y divide-purple-500/10 text-sm">
-              {currentRoundClues.map((item) => {
+              {currentRoundClues.map((item, idx) => {
                 const isMe = item.playerId === myId;
                 return (
-                  <tr
+                  <motion.tr
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: idx * 0.05 }}
                     key={item.playerId}
                     className={`transition-colors ${
                       isMe ? 'bg-purple-900/30 font-bold' : 'hover:bg-purple-900/10'
@@ -53,9 +61,9 @@ export const ClueRevealPhase: React.FC<ClueRevealPhaseProps> = ({ roomState, myI
                       )}
                     </td>
                     <td className="py-3.5 px-4 text-right font-black text-neon-cyan text-base tracking-wide">
-                      {item.clue || '-'}
+                      {item.clue || <span className="text-rose-500/60 font-semibold italic">Timed Out</span>}
                     </td>
-                  </tr>
+                  </motion.tr>
                 );
               })}
             </tbody>
@@ -64,13 +72,13 @@ export const ClueRevealPhase: React.FC<ClueRevealPhaseProps> = ({ roomState, myI
       </div>
 
       {/* Next Phase Countdown Banner */}
-      <div className="glass-card rounded-2xl p-4 text-center border border-purple-500/30 flex items-center justify-center gap-3">
+      <div className="glass-card rounded-2xl p-4 text-center border border-purple-500/30 flex items-center justify-center gap-3 shadow-md">
         <Sparkles className="w-5 h-5 text-neon-gold animate-spin-slow" />
         <p className="text-sm font-semibold text-purple-200">
-          {isFinalRound ? 'Voting Phase starts in ' : 'Round 2 starts in '}
+          Discussion round starts in{' '}
           <span className="text-neon-cyan font-black text-lg">{roomState.timerSeconds}</span> seconds...
         </p>
       </div>
-    </div>
+    </motion.div>
   );
 };
