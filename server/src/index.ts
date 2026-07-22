@@ -128,16 +128,16 @@ io.on('connection', (socket) => {
     }
   });
 
-  // 5b. Toggle Ready to Vote during discussion
-  socket.on('toggle-ready-to-vote', ({ code }, callback) => {
+  // 5b. Submit Post-Round Decision Vote
+  socket.on('submit-decision', ({ code, decision }, callback) => {
     try {
-      const result = roomManager.toggleReadyToVote(socket, code);
+      const result = roomManager.submitDecision(socket, code, decision);
       if (typeof callback === 'function') {
         callback(result);
       }
     } catch (err: any) {
       if (typeof callback === 'function') {
-        callback({ success: false });
+        callback({ success: false, message: err?.message || 'Failed to submit decision' });
       }
     }
   });

@@ -1,16 +1,13 @@
 export type GamePhase =
   | 'LOBBY'
   | 'ROLE_ASSIGNMENT'
-  | 'ROUND_1'
-  | 'CLUES_REVEAL_1'
-  | 'DISCUSSION_1'
-  | 'ROUND_2'
-  | 'CLUES_REVEAL_2'
-  | 'DISCUSSION_2'
+  | 'CLUE_SUBMISSION'
+  | 'ROUND_DECISION'
   | 'VOTING'
   | 'TIE_BREAK_VOTING'
-  | 'VOTE_RESULTS'
   | 'GAME_OVER';
+
+export type DecisionOption = 'PLAY_AGAIN' | 'GUESS_IMPOSTER';
 
 export interface GameSettings {
   category: string;
@@ -27,13 +24,13 @@ export interface PlayerPublic {
   isReady: boolean;
   hasSubmittedClue?: boolean;
   hasVoted?: boolean;
-  hasReadyToVote?: boolean;
+  decisionVote?: DecisionOption;
 }
 
 export interface ClueSubmission {
   playerId: string;
   playerName: string;
-  round: 1 | 2;
+  round: number;
   clue: string;
 }
 
@@ -58,6 +55,7 @@ export interface RoomPublicState {
   activeWriterId?: string;
   clueOrder: string[];
   voteCounts?: { [playerId: string]: number };
+  decisionVotesCount?: { PLAY_AGAIN: number; GUESS_IMPOSTER: number };
   eliminatedPlayer?: { id: string; name: string; isImposter: boolean };
   winner?: 'CIVILIANS' | 'IMPOSTER';
   civilianWord?: string;

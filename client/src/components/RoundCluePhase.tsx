@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Send, Clock, AlertTriangle, HelpCircle, Check, Eye } from 'lucide-react';
+import { Send, Clock, AlertTriangle, HelpCircle, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { RoomPublicState, PersonalRolePayload } from '../types/game';
 import { SecretWordCard } from './SecretWordCard';
@@ -25,8 +25,6 @@ export const RoundCluePhase: React.FC<RoundCluePhaseProps> = ({
   const me = roomState.players.find((p) => p.id === myId);
   const hasSubmitted = me?.hasSubmittedClue ?? false;
   
-  // Clues submitted so far in this round
-  const currentRoundClues = roomState.clues.filter((c) => c.round === roomState.currentRound);
   const connectedPlayers = roomState.players.filter((p) => p.isConnected);
   const submittedCount = connectedPlayers.filter((p) => p.hasSubmittedClue).length;
 
@@ -41,7 +39,6 @@ export const RoundCluePhase: React.FC<RoundCluePhaseProps> = ({
       return;
     }
 
-    // Validation matching backend regex: exactly 1 word, letters only, no spaces/emojis/numbers/special chars, max 20 letters
     if (!/^[a-zA-Z]{1,20}$/.test(trimmed)) {
       setValidationError('Clue must be exactly ONE word with letters only (no numbers, spaces, emojis, or symbols. Max 20 letters).');
       return;
@@ -66,7 +63,7 @@ export const RoundCluePhase: React.FC<RoundCluePhaseProps> = ({
       {/* Round Header */}
       <div className="text-center">
         <span className="px-4 py-1.5 rounded-full bg-purple-900/60 border border-purple-500/30 text-neon-cyan font-extrabold text-xs tracking-widest uppercase shadow-md">
-          ROUND {roomState.currentRound} OF 2
+          ROUND {roomState.currentRound}
         </span>
         <h2 className="text-2xl sm:text-3xl font-black text-white mt-2">Submit Your Clue</h2>
         <p className="text-xs text-purple-200/70 mt-1">
@@ -184,50 +181,12 @@ export const RoundCluePhase: React.FC<RoundCluePhaseProps> = ({
                 Waiting for other players...
               </p>
               <p className="text-xs text-purple-400/80 mt-2">
-                The game will automatically continue to the discussion phase once all players have submitted their clues.
+                The decision screen will automatically appear once all players have submitted their clues.
               </p>
             </motion.div>
           )}
         </AnimatePresence>
       </div>
-
-      {/* Clues Submitted So Far Log */}
-      {currentRoundClues.length > 0 && (
-        <div className="glass-panel rounded-3xl p-5 border border-purple-500/20 shadow-xl">
-          <div className="flex items-center gap-2 mb-3 pb-2 border-b border-purple-500/15">
-            <Eye className="w-4 h-4 text-neon-cyan" />
-            <span className="text-xs font-black uppercase tracking-wider text-purple-300">
-              Submitted Clues (Round {roomState.currentRound})
-            </span>
-          </div>
-
-          <div className="overflow-hidden rounded-2xl border border-purple-500/10">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="bg-purple-950/80 text-purple-300 text-[10px] font-bold uppercase tracking-wider border-b border-purple-500/15">
-                  <th className="py-2.5 px-3">Player</th>
-                  <th className="py-2.5 px-3 text-right">Clue Word</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-purple-500/10 text-xs">
-                {currentRoundClues.map((item) => {
-                  const isUserClue = item.playerId === myId;
-                  return (
-                    <tr key={item.playerId} className={isUserClue ? 'bg-purple-900/20 font-bold' : ''}>
-                      <td className="py-2.5 px-3 font-semibold text-white">
-                        {item.playerName} {isUserClue && <span className="text-[9px] text-neon-blue">(YOU)</span>}
-                      </td>
-                      <td className="py-2.5 px-3 text-right font-black text-neon-cyan text-sm tracking-wide">
-                        {item.clue || '-'}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )}
     </motion.div>
   );
 };

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import confetti from 'canvas-confetti';
-import { PartyPopper, Skull, RotateCcw, Home, Crown, Trophy, Sparkles, Frown } from 'lucide-react';
+import { PartyPopper, Skull, RotateCcw, Home, Crown, Sparkles, Frown } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { RoomPublicState } from '../types/game';
 import { sound } from '../services/sound';
@@ -29,7 +29,6 @@ export const GameOverPhase: React.FC<GameOverPhaseProps> = ({
 
   useEffect(() => {
     if (isCivilianWin) {
-      // Trigger confetti explosion
       const duration = 3.5 * 1000;
       const end = Date.now() + duration;
 
@@ -74,7 +73,7 @@ export const GameOverPhase: React.FC<GameOverPhaseProps> = ({
       >
         {iWon ? (
           <>
-            <Trophy className="w-6 h-6 text-amber-400 animate-bounce" />
+            <Sparkles className="w-6 h-6 text-amber-400 animate-bounce" />
             <span>🏆 You Won!</span>
           </>
         ) : (
@@ -120,7 +119,7 @@ export const GameOverPhase: React.FC<GameOverPhaseProps> = ({
         </h2>
 
         <p className="text-lg font-extrabold text-white mt-1">
-          {isCivilianWin ? 'The Civilians found the Imposter!' : 'The Imposter fooled everyone!'}
+          {isCivilianWin ? 'The Civilians correctly identified the Imposter!' : 'The Imposter successfully fooled everyone!'}
         </p>
 
         <p className="text-xs font-semibold text-purple-200/80 mt-2">
@@ -135,7 +134,7 @@ export const GameOverPhase: React.FC<GameOverPhaseProps> = ({
         </p>
       </motion.div>
 
-      {/* Reveal Card: Imposter Name, Civilian Word, Imposter Word, Vote Results */}
+      {/* Reveal Card: Imposter Name, Civilian Word, Imposter Word, Vote Summary */}
       <div className="glass-panel rounded-3xl p-6 sm:p-8 border border-purple-500/20 shadow-xl mb-6 space-y-6">
         <h3 className="text-xs font-black uppercase tracking-widest text-purple-300 flex items-center gap-2">
           <Sparkles className="w-4 h-4 text-neon-gold" /> Game Reveal Summary
@@ -168,7 +167,7 @@ export const GameOverPhase: React.FC<GameOverPhaseProps> = ({
         {roomState.voteCounts && (
           <div className="pt-4 border-t border-purple-500/20">
             <p className="text-xs font-bold text-purple-300 uppercase tracking-wider mb-3">
-              Vote Results
+              Vote Summary
             </p>
             <div className="space-y-2">
               {roomState.players.map((p) => {

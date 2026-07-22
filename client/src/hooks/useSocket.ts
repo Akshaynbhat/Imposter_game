@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { io, Socket } from 'socket.io-client';
-import { RoomPublicState, PersonalRolePayload, GameSettings } from '../types/game';
+import { RoomPublicState, PersonalRolePayload, GameSettings, DecisionOption } from '../types/game';
 import { sound } from '../services/sound';
 import { useToast } from '../context/ToastContext';
 
@@ -164,11 +164,24 @@ export function useSocket() {
     sound.playSubmit();
   }, [socket, roomState]);
 
-  const toggleReadyToVote = useCallback(() => {
-    if (!socket || !roomState) return;
-    socket.emit('toggle-ready-to-vote', { code: roomState.code });
-    sound.playClick();
-  }, [socket, roomState]);
+  const submitDecision = useCallback((decision: DecisionOption): Promise<boolean> => {
+    return new Promise((resolve) => {
+      if (!socket || !roomState) return resolve(false);
+      socket.emit('submit-decision', { code: roomState.code, decision }, (res: { success: boolean; message?: string }) => {
+        if (res.success) {
+          setError(null);
+          sound.playSubmit();
+          showInfo('Decision Submitted');
+          resolve(true);
+        } else {
+          const msg = res.message || 'Failed to submit decision';
+          setError(msg);
+          showError(msg);
+          resolve(false);
+        }
+      });
+    });
+  }, [socket, roomState, showInfo, showError]);
 
   const updateSettings = useCallback((settings: GameSettings) => {
     if (!socket || !roomState) return;
@@ -276,7 +289,7 @@ export function useSocket() {
     createRoom,
     joinRoom,
     toggleReady,
-    toggleReadyToVote,
+    submitDecision,
     updateSettings,
     startGame,
     submitClue,

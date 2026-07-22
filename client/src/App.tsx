@@ -4,12 +4,12 @@ import { Navbar } from './components/Navbar';
 import { HomeScreen } from './components/HomeScreen';
 import { LobbyScreen } from './components/LobbyScreen';
 import { RoundCluePhase } from './components/RoundCluePhase';
-import { ClueRevealPhase } from './components/ClueRevealPhase';
-import { DiscussionPhase } from './components/DiscussionPhase';
+import { RoundDecisionPhase } from './components/RoundDecisionPhase';
 import { VotingPhase } from './components/VotingPhase';
 import { GameOverPhase } from './components/GameOverPhase';
+import { LiveCluesPanel } from './components/LiveCluesPanel';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Clock, Play, UserX } from 'lucide-react';
+import { Clock, UserX } from 'lucide-react';
 
 export const App: React.FC = () => {
   const {
@@ -22,16 +22,17 @@ export const App: React.FC = () => {
     createRoom,
     joinRoom,
     toggleReady,
-    toggleReadyToVote,
+    submitDecision,
     updateSettings,
     startGame,
     submitClue,
     vote,
     playAgain,
     leaveRoom,
-    sendChatMessage,
     clearError,
   } = useSocket();
+
+  const isGameActive = roomState && roomState.phase !== 'LOBBY';
 
   const renderCurrentPhase = () => {
     if (!roomState) {
@@ -59,8 +60,7 @@ export const App: React.FC = () => {
           />
         );
 
-      case 'ROUND_1':
-      case 'ROUND_2':
+      case 'CLUE_SUBMISSION':
         return (
           <RoundCluePhase
             roomState={roomState}
@@ -70,18 +70,12 @@ export const App: React.FC = () => {
           />
         );
 
-      case 'CLUES_REVEAL_1':
-      case 'CLUES_REVEAL_2':
-        return <ClueRevealPhase roomState={roomState} myId={socketId} />;
-
-      case 'DISCUSSION_1':
-      case 'DISCUSSION_2':
+      case 'ROUND_DECISION':
         return (
-          <DiscussionPhase
+          <RoundDecisionPhase
             roomState={roomState}
             myId={socketId}
-            onSendMessage={sendChatMessage}
-            onToggleReadyToVote={toggleReadyToVote}
+            onSubmitDecision={submitDecision}
           />
         );
 
@@ -121,19 +115,44 @@ export const App: React.FC = () => {
         onLeaveRoom={roomState ? leaveRoom : undefined}
       />
       
-      <main className="flex-1 flex flex-col items-center justify-center relative pb-12 w-full max-w-7xl mx-auto">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={roomState ? `${roomState.code}-${roomState.phase}-${roomState.currentRound}` : 'home'}
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -15 }}
-            transition={{ duration: 0.25 }}
-            className="w-full flex justify-center"
-          >
-            {renderCurrentPhase()}
-          </motion.div>
-        </AnimatePresence>
+      <main className="flex-1 flex flex-col items-center justify-center relative pb-12 w-full max-w-7xl mx-auto px-4 py-4">
+        {isGameActive ? (
+          <div className="w-full grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+            {/* Primary Game Phase Component (Cols 1 & 2 on desktop) */}
+            <div className="lg:col-span-2 w-full flex justify-center">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={`${roomState.code}-${roomState.phase}-${roomState.currentRound}`}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -15 }}
+                  transition={{ duration: 0.25 }}
+                  className="w-full"
+                >
+                  {renderCurrentPhase()}
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            {/* Permanent Dedicated Live Clues Panel (Right side desktop / Below on mobile) */}
+            <div className="lg:col-span-1 w-full">
+              <LiveCluesPanel roomState={roomState} myId={socketId} />
+            </div>
+          </div>
+        ) : (
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={roomState ? `${roomState.code}-lobby` : 'home'}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.25 }}
+              className="w-full flex justify-center"
+            >
+              {renderCurrentPhase()}
+            </motion.div>
+          </AnimatePresence>
+        )}
       </main>
 
       {/* DISCONNECT / PAUSE OVERLAY */}

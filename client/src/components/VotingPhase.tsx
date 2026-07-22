@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, CheckCircle2, AlertCircle, AlertTriangle, User } from 'lucide-react';
+import { Search, CheckCircle2, AlertCircle, AlertTriangle, Crown } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { RoomPublicState } from '../types/game';
 import { Timer } from './Timer';
@@ -67,8 +67,8 @@ export const VotingPhase: React.FC<VotingPhaseProps> = ({ roomState, myId, onVot
         </p>
       </div>
 
-      {/* Timer */}
-      <Timer seconds={roomState.timerSeconds} totalSeconds={30} label="Voting Time Remaining" />
+      {/* Timer: Maximum 45 seconds */}
+      <Timer seconds={roomState.timerSeconds} totalSeconds={45} label="Voting Time Remaining" />
 
       {errorMsg && (
         <div className="my-4 p-3.5 rounded-xl bg-rose-500/20 text-rose-300 text-xs font-semibold text-center flex items-center justify-center gap-1.5 border border-rose-500/30">
@@ -101,13 +101,8 @@ export const VotingPhase: React.FC<VotingPhaseProps> = ({ roomState, myId, onVot
             const isMe = player.id === myId;
             const isSelected = selectedTargetId === player.id;
             
-            // In tie break, only allow selection of tie break candidates
             const isCandidate = !isTieBreak || roomState.tieBreakCandidates.includes(player.id);
             const canVoteFor = !isMe && isCandidate;
-
-            // Clues reference
-            const r1Clue = roomState.clues.find((c) => c.playerId === player.id && c.round === 1)?.clue;
-            const r2Clue = roomState.clues.find((c) => c.playerId === player.id && c.round === 2)?.clue;
 
             return (
               <motion.div
@@ -146,10 +141,15 @@ export const VotingPhase: React.FC<VotingPhaseProps> = ({ roomState, myId, onVot
                       {player.name.substring(0, 2).toUpperCase()}
                     </div>
 
-                    {/* Large Name & Clues */}
+                    {/* Name & Badges */}
                     <div>
-                      <h4 className="text-lg font-black text-white flex items-center gap-2">
+                      <h4 className="text-lg font-black text-white flex items-center gap-2 flex-wrap">
                         <span>{player.name}</span>
+                        {player.isHost && (
+                          <span className="text-[10px] bg-amber-500/20 text-amber-300 font-bold px-2 py-0.5 rounded-full border border-amber-500/30 flex items-center gap-1">
+                            <Crown className="w-3 h-3 fill-amber-400" /> Host
+                          </span>
+                        )}
                         {isMe && (
                           <span className="text-[10px] bg-purple-900/80 text-purple-300 font-semibold px-2 py-0.5 rounded-full border border-purple-500/30">
                             (Cannot vote yourself)
@@ -161,16 +161,6 @@ export const VotingPhase: React.FC<VotingPhaseProps> = ({ roomState, myId, onVot
                           </span>
                         )}
                       </h4>
-
-                      <div className="flex items-center gap-2 text-xs text-purple-200/80 mt-1 font-medium">
-                        <span>Clues:</span>
-                        <span className="bg-purple-950/60 px-2 py-0.5 rounded-md text-neon-cyan font-bold">
-                          R1: {r1Clue || '-'}
-                        </span>
-                        <span className="bg-purple-950/60 px-2 py-0.5 rounded-md text-neon-cyan font-bold">
-                          R2: {r2Clue || '-'}
-                        </span>
-                      </div>
                     </div>
                   </div>
 

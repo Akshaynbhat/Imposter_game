@@ -1,5 +1,5 @@
 import { Server, Socket } from 'socket.io';
-import { GamePhase, Player, RoomPublicState, PersonalRolePayload, WordPair, GameSettings } from './types.js';
+import { GamePhase, Player, RoomPublicState, PersonalRolePayload, WordPair, GameSettings, DecisionOption } from './types.js';
 import wordPairsData from './words.json' with { type: 'json' };
 
 const wordPairs: WordPair[] = wordPairsData as WordPair[];
@@ -16,9 +16,9 @@ interface Room {
   civilianWord: string;
   imposterWord: string;
   imposterId: string;
-  clues: { playerId: string; playerName: string; round: 1 | 2; clue: string }[];
+  clues: { playerId: string; playerName: string; round: number; clue: string }[];
   votes: Map<string, string>; // voterId -> targetId
-  readyToVote: Set<string>; // socketIds of players ready to vote during discussion
+  decisionVotes: Map<string, DecisionOption>; // socketId -> PLAY_AGAIN | GUESS_IMPOSTER
   eliminatedPlayerId?: string;
   winner?: 'CIVILIANS' | 'IMPOSTER';
   settings: GameSettings;
@@ -76,7 +76,7 @@ export class RoomManager {
       imposterId: '',
       clues: [],
       votes: new Map(),
-      readyToVote: new Set(),
+      decisionVotes: new Map(),
       settings: {
         category: 'All',
         difficulty: 'All',
@@ -93,9 +93,6 @@ export class RoomManager {
 
     this.rooms.set(code, room);
     socket.join(code);
-    
-    // Fix: Critical Create Room Transition Bug
-    // We must broadcast the initial room state to the host's socket right after creation!
     this.broadcastRoomState(code);
 
     return { code, player };
@@ -113,7 +110,6 @@ export class RoomManager {
       return { success: false, message: 'Game in progress. Cannot join right now.' };
     }
 
-    // Check if name is duplicate in this room
     const nameExists = Array.from(room.players.values()).some(
       (p) => p.isConnected && p.name.toLowerCase() === playerName.trim().toLowerCase()
     );
@@ -132,7 +128,7 @@ export class RoomManager {
       isImposter: false,
       secretWord: '',
       isConnected: true,
-      isReady: false, // Players must mark ready
+      isReady: false,
     };
 
     room.players.set(socket.id, player);
@@ -189,24 +185,27 @@ export class RoomManager {
     const existingPlayer = room.players.get(oldSocketId);
     if (!existingPlayer) return false;
 
-    // Update player socket ID
     room.players.delete(oldSocketId);
     existingPlayer.id = socket.id;
     existingPlayer.isConnected = true;
     room.players.set(socket.id, existingPlayer);
     room.sessionToSocketMap.set(sessionId, socket.id);
 
-    // Update votes map if they voted
+    // Update maps
     for (const [voter, target] of room.votes.entries()) {
       if (voter === oldSocketId) {
         room.votes.delete(voter);
         room.votes.set(socket.id, target);
       }
     }
+    if (room.decisionVotes.has(oldSocketId)) {
+      const dec = room.decisionVotes.get(oldSocketId)!;
+      room.decisionVotes.delete(oldSocketId);
+      room.decisionVotes.set(socket.id, dec);
+    }
 
     socket.join(code);
 
-    // Send secret word to reconnected player if game in progress
     if (room.phase !== 'LOBBY' && existingPlayer.secretWord) {
       socket.emit('assign-role', {
         role: existingPlayer.isImposter ? 'IMPOSTER' : 'CIVILIAN',
@@ -214,9 +213,7 @@ export class RoomManager {
       } as PersonalRolePayload);
     }
 
-    // Check if we need to resume a paused game
     this.checkPauseStatus(room);
-
     this.broadcastRoomState(code);
     return true;
   }
@@ -227,11 +224,8 @@ export class RoomManager {
         const player = room.players.get(socket.id)!;
         player.isConnected = false;
 
-        // Automatically transfer host if host disconnected
         if (player.isHost) {
           player.isHost = false;
-          
-          // Oldest connected player migration logic using joinOrder
           let newHostFound = false;
           for (const sessId of room.joinOrder) {
             const sockId = room.sessionToSocketMap.get(sessId);
@@ -239,16 +233,14 @@ export class RoomManager {
               const p = room.players.get(sockId);
               if (p && p.isConnected) {
                 p.isHost = true;
-                p.isReady = true; // Host is always ready
+                p.isReady = true;
                 newHostFound = true;
                 this.io.to(code).emit('host-changed', { newHostName: p.name });
                 break;
               }
             }
           }
-          
           if (!newHostFound) {
-            // Fallback to any connected player
             const nextHost = Array.from(room.players.values()).find((p) => p.isConnected);
             if (nextHost) {
               nextHost.isHost = true;
@@ -258,10 +250,8 @@ export class RoomManager {
           }
         }
 
-        // Remove from ready to vote set
-        room.readyToVote.delete(socket.id);
+        room.decisionVotes.delete(socket.id);
 
-        // Clean up empty room
         const activePlayersCount = Array.from(room.players.values()).filter((p) => p.isConnected).length;
         if (activePlayersCount === 0) {
           if (room.timerInterval) clearInterval(room.timerInterval);
@@ -269,25 +259,18 @@ export class RoomManager {
           return;
         }
 
-        // Check if phase can complete after disconnect
-        if (room.phase === 'ROUND_1' || room.phase === 'ROUND_2') {
+        if (room.phase === 'CLUE_SUBMISSION') {
           this.checkClueSubmissionsComplete(room);
-        } else if (room.phase === 'DISCUSSION_1' || room.phase === 'DISCUSSION_2') {
-          const connectedPlayers = Array.from(room.players.values()).filter((p) => p.isConnected);
-          if (connectedPlayers.length > 0 && connectedPlayers.every((p) => room.readyToVote.has(p.id))) {
+        } else if (room.phase === 'ROUND_DECISION') {
+          this.checkDecisionVotesComplete(room);
+        } else if (room.phase === 'VOTING' || room.phase === 'TIE_BREAK_VOTING') {
+          if (room.votes.size >= activePlayersCount) {
             if (room.timerInterval) clearInterval(room.timerInterval);
-            const isFirstDiscussion = room.phase === 'DISCUSSION_1';
-            if (isFirstDiscussion) {
-              this.startRound(room, 2);
-            } else {
-              this.startVotingPhase(room, 'VOTING');
-            }
+            this.finishVoting(room);
           }
         }
 
-        // Check if we need to pause the active game
         this.checkPauseStatus(room);
-
         this.broadcastRoomState(code);
       }
     }
@@ -300,7 +283,6 @@ export class RoomManager {
     }
 
     const connectedCount = Array.from(room.players.values()).filter((p) => p.isConnected).length;
-    
     if (connectedCount < 3) {
       if (!room.isPaused) {
         room.isPaused = true;
@@ -344,7 +326,6 @@ export class RoomManager {
         return { success: false, message: 'Please enter both custom Civilian and Imposter words!' };
       }
 
-      // Validations: letters only, max 20 length
       const lettersOnly = /^[a-zA-Z]+$/;
       if (!lettersOnly.test(civ) || !lettersOnly.test(imp)) {
         return { success: false, message: 'Custom words must contain letters only (no spaces, numbers, or special characters)!' };
@@ -361,7 +342,6 @@ export class RoomManager {
       room.civilianWord = civ;
       room.imposterWord = imp;
     } else {
-      // Filter words matching host settings
       let pool = wordPairs;
       if (room.settings.category !== 'All') {
         pool = pool.filter((w) => w.category === room.settings.category);
@@ -370,23 +350,19 @@ export class RoomManager {
         pool = pool.filter((w) => w.difficulty === room.settings.difficulty);
       }
 
-      // Fallback if no words match the filtered pool
       if (pool.length === 0) {
         pool = wordPairs;
       }
 
-      // Pick random word pair
       const pair = pool[Math.floor(Math.random() * pool.length)];
       room.civilianWord = pair.civilian;
       room.imposterWord = pair.imposter;
     }
 
-    // Pick random imposter
     const imposterIndex = Math.floor(Math.random() * connectedPlayers.length);
     const imposterPlayer = connectedPlayers[imposterIndex];
     room.imposterId = imposterPlayer.id;
 
-    // Assign roles & secret words
     for (const p of room.players.values()) {
       if (p.id === room.imposterId) {
         p.isImposter = true;
@@ -397,25 +373,16 @@ export class RoomManager {
       }
     }
 
-    // Shuffled connected players list to make the turn sequence unpredictable
-    const connectedPlayerIds = connectedPlayers.map((p) => p.id);
-    for (let i = connectedPlayerIds.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [connectedPlayerIds[i], connectedPlayerIds[j]] = [connectedPlayerIds[j], connectedPlayerIds[i]];
-    }
-    room.clueOrder = connectedPlayerIds;
-    room.activeWriterIndex = 0;
-
-    // Reset clues, votes, and tie break variables
+    room.currentRound = 1;
     room.clues = [];
     room.votes.clear();
+    room.decisionVotes.clear();
     room.eliminatedPlayerId = undefined;
     room.winner = undefined;
     room.tieBreakCandidates = [];
     room.tieBreakIteration = 0;
     room.isPaused = false;
 
-    // Send secret word ONLY to respective sockets
     for (const p of room.players.values()) {
       const clientSocket = this.io.sockets.sockets.get(p.id);
       if (clientSocket) {
@@ -426,16 +393,14 @@ export class RoomManager {
       }
     }
 
-    // Move to Round 1
-    this.startRound(room, 1);
+    this.startClueRound(room);
     return { success: true };
   }
 
-  private startRound(room: Room, roundNumber: 1 | 2) {
+  private startClueRound(room: Room) {
     if (room.timerInterval) clearInterval(room.timerInterval);
 
-    room.phase = roundNumber === 1 ? 'ROUND_1' : 'ROUND_2';
-    room.currentRound = roundNumber;
+    room.phase = 'CLUE_SUBMISSION';
     room.timerSeconds = 0; // No countdown timer for clue submission phase
 
     this.broadcastRoomState(room.code);
@@ -445,20 +410,18 @@ export class RoomManager {
     const room = this.rooms.get(roomCode);
     if (!room) return { success: false, message: 'Room not found.' };
 
-    if (room.phase !== 'ROUND_1' && room.phase !== 'ROUND_2') {
+    if (room.phase !== 'CLUE_SUBMISSION') {
       return { success: false, message: 'Not in clue submission phase.' };
     }
 
     const player = room.players.get(socket.id);
     if (!player) return { success: false, message: 'Player not found.' };
 
-    // Check if already submitted for current round
     const existing = room.clues.find((c) => c.playerId === socket.id && c.round === room.currentRound);
     if (existing) {
-      return { success: false, message: 'Already submitted for this round.' };
+      return { success: false, message: 'Already submitted a clue for this round.' };
     }
 
-    // Strictly validate clue: ONE word, letters only, no spaces, emojis, numbers, special characters, max 20 chars
     const cleaned = clueText.trim();
     if (!/^[a-zA-Z]{1,20}$/.test(cleaned)) {
       return { success: false, message: 'Clue must be exactly ONE word with only letters (no spaces, numbers, emojis or special characters, max 20 letters)!' };
@@ -467,7 +430,7 @@ export class RoomManager {
     room.clues.push({
       playerId: player.id,
       playerName: player.name,
-      round: room.currentRound as 1 | 2,
+      round: room.currentRound,
       clue: cleaned,
     });
 
@@ -482,102 +445,69 @@ export class RoomManager {
     ).length;
 
     if (submittedCount >= connectedPlayers.length && connectedPlayers.length > 0) {
-      if (room.timerInterval) clearInterval(room.timerInterval);
-      if (room.currentRound === 1) {
-        this.startClueRevealPhase(room, 'CLUES_REVEAL_1', 2);
-      } else {
-        this.startClueRevealPhase(room, 'CLUES_REVEAL_2', 'VOTING');
-      }
+      this.startRoundDecisionPhase(room);
     } else {
       this.broadcastRoomState(room.code);
     }
   }
 
-  private startClueRevealPhase(room: Room, phase: 'CLUES_REVEAL_1' | 'CLUES_REVEAL_2', nextTarget: 2 | 'VOTING') {
+  private startRoundDecisionPhase(room: Room) {
     if (room.timerInterval) clearInterval(room.timerInterval);
 
-    room.phase = phase;
-    room.timerSeconds = 5;
+    room.phase = 'ROUND_DECISION';
+    room.timerSeconds = 0;
+    room.decisionVotes.clear();
+
     this.broadcastRoomState(room.code);
-
-    room.timerInterval = setInterval(() => {
-      if (room.isPaused) return;
-
-      room.timerSeconds -= 1;
-      this.broadcastRoomState(room.code);
-
-      if (room.timerSeconds <= 0) {
-        if (room.timerInterval) clearInterval(room.timerInterval);
-        this.startDiscussionPhase(room, nextTarget);
-      }
-    }, 1000);
   }
 
-  private startDiscussionPhase(room: Room, nextTarget: 2 | 'VOTING') {
-    if (room.timerInterval) clearInterval(room.timerInterval);
-
-    room.phase = nextTarget === 2 ? 'DISCUSSION_1' : 'DISCUSSION_2';
-    room.timerSeconds = room.settings.discussionTimer;
-    room.readyToVote.clear(); // Clear previous ready-to-vote states
-    this.broadcastRoomState(room.code);
-
-    room.timerInterval = setInterval(() => {
-      if (room.isPaused) return;
-
-      room.timerSeconds -= 1;
-      this.broadcastRoomState(room.code);
-
-      if (room.timerSeconds <= 0) {
-        if (room.timerInterval) clearInterval(room.timerInterval);
-        if (nextTarget === 2) {
-          this.startRound(room, 2);
-        } else {
-          this.startVotingPhase(room, 'VOTING');
-        }
-      }
-    }, 1000);
-  }
-
-  public toggleReadyToVote(socket: Socket, roomCode: string): { success: boolean } {
+  public submitDecision(socket: Socket, roomCode: string, decision: DecisionOption): { success: boolean; message?: string } {
     const room = this.rooms.get(roomCode);
-    if (!room) return { success: false };
+    if (!room) return { success: false, message: 'Room not found.' };
 
-    if (room.phase !== 'DISCUSSION_1' && room.phase !== 'DISCUSSION_2') {
-      return { success: false };
+    if (room.phase !== 'ROUND_DECISION') {
+      return { success: false, message: 'Not in decision phase.' };
     }
 
     const player = room.players.get(socket.id);
-    if (!player || !player.isConnected) return { success: false };
+    if (!player || !player.isConnected) return { success: false, message: 'Player not found.' };
 
-    if (room.readyToVote.has(socket.id)) {
-      room.readyToVote.delete(socket.id);
-    } else {
-      room.readyToVote.add(socket.id);
-    }
+    room.decisionVotes.set(socket.id, decision);
+    this.checkDecisionVotesComplete(room);
+    return { success: true };
+  }
 
+  private checkDecisionVotesComplete(room: Room) {
     const connectedPlayers = Array.from(room.players.values()).filter((p) => p.isConnected);
-    const allReady = connectedPlayers.length > 0 && connectedPlayers.every((p) => room.readyToVote.has(p.id));
+    if (connectedPlayers.length === 0) return;
 
-    if (allReady) {
-      if (room.timerInterval) clearInterval(room.timerInterval);
-      const isFirstDiscussion = room.phase === 'DISCUSSION_1';
-      if (isFirstDiscussion) {
-        this.startRound(room, 2);
+    if (room.decisionVotes.size >= connectedPlayers.length) {
+      let playAgainCount = 0;
+      let guessImposterCount = 0;
+
+      for (const dec of room.decisionVotes.values()) {
+        if (dec === 'PLAY_AGAIN') playAgainCount++;
+        else if (dec === 'GUESS_IMPOSTER') guessImposterCount++;
+      }
+
+      if (playAgainCount > guessImposterCount) {
+        // Majority voted to play another round!
+        room.currentRound += 1;
+        this.startClueRound(room);
       } else {
+        // Majority or tie voted to guess imposter!
         this.startVotingPhase(room, 'VOTING');
       }
     } else {
       this.broadcastRoomState(room.code);
     }
-
-    return { success: true };
   }
 
   private startVotingPhase(room: Room, phase: 'VOTING' | 'TIE_BREAK_VOTING') {
     if (room.timerInterval) clearInterval(room.timerInterval);
 
     room.phase = phase;
-    room.timerSeconds = 30;
+    room.timerSeconds = 45; // 45 seconds maximum voting time
     room.votes.clear();
 
     this.broadcastRoomState(room.code);
@@ -607,7 +537,6 @@ export class RoomManager {
       return { success: false, message: 'You cannot vote for yourself!' };
     }
 
-    // If in tie break, you can only vote for players in the tie candidates list
     if (room.phase === 'TIE_BREAK_VOTING' && !room.tieBreakCandidates.includes(targetPlayerId)) {
       return { success: false, message: 'Must vote for one of the tied players!' };
     }
@@ -615,7 +544,6 @@ export class RoomManager {
     room.votes.set(socket.id, targetPlayerId);
     this.broadcastRoomState(room.code);
 
-    // Check if all connected players voted
     const activePlayers = Array.from(room.players.values()).filter((p) => p.isConnected);
     if (room.votes.size >= activePlayers.length) {
       if (room.timerInterval) clearInterval(room.timerInterval);
@@ -630,14 +558,12 @@ export class RoomManager {
 
     const activePlayers = Array.from(room.players.values()).filter((p) => p.isConnected);
     
-    // Calculate vote counts (only active players can be voted for)
     const tally: { [playerId: string]: number } = {};
     for (const p of activePlayers) {
       tally[p.id] = 0;
     }
 
     for (const [voterId, targetId] of room.votes.entries()) {
-      // Validate voter is still connected
       const voter = room.players.get(voterId);
       if (voter && voter.isConnected && tally[targetId] !== undefined) {
         tally[targetId] += 1;
@@ -647,7 +573,6 @@ export class RoomManager {
     let maxVotes = -1;
     let candidates: string[] = [];
 
-    // Determine candidate list based on voting phase restrictions
     const listToCheck = room.phase === 'TIE_BREAK_VOTING' ? room.tieBreakCandidates : activePlayers.map(p => p.id);
 
     for (const id of listToCheck) {
@@ -660,25 +585,20 @@ export class RoomManager {
       }
     }
 
-    // Handle ties
     if (candidates.length > 1) {
-      // Tie Break Logic
       if (room.tieBreakIteration === 0) {
-        // Trigger Tie Break Voting Phase
         room.tieBreakCandidates = candidates;
         room.tieBreakIteration = 1;
         this.io.to(room.code).emit('tie-break-triggered', { candidates });
         this.startVotingPhase(room, 'TIE_BREAK_VOTING');
         return;
       } else {
-        // If still tied on tie break, pick random among candidates to prevent endless loops
         const randomElim = candidates[Math.floor(Math.random() * candidates.length)];
         this.eliminatePlayer(room, randomElim);
       }
     } else if (candidates.length === 1) {
       this.eliminatePlayer(room, candidates[0]);
     } else {
-      // No votes cast -> pick random among all active players
       const randomElim = activePlayers[Math.floor(Math.random() * activePlayers.length)].id;
       this.eliminatePlayer(room, randomElim);
     }
@@ -712,6 +632,7 @@ export class RoomManager {
     room.timerSeconds = 0;
     room.clues = [];
     room.votes.clear();
+    room.decisionVotes.clear();
     room.eliminatedPlayerId = undefined;
     room.winner = undefined;
     room.civilianWord = '';
@@ -722,11 +643,10 @@ export class RoomManager {
     room.isPaused = false;
     room.chatHistory = [];
 
-    // Reset player configurations, clear roles, set non-hosts isReady = false (must mark ready again)
     for (const p of room.players.values()) {
       p.isImposter = false;
       p.secretWord = '';
-      p.isReady = p.isHost; // Host is automatically ready
+      p.isReady = p.isHost;
     }
 
     this.broadcastRoomState(room.code);
@@ -764,10 +684,16 @@ export class RoomManager {
     const room = this.rooms.get(roomCode);
     if (!room) return;
 
-    // Build vote counts dictionary
     const voteCounts: { [playerId: string]: number } = {};
     for (const targetId of room.votes.values()) {
       voteCounts[targetId] = (voteCounts[targetId] || 0) + 1;
+    }
+
+    let playAgainCount = 0;
+    let guessImposterCount = 0;
+    for (const dec of room.decisionVotes.values()) {
+      if (dec === 'PLAY_AGAIN') playAgainCount++;
+      else if (dec === 'GUESS_IMPOSTER') guessImposterCount++;
     }
 
     const imposterPlayer = Array.from(room.players.values()).find((p) => p.isImposter);
@@ -785,16 +711,16 @@ export class RoomManager {
         isReady: p.isReady,
         hasSubmittedClue: room.clues.some((c) => c.playerId === p.id && c.round === room.currentRound),
         hasVoted: room.votes.has(p.id),
-        hasReadyToVote: room.readyToVote.has(p.id),
+        decisionVote: room.decisionVotes.get(p.id),
       })),
       clues: room.clues,
       settings: room.settings,
       isPaused: room.isPaused,
       tieBreakCandidates: room.tieBreakCandidates,
       chatHistory: room.chatHistory,
-      activeWriterId: room.clueOrder[room.activeWriterIndex],
       clueOrder: room.clueOrder,
       voteCounts: room.phase === 'GAME_OVER' ? voteCounts : undefined,
+      decisionVotesCount: { PLAY_AGAIN: playAgainCount, GUESS_IMPOSTER: guessImposterCount },
       eliminatedPlayer: room.eliminatedPlayerId
         ? {
             id: room.eliminatedPlayerId,
