@@ -54,6 +54,8 @@ export interface RoomPublicState {
   isPaused: boolean;
   tieBreakCandidates: string[];
   chatHistory: ChatMessage[];
+  activeWriterId?: string;
+  clueOrder: string[];
   voteCounts?: { [playerId: string]: number };
   eliminatedPlayer?: { id: string; name: string; isImposter: boolean };
   winner?: 'CIVILIANS' | 'IMPOSTER';

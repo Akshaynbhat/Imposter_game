@@ -25,6 +25,8 @@ interface Room {
   tieBreakCandidates: string[];
   tieBreakIteration: number; // 0 = first tie break
   chatHistory: { senderId: string; senderName: string; message: string; timestamp: string }[];
+  clueOrder: string[];
+  activeWriterIndex: number;
 }
 
 export class RoomManager {
@@ -83,6 +85,8 @@ export class RoomManager {
       tieBreakCandidates: [],
       tieBreakIteration: 0,
       chatHistory: [],
+      clueOrder: [],
+      activeWriterIndex: 0,
     };
 
     this.rooms.set(code, room);
@@ -372,6 +376,15 @@ export class RoomManager {
       }
     }
 
+    // Shuffled connected players list to make the turn sequence unpredictable
+    const connectedPlayerIds = connectedPlayers.map((p) => p.id);
+    for (let i = connectedPlayerIds.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [connectedPlayerIds[i], connectedPlayerIds[j]] = [connectedPlayerIds[j], connectedPlayerIds[i]];
+    }
+    room.clueOrder = connectedPlayerIds;
+    room.activeWriterIndex = 0;
+
     // Reset clues, votes, and tie break variables
     room.clues = [];
     room.votes.clear();
@@ -414,8 +427,7 @@ export class RoomManager {
       this.broadcastRoomState(room.code);
 
       if (room.timerSeconds <= 0) {
-        if (room.timerInterval) clearInterval(room.timerInterval);
-        this.handleRoundTimeout(room);
+        this.handleActiveWriterTimeout(room);
       }
     }, 1000);
   }
@@ -430,6 +442,12 @@ export class RoomManager {
 
     const player = room.players.get(socket.id);
     if (!player) return { success: false, message: 'Player not found.' };
+
+    // Verify it is this player's turn to submit
+    const activePlayerId = room.clueOrder[room.activeWriterIndex];
+    if (socket.id !== activePlayerId) {
+      return { success: false, message: 'It is not your turn to submit a clue!' };
+    }
 
     // Check if already submitted for current round
     const existing = room.clues.find((c) => c.playerId === socket.id && c.round === room.currentRound);
@@ -450,41 +468,39 @@ export class RoomManager {
       clue: cleaned,
     });
 
-    this.broadcastRoomState(room.code);
-
-    // Check if all connected players submitted clue
-    const activePlayers = Array.from(room.players.values()).filter((p) => p.isConnected);
-    const roundClues = room.clues.filter((c) => c.round === room.currentRound);
-
-    if (roundClues.length >= activePlayers.length) {
-      if (room.timerInterval) clearInterval(room.timerInterval);
-      this.advanceFromRound(room);
-    }
-
+    this.advanceClueWriter(room);
     return { success: true };
   }
 
-  private handleRoundTimeout(room: Room) {
-    const activePlayers = Array.from(room.players.values()).filter((p) => p.isConnected);
-    for (const player of activePlayers) {
-      const existing = room.clues.find((c) => c.playerId === player.id && c.round === room.currentRound);
-      if (!existing) {
-        room.clues.push({
-          playerId: player.id,
-          playerName: player.name,
-          round: room.currentRound as 1 | 2,
-          clue: '', // Blank clue on timeout
-        });
-      }
+  private handleActiveWriterTimeout(room: Room) {
+    const activePlayerId = room.clueOrder[room.activeWriterIndex];
+    if (activePlayerId) {
+      const player = room.players.get(activePlayerId);
+      room.clues.push({
+        playerId: activePlayerId,
+        playerName: player ? player.name : 'Unknown',
+        round: room.currentRound as 1 | 2,
+        clue: '', // Blank clue on timeout
+      });
     }
-    this.advanceFromRound(room);
+    this.advanceClueWriter(room);
   }
 
-  private advanceFromRound(room: Room) {
-    if (room.currentRound === 1) {
-      this.startClueRevealPhase(room, 'CLUES_REVEAL_1', 2);
+  private advanceClueWriter(room: Room) {
+    room.activeWriterIndex += 1;
+
+    if (room.activeWriterIndex < room.clueOrder.length) {
+      // Move to next player, reset timer
+      room.timerSeconds = room.settings.roundTimer;
+      this.broadcastRoomState(room.code);
     } else {
-      this.startClueRevealPhase(room, 'CLUES_REVEAL_2', 'VOTING');
+      // All players done
+      if (room.timerInterval) clearInterval(room.timerInterval);
+      if (room.currentRound === 1) {
+        this.startClueRevealPhase(room, 'CLUES_REVEAL_1', 2);
+      } else {
+        this.startClueRevealPhase(room, 'CLUES_REVEAL_2', 'VOTING');
+      }
     }
   }
 
@@ -524,6 +540,15 @@ export class RoomManager {
       if (room.timerSeconds <= 0) {
         if (room.timerInterval) clearInterval(room.timerInterval);
         if (nextTarget === 2) {
+          // Shuffle clue order again for Round 2
+          const connectedPlayers = Array.from(room.players.values()).filter((p) => p.isConnected);
+          const connectedPlayerIds = connectedPlayers.map((p) => p.id);
+          for (let i = connectedPlayerIds.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [connectedPlayerIds[i], connectedPlayerIds[j]] = [connectedPlayerIds[j], connectedPlayerIds[i]];
+          }
+          room.clueOrder = connectedPlayerIds;
+          room.activeWriterIndex = 0;
           this.startRound(room, 2);
         } else {
           this.startVotingPhase(room, 'VOTING');
@@ -750,6 +775,8 @@ export class RoomManager {
       isPaused: room.isPaused,
       tieBreakCandidates: room.tieBreakCandidates,
       chatHistory: room.chatHistory,
+      activeWriterId: room.clueOrder[room.activeWriterIndex],
+      clueOrder: room.clueOrder,
       voteCounts: room.phase === 'GAME_OVER' ? voteCounts : undefined,
       eliminatedPlayer: room.eliminatedPlayerId
         ? {
