@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Send, Clock, AlertTriangle, HelpCircle, Check, Eye } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { RoomPublicState, PersonalRolePayload } from '../types/game';
-import { Timer } from './Timer';
 import { SecretWordCard } from './SecretWordCard';
 import { sound } from '../services/sound';
 
@@ -24,23 +23,16 @@ export const RoundCluePhase: React.FC<RoundCluePhaseProps> = ({
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const me = roomState.players.find((p) => p.id === myId);
-  const isMyTurn = myId === roomState.activeWriterId;
-  const activeWriter = roomState.players.find((p) => p.id === roomState.activeWriterId);
+  const hasSubmitted = me?.hasSubmittedClue ?? false;
   
   // Clues submitted so far in this round
   const currentRoundClues = roomState.clues.filter((c) => c.round === roomState.currentRound);
-
-  // Clear input once turn changes
-  useEffect(() => {
-    if (!isMyTurn) {
-      setClueInput('');
-      setValidationError(null);
-    }
-  }, [isMyTurn]);
+  const connectedPlayers = roomState.players.filter((p) => p.isConnected);
+  const submittedCount = connectedPlayers.filter((p) => p.hasSubmittedClue).length;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!isMyTurn || isSubmitting) return;
+    if (hasSubmitted || isSubmitting) return;
 
     sound.playClick();
     const trimmed = clueInput.trim();
@@ -76,63 +68,56 @@ export const RoundCluePhase: React.FC<RoundCluePhaseProps> = ({
         <span className="px-4 py-1.5 rounded-full bg-purple-900/60 border border-purple-500/30 text-neon-cyan font-extrabold text-xs tracking-widest uppercase shadow-md">
           ROUND {roomState.currentRound} OF 2
         </span>
-        <h2 className="text-2xl font-black text-white mt-2">Submit Clues Sequentially</h2>
+        <h2 className="text-2xl sm:text-3xl font-black text-white mt-2">Submit Your Clue</h2>
         <p className="text-xs text-purple-200/70 mt-1">
-          Take turns entering exactly ONE word to describe your secret card.
+          Take your time to think! Enter exactly ONE word to describe your secret card.
         </p>
-      </div>
-
-      {/* Turn Queue Timeline */}
-      <div className="glass-panel p-4 rounded-2xl border border-purple-500/15">
-        <p className="text-[10px] font-bold text-purple-300 uppercase tracking-wider mb-2.5">
-          Submission Order Queue
-        </p>
-        <div className="flex flex-wrap items-center gap-2">
-          {roomState.clueOrder.map((pid, idx) => {
-            const player = roomState.players.find((p) => p.id === pid);
-            if (!player) return null;
-
-            const isWriter = pid === roomState.activeWriterId;
-            const alreadySubmitted = roomState.clues.some(
-              (c) => c.playerId === pid && c.round === roomState.currentRound
-            );
-
-            return (
-              <React.Fragment key={pid}>
-                {idx > 0 && <span className="text-purple-600/40 text-xs font-bold">→</span>}
-                <div
-                  className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border text-[11px] font-semibold transition-all ${
-                    isWriter
-                      ? 'bg-neon-cyan/20 border-neon-cyan text-white shadow-[0_0_10px_rgba(0,245,212,0.15)] animate-pulse'
-                      : alreadySubmitted
-                      ? 'bg-emerald-950/40 border-emerald-500/30 text-emerald-450'
-                      : 'bg-dark-900/50 border-purple-500/10 text-gray-500'
-                  }`}
-                >
-                  <span>{player.name}</span>
-                  {alreadySubmitted && <Check className="w-3.5 h-3.5 text-emerald-400" />}
-                  {isWriter && <Clock className="w-3 h-3 text-neon-cyan animate-spin-slow" />}
-                </div>
-              </React.Fragment>
-            );
-          })}
-        </div>
       </div>
 
       {/* Secret Word Card */}
       <SecretWordCard rolePayload={rolePayload} />
 
-      {/* Timer Display */}
-      <Timer
-        seconds={roomState.timerSeconds}
-        totalSeconds={roomState.settings.roundTimer}
-        label={isMyTurn ? 'Your Turn Remaining' : `${activeWriter?.name || 'Active Player'}'s Turn`}
-      />
+      {/* Submission Status Queue */}
+      <div className="glass-panel p-4 rounded-2xl border border-purple-500/15">
+        <div className="flex items-center justify-between mb-2.5">
+          <p className="text-[10px] font-bold text-purple-300 uppercase tracking-wider">
+            Player Submissions
+          </p>
+          <span className="text-xs font-extrabold text-neon-cyan bg-purple-900/40 px-2 py-0.5 rounded-full border border-purple-500/20">
+            {submittedCount} / {connectedPlayers.length} Ready
+          </span>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-2">
+          {connectedPlayers.map((player) => {
+            const isUserSubmitted = player.hasSubmittedClue;
+
+            return (
+              <div
+                key={player.id}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-semibold transition-all ${
+                  isUserSubmitted
+                    ? 'bg-emerald-950/60 border-emerald-500/40 text-emerald-300 shadow-[0_0_10px_rgba(16,185,129,0.15)]'
+                    : 'bg-dark-900/60 border-purple-500/20 text-purple-200/70'
+                }`}
+              >
+                <span>{player.name}</span>
+                {player.id === myId && <span className="text-[9px] text-neon-cyan">(You)</span>}
+                {isUserSubmitted ? (
+                  <Check className="w-3.5 h-3.5 text-emerald-400" />
+                ) : (
+                  <Clock className="w-3.5 h-3.5 text-purple-400 animate-pulse" />
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
 
       {/* Clue Input Form / Wait Box */}
       <div className="glass-panel rounded-3xl p-6 border border-purple-500/20 shadow-xl">
         <AnimatePresence mode="wait">
-          {isMyTurn ? (
+          {!hasSubmitted ? (
             <motion.form
               key="form"
               initial={{ opacity: 0, y: 10 }}
@@ -143,7 +128,7 @@ export const RoundCluePhase: React.FC<RoundCluePhaseProps> = ({
             >
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-purple-300 mb-2 flex items-center gap-1">
-                  <HelpCircle className="w-3.5 h-3.5 text-neon-cyan" /> It's Your Turn! Enter Your Clue Word
+                  <HelpCircle className="w-3.5 h-3.5 text-neon-cyan" /> Enter Your Clue Word
                 </label>
                 <input
                   type="text"
@@ -191,10 +176,15 @@ export const RoundCluePhase: React.FC<RoundCluePhaseProps> = ({
               exit={{ opacity: 0, y: -10 }}
               className="text-center py-6"
             >
-              <Clock className="w-12 h-12 text-neon-cyan mx-auto mb-3 animate-spin-slow" />
-              <h3 className="text-lg font-bold text-white mb-1">Waiting for turn...</h3>
-              <p className="text-xs text-purple-300">
-                It is currently <strong className="text-neon-cyan">{activeWriter?.name || 'someone else'}</strong>'s turn to submit their clue word.
+              <div className="w-14 h-14 rounded-2xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center mx-auto mb-3 shadow-[0_0_20px_rgba(16,185,129,0.2)]">
+                <Check className="w-8 h-8" />
+              </div>
+              <h3 className="text-xl font-black text-white mb-1">Clue Submitted!</h3>
+              <p className="text-sm font-semibold text-purple-300">
+                Waiting for other players...
+              </p>
+              <p className="text-xs text-purple-400/80 mt-2">
+                The game will automatically continue to the discussion phase once all players have submitted their clues.
               </p>
             </motion.div>
           )}
@@ -228,7 +218,7 @@ export const RoundCluePhase: React.FC<RoundCluePhaseProps> = ({
                         {item.playerName} {isUserClue && <span className="text-[9px] text-neon-blue">(YOU)</span>}
                       </td>
                       <td className="py-2.5 px-3 text-right font-black text-neon-cyan text-sm tracking-wide">
-                        {item.clue || <span className="text-rose-500/60 font-semibold italic">Timed Out</span>}
+                        {item.clue || '-'}
                       </td>
                     </tr>
                   );

@@ -128,6 +128,20 @@ io.on('connection', (socket) => {
     }
   });
 
+  // 5b. Toggle Ready to Vote during discussion
+  socket.on('toggle-ready-to-vote', ({ code }, callback) => {
+    try {
+      const result = roomManager.toggleReadyToVote(socket, code);
+      if (typeof callback === 'function') {
+        callback(result);
+      }
+    } catch (err: any) {
+      if (typeof callback === 'function') {
+        callback({ success: false });
+      }
+    }
+  });
+
   // 6. Submit Vote
   socket.on('vote', ({ code, targetId }, callback) => {
     try {

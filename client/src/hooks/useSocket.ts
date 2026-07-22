@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { RoomPublicState, PersonalRolePayload, GameSettings } from '../types/game';
 import { sound } from '../services/sound';
+import { useToast } from '../context/ToastContext';
 
 function getSessionId(): string {
   let id = localStorage.getItem('imposter_session_id');
@@ -22,8 +23,11 @@ export function useSocket() {
   const [error, setError] = useState<string | null>(null);
   const [playerName, setPlayerName] = useState<string>(() => localStorage.getItem('imposter_player_name') || '');
   
+  const { showSuccess, showError, showInfo } = useToast();
+
   const prevTimerRef = useRef<number>(-1);
   const prevPhaseRef = useRef<string>('');
+  const prevConnectedRef = useRef<boolean>(false);
 
   useEffect(() => {
     const s = io(SOCKET_URL, {
@@ -36,6 +40,10 @@ export function useSocket() {
     s.on('connect', () => {
       setIsConnected(true);
       setError(null);
+      if (prevConnectedRef.current === false) {
+        // Connected!
+      }
+      prevConnectedRef.current = true;
 
       // Attempt auto-reconnect if session exists
       const savedCode = localStorage.getItem('imposter_room_code');
@@ -52,6 +60,10 @@ export function useSocket() {
 
     s.on('disconnect', () => {
       setIsConnected(false);
+      if (prevConnectedRef.current) {
+        showError('Server Disconnected');
+      }
+      prevConnectedRef.current = false;
     });
 
     s.on('room-state', (state: RoomPublicState) => {
@@ -80,19 +92,23 @@ export function useSocket() {
     });
 
     s.on('host-changed', (data: { newHostName: string }) => {
-      setError(`Host changed! ${data.newHostName} is now the host.`);
+      const msg = `Host changed! ${data.newHostName} is now the host.`;
+      setError(msg);
+      showInfo(msg);
       setTimeout(() => setError(null), 4000);
     });
 
     s.on('tie-break-triggered', () => {
-      setError("Tie Break! Votes were tied. Revote among the tied candidates only.");
+      const msg = "Tie Break! Votes were tied. Revote among the tied candidates only.";
+      setError(msg);
+      showInfo(msg);
       setTimeout(() => setError(null), 4000);
     });
 
     return () => {
       s.disconnect();
     };
-  }, []);
+  }, [showError, showInfo]);
 
   const createRoom = useCallback((name: string): Promise<boolean> => {
     return new Promise((resolve) => {
@@ -106,14 +122,17 @@ export function useSocket() {
           localStorage.setItem('imposter_room_code', res.code);
           setError(null);
           sound.playJoin();
+          showSuccess('Room Created');
           resolve(true);
         } else {
-          setError(res.message || 'Failed to create room');
+          const msg = res.message || 'Failed to create room';
+          setError(msg);
+          showError(msg);
           resolve(false);
         }
       });
     });
-  }, [socket]);
+  }, [socket, showSuccess, showError]);
 
   const joinRoom = useCallback((code: string, name: string): Promise<boolean> => {
     return new Promise((resolve) => {
@@ -127,19 +146,28 @@ export function useSocket() {
           localStorage.setItem('imposter_room_code', code.toUpperCase());
           setError(null);
           sound.playJoin();
+          showSuccess('Room Joined');
           resolve(true);
         } else {
-          setError(res.message || 'Failed to join room');
+          const msg = res.message || 'Failed to join room';
+          setError(msg);
+          showError(msg);
           resolve(false);
         }
       });
     });
-  }, [socket]);
+  }, [socket, showSuccess, showError]);
 
   const toggleReady = useCallback(() => {
     if (!socket || !roomState) return;
     socket.emit('toggle-ready', { code: roomState.code });
     sound.playSubmit();
+  }, [socket, roomState]);
+
+  const toggleReadyToVote = useCallback(() => {
+    if (!socket || !roomState) return;
+    socket.emit('toggle-ready-to-vote', { code: roomState.code });
+    sound.playClick();
   }, [socket, roomState]);
 
   const updateSettings = useCallback((settings: GameSettings) => {
@@ -154,11 +182,15 @@ export function useSocket() {
       { code: roomState.code, customCivilianWord, customImposterWord },
       (res: { success: boolean; message?: string }) => {
         if (!res.success) {
-          setError(res.message || 'Failed to start game');
+          const msg = res.message || 'Failed to start game';
+          setError(msg);
+          showError(msg);
+        } else {
+          showSuccess('Game Started');
         }
       }
     );
-  }, [socket, roomState]);
+  }, [socket, roomState, showError, showSuccess]);
 
   const submitClue = useCallback((clue: string): Promise<boolean> => {
     return new Promise((resolve) => {
@@ -167,14 +199,17 @@ export function useSocket() {
         if (res.success) {
           setError(null);
           sound.playSubmit();
+          showInfo('Waiting for Players');
           resolve(true);
         } else {
-          setError(res.message || 'Failed to submit clue');
+          const msg = res.message || 'Failed to submit clue';
+          setError(msg);
+          showError(msg);
           resolve(false);
         }
       });
     });
-  }, [socket, roomState]);
+  }, [socket, roomState, showInfo, showError]);
 
   const vote = useCallback((targetId: string): Promise<boolean> => {
     return new Promise((resolve) => {
@@ -183,25 +218,30 @@ export function useSocket() {
         if (res.success) {
           setError(null);
           sound.playSubmit();
+          showSuccess('Vote Submitted');
           resolve(true);
         } else {
-          setError(res.message || 'Failed to submit vote');
+          const msg = res.message || 'Failed to submit vote';
+          setError(msg);
+          showError(msg);
           resolve(false);
         }
       });
     });
-  }, [socket, roomState]);
+  }, [socket, roomState, showSuccess, showError]);
 
   const playAgain = useCallback(() => {
     if (!socket || !roomState) return;
     socket.emit('play-again', { code: roomState.code }, (res: { success: boolean; message?: string }) => {
       if (!res.success) {
-        setError(res.message || 'Failed to restart game');
+        const msg = res.message || 'Failed to restart game';
+        setError(msg);
+        showError(msg);
       } else {
         setMyRolePayload(null);
       }
     });
-  }, [socket, roomState]);
+  }, [socket, roomState, showError]);
 
   const leaveRoom = useCallback(() => {
     localStorage.removeItem('imposter_room_code');
@@ -236,6 +276,7 @@ export function useSocket() {
     createRoom,
     joinRoom,
     toggleReady,
+    toggleReadyToVote,
     updateSettings,
     startGame,
     submitClue,

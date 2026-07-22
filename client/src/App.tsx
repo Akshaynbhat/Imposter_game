@@ -22,6 +22,7 @@ export const App: React.FC = () => {
     createRoom,
     joinRoom,
     toggleReady,
+    toggleReadyToVote,
     updateSettings,
     startGame,
     submitClue,
@@ -75,7 +76,14 @@ export const App: React.FC = () => {
 
       case 'DISCUSSION_1':
       case 'DISCUSSION_2':
-        return <DiscussionPhase roomState={roomState} myId={socketId} onSendMessage={sendChatMessage} />;
+        return (
+          <DiscussionPhase
+            roomState={roomState}
+            myId={socketId}
+            onSendMessage={sendChatMessage}
+            onToggleReadyToVote={toggleReadyToVote}
+          />
+        );
 
       case 'VOTING':
       case 'TIE_BREAK_VOTING':

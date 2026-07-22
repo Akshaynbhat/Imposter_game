@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Volume2, VolumeX, LogOut, Copy, Check, ShieldAlert } from 'lucide-react';
+import { Volume2, VolumeX, LogOut, Share2, ShieldAlert } from 'lucide-react';
 import { sound } from '../services/sound';
+import { useToast } from '../context/ToastContext';
 
 interface NavbarProps {
   roomCode?: string;
@@ -10,18 +11,38 @@ interface NavbarProps {
 
 export const Navbar: React.FC<NavbarProps> = ({ roomCode, isConnected, onLeaveRoom }) => {
   const [isMuted, setIsMuted] = useState<boolean>(() => sound.getMuted());
-  const [copied, setCopied] = useState<boolean>(false);
+  const { showSuccess } = useToast();
 
   const toggleSound = () => {
     const muted = sound.toggleMute();
     setIsMuted(muted);
   };
 
-  const handleCopyCode = () => {
-    if (roomCode) {
-      navigator.clipboard.writeText(roomCode);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+  const handleShareRoom = async () => {
+    if (!roomCode) return;
+    sound.playClick();
+
+    const inviteUrl = `${window.location.origin}/join/${roomCode}`;
+    const shareMessage = `🎭 Join my Imposter Clues game!\nRoom Code: ${roomCode}\n${inviteUrl}`;
+
+    if (navigator.share && /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+      try {
+        await navigator.share({
+          title: 'Imposter Clues',
+          text: shareMessage,
+          url: inviteUrl,
+        });
+        return;
+      } catch (e) {
+        // Fallback to clipboard if share fails or cancelled
+      }
+    }
+
+    try {
+      await navigator.clipboard.writeText(shareMessage);
+      showSuccess('Copied Invite Link');
+    } catch (e) {
+      // ignore
     }
   };
 
@@ -41,17 +62,18 @@ export const Navbar: React.FC<NavbarProps> = ({ roomCode, isConnected, onLeaveRo
         </div>
       </div>
 
-      {/* Center - Room Code Badge if in room */}
+      {/* Center - Room Code Badge & Share button if in room */}
       {roomCode && (
         <div className="hidden sm:flex items-center gap-2 bg-purple-950/60 border border-purple-500/30 rounded-full px-4 py-1.5 shadow-inner">
           <span className="text-xs font-semibold text-purple-300 tracking-wider uppercase">Room:</span>
           <span className="text-base font-black tracking-widest text-neon-cyan">{roomCode}</span>
           <button
-            onClick={handleCopyCode}
-            className="p-1 hover:bg-purple-800/40 rounded-full transition-colors text-purple-300 hover:text-white"
-            title="Copy room code"
+            onClick={handleShareRoom}
+            className="flex items-center gap-1 ml-1 px-2.5 py-1 rounded-full bg-purple-600/40 hover:bg-purple-600/70 text-xs font-bold text-white transition-colors"
+            title="Share Room"
           >
-            {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+            <Share2 className="w-3.5 h-3.5" />
+            <span>Share</span>
           </button>
         </div>
       )}

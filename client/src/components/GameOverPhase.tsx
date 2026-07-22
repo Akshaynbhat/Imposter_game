@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import confetti from 'canvas-confetti';
-import { PartyPopper, Skull, RotateCcw, Home, Crown, Trophy } from 'lucide-react';
+import { PartyPopper, Skull, RotateCcw, Home, Crown, Trophy, Sparkles, Frown } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { RoomPublicState } from '../types/game';
 import { sound } from '../services/sound';
@@ -23,23 +23,27 @@ export const GameOverPhase: React.FC<GameOverPhaseProps> = ({
   const isCivilianWin = roomState.winner === 'CIVILIANS';
   const eliminated = roomState.eliminatedPlayer;
 
+  // Determine if current player won
+  const isImposter = roomState.imposterName && me?.name === roomState.imposterName;
+  const iWon = isCivilianWin ? !isImposter : isImposter;
+
   useEffect(() => {
     if (isCivilianWin) {
       // Trigger confetti explosion
-      const duration = 3 * 1000;
+      const duration = 3.5 * 1000;
       const end = Date.now() + duration;
 
       const frame = () => {
         confetti({
-          particleCount: 4,
+          particleCount: 5,
           angle: 60,
-          spread: 55,
+          spread: 60,
           origin: { x: 0 },
         });
         confetti({
-          particleCount: 4,
+          particleCount: 5,
           angle: 120,
-          spread: 55,
+          spread: 60,
           origin: { x: 1 },
         });
 
@@ -58,39 +62,68 @@ export const GameOverPhase: React.FC<GameOverPhaseProps> = ({
       exit={{ opacity: 0, scale: 0.95 }}
       className="w-full max-w-xl mx-auto px-4 py-8"
     >
-      {/* Victory / Defeat Header Card */}
+      {/* Personal Result Banner (You Won / You Lost) */}
+      <motion.div
+        initial={{ y: -10, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        className={`mb-4 p-3.5 rounded-2xl border text-center font-black text-lg flex items-center justify-center gap-2 shadow-lg ${
+          iWon
+            ? 'bg-gradient-to-r from-amber-500/20 via-emerald-500/20 to-amber-500/20 border-amber-500/50 text-amber-300 shadow-amber-900/30'
+            : 'bg-rose-950/40 border-rose-500/30 text-rose-300 shadow-rose-900/30'
+        }`}
+      >
+        {iWon ? (
+          <>
+            <Trophy className="w-6 h-6 text-amber-400 animate-bounce" />
+            <span>🏆 You Won!</span>
+          </>
+        ) : (
+          <>
+            <Frown className="w-6 h-6 text-rose-400" />
+            <span>😢 Oops... You Lost!</span>
+          </>
+        )}
+      </motion.div>
+
+      {/* Main Victory / Defeat Header Card */}
       <motion.div
         animate={{ y: [0, -5, 0] }}
         transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-        className={`glass-panel rounded-3xl p-8 text-center border mb-6 shadow-2xl relative overflow-hidden ${
+        className={`glass-panel rounded-3xl p-8 text-center border mb-6 shadow-2xl relative overflow-hidden transition-all ${
           isCivilianWin
-            ? 'border-emerald-500/50 bg-gradient-to-b from-emerald-950/40 via-purple-950/60 to-dark-900 shadow-emerald-900/30'
-            : 'border-rose-600/60 bg-gradient-to-b from-rose-950/60 via-purple-950/80 to-dark-900 shadow-rose-950/55'
+            ? 'border-emerald-500/50 bg-gradient-to-b from-emerald-950/60 via-purple-950/70 to-dark-900 shadow-[0_0_40px_rgba(16,185,129,0.3)]'
+            : 'border-rose-600/70 bg-gradient-to-b from-rose-950/80 via-purple-950/80 to-black shadow-[0_0_50px_rgba(225,29,72,0.4)] animate-pulse'
         }`}
       >
         <div className="inline-flex items-center justify-center w-20 h-20 rounded-3xl mb-4 p-1 shadow-xl">
           <div
             className={`w-full h-full rounded-[22px] flex items-center justify-center ${
-              isCivilianWin ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-500'
+              isCivilianWin
+                ? 'bg-emerald-500/20 text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.4)]'
+                : 'bg-rose-500/20 text-rose-500 shadow-[0_0_20px_rgba(225,29,72,0.4)]'
             }`}
           >
             {isCivilianWin ? (
-              <PartyPopper className="w-10 h-10" />
+              <PartyPopper className="w-10 h-10 text-emerald-300" />
             ) : (
-              <Skull className="w-10 h-10" />
+              <Skull className="w-10 h-10 text-rose-500" />
             )}
           </div>
         </div>
 
         <h2
-          className={`text-4xl sm:text-5xl font-black tracking-tight mb-2 ${
+          className={`text-3xl sm:text-4xl font-black tracking-tight mb-2 ${
             isCivilianWin ? 'text-emerald-400 neon-text-blue' : 'text-rose-500 neon-text-red'
           }`}
         >
-          {isCivilianWin ? 'Civilians Win!' : 'Imposter Wins!'}
+          {isCivilianWin ? '🎉 Congratulations!' : '😈 Congratulations!'}
         </h2>
 
-        <p className="text-sm font-semibold text-purple-200/90 mt-2">
+        <p className="text-lg font-extrabold text-white mt-1">
+          {isCivilianWin ? 'The Civilians found the Imposter!' : 'The Imposter fooled everyone!'}
+        </p>
+
+        <p className="text-xs font-semibold text-purple-200/80 mt-2">
           {eliminated ? (
             <span>
               <strong>{eliminated.name}</strong> was voted out{' '}
@@ -102,40 +135,40 @@ export const GameOverPhase: React.FC<GameOverPhaseProps> = ({
         </p>
       </motion.div>
 
-      {/* Secret Word & Role Matrix Reveal Card */}
-      <div className="glass-panel rounded-3xl p-6 sm:p-8 border border-purple-500/20 shadow-xl mb-6">
-        <h3 className="text-xs font-black uppercase tracking-widest text-purple-300 mb-4 flex items-center gap-2">
-          <Trophy className="w-4 h-4 text-neon-gold" /> Word Matrix Reveal
+      {/* Reveal Card: Imposter Name, Civilian Word, Imposter Word, Vote Results */}
+      <div className="glass-panel rounded-3xl p-6 sm:p-8 border border-purple-500/20 shadow-xl mb-6 space-y-6">
+        <h3 className="text-xs font-black uppercase tracking-widest text-purple-300 flex items-center gap-2">
+          <Sparkles className="w-4 h-4 text-neon-gold" /> Game Reveal Summary
         </h3>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-          <div className="p-4 rounded-2xl glass-card border border-purple-500/20 text-center">
-            <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Imposter</p>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="p-4 rounded-2xl glass-card border border-rose-500/30 bg-rose-950/20 text-center">
+            <p className="text-[11px] font-bold text-rose-300/80 uppercase tracking-wider">Imposter</p>
             <p className="text-lg font-black text-rose-400 mt-1 truncate">
               {roomState.imposterName || 'Unknown'}
             </p>
           </div>
 
-          <div className="p-4 rounded-2xl glass-card border border-purple-500/20 text-center">
-            <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Civilian Word</p>
+          <div className="p-4 rounded-2xl glass-card border border-cyan-500/30 bg-cyan-950/20 text-center">
+            <p className="text-[11px] font-bold text-cyan-300/80 uppercase tracking-wider">Civilian Word</p>
             <p className="text-lg font-black text-neon-cyan mt-1 truncate">
               {roomState.civilianWord || '???'}
             </p>
           </div>
 
-          <div className="p-4 rounded-2xl glass-card border border-purple-500/20 text-center">
-            <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Imposter Word</p>
+          <div className="p-4 rounded-2xl glass-card border border-amber-500/30 bg-amber-950/20 text-center">
+            <p className="text-[11px] font-bold text-amber-300/80 uppercase tracking-wider">Imposter Word</p>
             <p className="text-lg font-black text-neon-gold mt-1 truncate">
               {roomState.imposterWord || '???'}
             </p>
           </div>
         </div>
 
-        {/* Voting Breakdown Table */}
+        {/* Vote Results Breakdown */}
         {roomState.voteCounts && (
-          <div className="mt-4 pt-4 border-t border-purple-500/20">
+          <div className="pt-4 border-t border-purple-500/20">
             <p className="text-xs font-bold text-purple-300 uppercase tracking-wider mb-3">
-              Ballot Count Summary
+              Vote Results
             </p>
             <div className="space-y-2">
               {roomState.players.map((p) => {
@@ -146,14 +179,14 @@ export const GameOverPhase: React.FC<GameOverPhaseProps> = ({
                     key={p.id}
                     className={`flex items-center justify-between p-3 rounded-xl border text-sm font-semibold ${
                       wasEliminated
-                        ? 'bg-rose-950/40 border-rose-500/50 text-rose-200'
+                        ? 'bg-rose-950/50 border-rose-500/60 text-rose-200'
                         : 'glass-card border-purple-500/15 text-gray-200'
                     }`}
                   >
                     <div className="flex items-center gap-2">
                       <span>{p.name}</span>
                       {wasEliminated && (
-                        <span className="text-[10px] bg-rose-600/40 text-rose-300 font-bold px-1.5 py-0.5 rounded">
+                        <span className="text-[10px] bg-rose-600/40 text-rose-300 font-bold px-2 py-0.5 rounded-full border border-rose-500/30">
                           VOTED OUT
                         </span>
                       )}

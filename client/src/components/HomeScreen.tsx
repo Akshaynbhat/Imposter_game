@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { PlusCircle, LogIn, Sparkles, User, KeyRound, ShieldAlert } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { PlusCircle, LogIn, Sparkles, User, KeyRound, ShieldAlert, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { sound } from '../services/sound';
 
@@ -24,7 +24,27 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [validationError, setValidationError] = useState<string | null>(null);
 
+  // Auto-detect room code from URL (e.g. /join/GBKA9B or ?room=GBKA9B)
+  useEffect(() => {
+    try {
+      const searchParams = new URLSearchParams(window.location.search);
+      const roomFromSearch = searchParams.get('room') || searchParams.get('join');
+      
+      const pathnameMatch = window.location.pathname.match(/\/join\/([a-zA-Z0-9]{6})/i);
+      const codeFromPath = pathnameMatch ? pathnameMatch[1] : null;
+
+      const code = (roomFromSearch || codeFromPath || '').toUpperCase().trim();
+      if (code && code.length === 6) {
+        setRoomCode(code);
+        setIsJoinModalOpen(true);
+      }
+    } catch (e) {
+      // ignore URL parsing errors
+    }
+  }, []);
+
   const handleCreate = async () => {
+    if (isLoading) return;
     sound.playClick();
     if (!name.trim()) {
       setValidationError('Please enter your player name!');
@@ -39,6 +59,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
 
   const handleJoinSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isLoading) return;
     sound.playClick();
     if (!name.trim()) {
       setValidationError('Please enter your player name!');
@@ -64,7 +85,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -15 }}
       transition={{ duration: 0.35, ease: "easeOut" }}
-      className="min-h-[80vh] flex flex-col items-center justify-center px-4 py-8 relative"
+      className="min-h-[80vh] flex flex-col items-center justify-center px-4 py-8 relative w-full"
     >
       {/* Background Neon Ambient Glows */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-purple-600/20 rounded-full blur-[100px] pointer-events-none" />
@@ -138,7 +159,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             disabled={isLoading}
             className="w-full py-4 px-6 rounded-xl neon-btn-primary font-bold text-lg text-white flex items-center justify-center gap-2 disabled:opacity-50"
           >
-            <PlusCircle className="w-5 h-5" />
+            {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <PlusCircle className="w-5 h-5" />}
             <span>Create New Room</span>
           </motion.button>
 
@@ -221,9 +242,10 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                   <button
                     type="submit"
                     disabled={isLoading}
-                    className="flex-1 py-3 rounded-xl neon-btn-secondary font-bold text-white shadow-lg disabled:opacity-50"
+                    className="flex-1 py-3 rounded-xl neon-btn-secondary font-bold text-white shadow-lg disabled:opacity-50 flex items-center justify-center gap-2"
                   >
-                    Join Game
+                    {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
+                    <span>Join Game</span>
                   </button>
                 </div>
               </form>

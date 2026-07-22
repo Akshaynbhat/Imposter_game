@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Crown, Users, Copy, Check, Play, AlertCircle, Sparkles, Settings, Clock, Layers } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { Crown, Users, Share2, Play, AlertCircle, Sparkles, Settings, Clock, Layers } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { RoomPublicState, GameSettings } from '../types/game';
 import { sound } from '../services/sound';
+import { useToast } from '../context/ToastContext';
 
 interface LobbyScreenProps {
   roomState: RoomPublicState;
@@ -21,7 +22,7 @@ export const LobbyScreen: React.FC<LobbyScreenProps> = ({
   onUpdateSettings,
   error,
 }) => {
-  const [copied, setCopied] = useState<boolean>(false);
+  const { showSuccess } = useToast();
   
   // Custom word state (only relevant for host starting custom games)
   const [customCivilian, setCustomCivilian] = useState<string>('');
@@ -66,11 +67,30 @@ export const LobbyScreen: React.FC<LobbyScreenProps> = ({
 
   const canStart = isHost && connectedCount >= 3 && allReady && isCustomValid;
 
-  const handleCopyCode = () => {
+  const handleShareRoom = async () => {
     sound.playClick();
-    navigator.clipboard.writeText(roomState.code);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    const inviteUrl = `${window.location.origin}/join/${roomState.code}`;
+    const shareMessage = `🎭 Join my Imposter Clues game!\n\nRoom Code: ${roomState.code}\n\n${inviteUrl}`;
+
+    if (navigator.share && /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+      try {
+        await navigator.share({
+          title: 'Imposter Clues',
+          text: shareMessage,
+          url: inviteUrl,
+        });
+        return;
+      } catch (e) {
+        // User cancelled or share failed fallback
+      }
+    }
+
+    try {
+      await navigator.clipboard.writeText(shareMessage);
+      showSuccess('Copied Invite Link');
+    } catch (e) {
+      // ignore
+    }
   };
 
   const handleSettingsChange = (key: keyof GameSettings, value: any) => {
@@ -114,38 +134,27 @@ export const LobbyScreen: React.FC<LobbyScreenProps> = ({
       {/* LEFT COLUMN: Room Info & Host Settings Panel */}
       <div className="md:col-span-2 space-y-6">
         
-        {/* Room Code Card */}
-        <div className="glass-panel rounded-3xl p-6 text-center border border-purple-500/30 relative overflow-hidden shadow-2xl">
+        {/* Room Code & Share Card */}
+        <div className="glass-panel rounded-3xl p-6 text-center border border-purple-500/30 relative overflow-hidden shadow-2xl space-y-3">
           <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full blur-2xl pointer-events-none" />
-          <p className="text-xs font-black uppercase tracking-widest text-purple-300 mb-1">
-            Invite code
+          <p className="text-xs font-black uppercase tracking-widest text-purple-300">
+            Room Code
           </p>
-          <div className="flex items-center justify-center gap-3 my-2">
+          <div className="flex items-center justify-center gap-3 my-1">
             <span className="text-4xl sm:text-5xl font-black tracking-widest text-neon-cyan neon-text-blue font-mono">
               {roomState.code}
             </span>
-            <motion.button
-              whileHover={{ scale: 1.08 }}
-              whileTap={{ scale: 0.92 }}
-              onClick={handleCopyCode}
-              className="p-3 rounded-2xl glass-card hover:bg-purple-600/30 border border-purple-500/30 text-purple-200 hover:text-white transition-all shadow-md"
-              title="Copy room code"
-            >
-              {copied ? <Check className="w-5 h-5 text-emerald-400" /> : <Copy className="w-5 h-5" />}
-            </motion.button>
           </div>
-          <AnimatePresence>
-            {copied && (
-              <motion.p 
-                initial={{ opacity: 0, y: 5 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
-                className="text-xs font-bold text-emerald-400"
-              >
-                ✓ Invite Code Copied!
-              </motion.p>
-            )}
-          </AnimatePresence>
+
+          <motion.button
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            onClick={handleShareRoom}
+            className="w-full max-w-xs mx-auto py-3 px-5 rounded-2xl bg-gradient-to-r from-purple-600 via-indigo-600 to-neon-purple font-black text-sm text-white flex items-center justify-center gap-2 shadow-lg shadow-purple-600/30"
+          >
+            <Share2 className="w-4 h-4 text-neon-cyan" />
+            <span>Share Room</span>
+          </motion.button>
         </div>
 
         {/* Host Settings / Preview Box */}
@@ -208,32 +217,10 @@ export const LobbyScreen: React.FC<LobbyScreenProps> = ({
                 )}
               </div>
 
-              {/* Clue Timer Select */}
-              <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-purple-300 mb-1.5 flex items-center gap-1">
-                  <Clock className="w-3.5 h-3.5 text-rose-400" /> Clue Submission Limit
-                </label>
-                {isHost ? (
-                  <select
-                    value={roomState.settings.roundTimer}
-                    onChange={(e) => handleSettingsChange('roundTimer', Number(e.target.value))}
-                    className="w-full px-3 py-2.5 rounded-xl bg-dark-900 border border-purple-500/25 text-sm font-semibold text-white focus:outline-none focus:border-neon-cyan"
-                  >
-                    <option value={15}>15 Seconds (Default)</option>
-                    <option value={30}>30 Seconds</option>
-                    <option value={45}>45 Seconds</option>
-                  </select>
-                ) : (
-                  <div className="px-3 py-2.5 rounded-xl bg-dark-900/50 border border-purple-500/10 text-sm font-semibold text-purple-200">
-                    {roomState.settings.roundTimer} Seconds
-                  </div>
-                )}
-              </div>
-
               {/* Discussion Timer Select */}
-              <div>
+              <div className="sm:col-span-2">
                 <label className="block text-xs font-bold uppercase tracking-wider text-purple-300 mb-1.5 flex items-center gap-1">
-                  <Clock className="w-3.5 h-3.5 text-emerald-400" /> Discussion Length
+                  <Clock className="w-3.5 h-3.5 text-emerald-400" /> Discussion Length (Max Limit)
                 </label>
                 {isHost ? (
                   <select
@@ -244,6 +231,7 @@ export const LobbyScreen: React.FC<LobbyScreenProps> = ({
                     <option value={30}>30 Seconds</option>
                     <option value={45}>45 Seconds (Default)</option>
                     <option value={60}>60 Seconds</option>
+                    <option value={90}>90 Seconds</option>
                   </select>
                 ) : (
                   <div className="px-3 py-2.5 rounded-xl bg-dark-900/50 border border-purple-500/10 text-sm font-semibold text-purple-200">
@@ -347,7 +335,7 @@ export const LobbyScreen: React.FC<LobbyScreenProps> = ({
                         <p className="text-[10px] text-gray-400">
                           {player.isConnected ? (
                             player.isHost ? (
-                              <span className="text-amber-400 flex items-center gap-0.5">
+                              <span className="text-amber-400 flex items-center gap-0.5 font-bold">
                                 <Crown className="w-3 h-3 fill-amber-400" /> Host
                               </span>
                             ) : player.isReady ? (

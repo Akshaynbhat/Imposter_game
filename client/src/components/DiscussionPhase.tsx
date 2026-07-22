@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mic, Eye } from 'lucide-react';
+import { Mic, Eye, CheckCircle2, Vote } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { RoomPublicState } from '../types/game';
 import { Timer } from './Timer';
@@ -9,10 +9,21 @@ interface DiscussionPhaseProps {
   roomState: RoomPublicState;
   myId?: string;
   onSendMessage: (message: string) => Promise<boolean>;
+  onToggleReadyToVote?: () => void;
 }
 
-export const DiscussionPhase: React.FC<DiscussionPhaseProps> = ({ roomState, myId, onSendMessage }) => {
+export const DiscussionPhase: React.FC<DiscussionPhaseProps> = ({
+  roomState,
+  myId,
+  onSendMessage,
+  onToggleReadyToVote,
+}) => {
   const currentRoundClues = roomState.clues.filter((c) => c.round === roomState.currentRound);
+  const me = roomState.players.find((p) => p.id === myId);
+  const isMeReadyToVote = me?.hasReadyToVote ?? false;
+  
+  const connectedPlayers = roomState.players.filter((p) => p.isConnected);
+  const readyToVoteCount = connectedPlayers.filter((p) => p.hasReadyToVote).length;
 
   return (
     <motion.div
@@ -28,11 +39,11 @@ export const DiscussionPhase: React.FC<DiscussionPhaseProps> = ({ roomState, myI
         </span>
         <h2 className="text-2xl sm:text-3xl font-black text-white mt-2">Active Debate</h2>
         <p className="text-xs text-purple-200/70 mt-1">
-          Use the in-game text chat below or unmute on Discord/Voice chat to discuss!
+          Discuss clues with other players! Click "Ready to Vote" when you are done discussing.
         </p>
       </div>
 
-      {/* Pulsing Mic Graphic */}
+      {/* Pulsing Mic Graphic & Timer */}
       <div className="flex flex-col items-center justify-center my-4 relative">
         <motion.div
           animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.7, 0.3] }}
@@ -48,11 +59,63 @@ export const DiscussionPhase: React.FC<DiscussionPhaseProps> = ({ roomState, myI
         </motion.div>
 
         {/* Dynamic Glowing Timer */}
-        <Timer seconds={roomState.timerSeconds} totalSeconds={roomState.settings.discussionTimer} label="Debate Time Remaining" />
+        <Timer seconds={roomState.timerSeconds} totalSeconds={roomState.settings.discussionTimer} label="Debate Max Time" />
       </div>
 
+      {/* Ready to Vote Action Bar */}
+      {onToggleReadyToVote && (
+        <div className="glass-panel p-4 rounded-3xl border border-purple-500/20 shadow-xl mb-6 text-center space-y-3">
+          <div className="flex items-center justify-center gap-2">
+            <motion.button
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              onClick={onToggleReadyToVote}
+              className={`px-6 py-3.5 rounded-2xl font-black text-sm flex items-center justify-center gap-2 transition-all shadow-lg ${
+                isMeReadyToVote
+                  ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-600/30'
+                  : 'bg-gradient-to-r from-purple-600 via-indigo-600 to-neon-purple text-white shadow-purple-600/30'
+              }`}
+            >
+              {isMeReadyToVote ? (
+                <>
+                  <CheckCircle2 className="w-5 h-5 text-emerald-200" />
+                  <span>Ready to Vote (Click to Cancel)</span>
+                </>
+              ) : (
+                <>
+                  <Vote className="w-5 h-5 text-neon-cyan" />
+                  <span>Ready to Vote</span>
+                </>
+              )}
+            </motion.button>
+          </div>
+
+          <p className="text-xs text-purple-300 font-semibold">
+            {readyToVoteCount} of {connectedPlayers.length} players ready to vote.
+            {readyToVoteCount === connectedPlayers.length && ' Starting vote immediately...'}
+          </p>
+
+          {/* Player badges showing ready status */}
+          <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
+            {connectedPlayers.map((p) => (
+              <span
+                key={p.id}
+                className={`text-[11px] font-bold px-2.5 py-1 rounded-xl border flex items-center gap-1 ${
+                  p.hasReadyToVote
+                    ? 'bg-emerald-950/60 border-emerald-500/40 text-emerald-300'
+                    : 'bg-dark-900/60 border-purple-500/15 text-purple-300/50'
+                }`}
+              >
+                <span>{p.name}</span>
+                {p.hasReadyToVote && <CheckCircle2 className="w-3 h-3 text-emerald-400" />}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Grid: Clues reference (Col 1) and Chat Box (Col 2) */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
         {/* Clues Panel */}
         <div className="glass-panel rounded-3xl p-5 border border-purple-500/20 shadow-xl flex flex-col justify-between">
           <div>
