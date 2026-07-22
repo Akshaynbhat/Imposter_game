@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import confetti from 'canvas-confetti';
-import { PartyPopper, Skull, RotateCcw, Home, Crown, Sparkles, Frown } from 'lucide-react';
+import { PartyPopper, Skull, Home, Sparkles, Frown, CheckCircle2, RotateCcw, Clock } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { RoomPublicState } from '../types/game';
 import { sound } from '../services/sound';
@@ -19,9 +19,12 @@ export const GameOverPhase: React.FC<GameOverPhaseProps> = ({
   onLeaveRoom,
 }) => {
   const me = roomState.players.find((p) => p.id === myId);
-  const isHost = me?.isHost ?? false;
   const isCivilianWin = roomState.winner === 'CIVILIANS';
   const eliminated = roomState.eliminatedPlayer;
+  const isMyReady = me?.isReadyForNextGame ?? false;
+
+  const connectedPlayers = roomState.players.filter((p) => p.isConnected);
+  const readyPlayersCount = connectedPlayers.filter((p) => p.isReadyForNextGame).length;
 
   // Determine if current player won
   const isImposter = roomState.imposterName && me?.name === roomState.imposterName;
@@ -199,26 +202,61 @@ export const GameOverPhase: React.FC<GameOverPhaseProps> = ({
         )}
       </div>
 
-      {/* Host / Player Controls */}
+      {/* Real-Time Live Play Again Queue List */}
+      <div className="glass-panel rounded-3xl p-5 border border-purple-500/20 shadow-xl mb-6 space-y-3">
+        <div className="flex items-center justify-between border-b border-purple-500/15 pb-2.5">
+          <span className="text-xs font-black uppercase tracking-wider text-purple-200 flex items-center gap-1.5">
+            <RotateCcw className="w-3.5 h-3.5 text-emerald-400" /> Players Ready
+          </span>
+          <span className="text-xs font-extrabold bg-purple-900/60 text-neon-cyan px-2.5 py-0.5 rounded-full border border-purple-500/20">
+            {readyPlayersCount} / {connectedPlayers.length} Ready
+          </span>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-2">
+          {connectedPlayers.map((player) => {
+            const isReady = player.isReadyForNextGame;
+            return (
+              <div
+                key={player.id}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-semibold transition-all ${
+                  isReady
+                    ? 'bg-emerald-950/80 border-emerald-500/50 text-emerald-300 shadow-[0_0_12px_rgba(16,185,129,0.2)]'
+                    : 'bg-dark-900/60 border-purple-500/20 text-purple-300/70'
+                }`}
+              >
+                <span>{isReady ? '🟢' : '🟡'}</span>
+                <span>{player.name}</span>
+                {player.id === myId && <span className="text-[9px] text-neon-cyan">(You)</span>}
+                <span className="text-[10px] italic opacity-80">
+                  {isReady ? '(Ready)' : '(Waiting...)'}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Player Decision Action Buttons (Play Again vs Return to Home) */}
       <div className="space-y-3">
-        {isHost ? (
+        {isMyReady ? (
+          <div className="p-4 rounded-2xl bg-emerald-950/60 border border-emerald-500/40 text-center text-sm font-bold text-emerald-300 flex items-center justify-center gap-2 shadow-lg">
+            <CheckCircle2 className="w-5 h-5 text-emerald-400 animate-bounce" />
+            <span>✅ Waiting for other players...</span>
+          </div>
+        ) : (
           <motion.button
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             onClick={() => {
               sound.playClick();
               onPlayAgain();
             }}
-            className="w-full py-4 px-6 rounded-2xl neon-btn-primary font-black text-lg text-white flex items-center justify-center gap-2 shadow-xl animate-bounce"
+            className="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 font-black text-lg text-white flex items-center justify-center gap-2 shadow-xl hover:shadow-emerald-500/30 transition-all cursor-pointer"
           >
-            <RotateCcw className="w-5 h-5" />
+            <span>🟢</span>
             <span>Play Again</span>
           </motion.button>
-        ) : (
-          <div className="p-4 rounded-2xl glass-card border border-purple-500/20 text-center text-sm font-semibold text-purple-200 flex items-center justify-center gap-2">
-            <Crown className="w-4 h-4 text-amber-400" />
-            <span>Waiting for host to start the next lobby...</span>
-          </div>
         )}
 
         <motion.button
@@ -228,10 +266,10 @@ export const GameOverPhase: React.FC<GameOverPhaseProps> = ({
             sound.playClick();
             onLeaveRoom();
           }}
-          className="w-full py-3.5 px-6 rounded-2xl glass-card hover:bg-purple-800/30 border border-purple-500/30 text-gray-300 hover:text-white font-bold text-sm flex items-center justify-center gap-2 transition-colors"
+          className="w-full py-3.5 px-6 rounded-2xl glass-card hover:bg-purple-800/30 border border-purple-500/30 text-gray-300 hover:text-white font-bold text-sm flex items-center justify-center gap-2 transition-colors cursor-pointer"
         >
           <Home className="w-4 h-4" />
-          <span>Exit to Main Menu</span>
+          <span>🏠 Return to Home</span>
         </motion.button>
       </div>
     </motion.div>

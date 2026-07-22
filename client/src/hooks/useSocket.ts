@@ -92,10 +92,11 @@ export function useSocket() {
     });
 
     s.on('host-changed', (data: { newHostName: string }) => {
-      const msg = `Host changed! ${data.newHostName} is now the host.`;
-      setError(msg);
-      showInfo(msg);
-      setTimeout(() => setError(null), 4000);
+      showInfo(`👑 ${data.newHostName} is now the Host.`);
+    });
+
+    s.on('lobby-waiting', (data: { message: string }) => {
+      showInfo(data.message || 'Waiting for more players...');
     });
 
     s.on('tie-break-triggered', () => {
@@ -245,26 +246,18 @@ export function useSocket() {
 
   const playAgain = useCallback(() => {
     if (!socket || !roomState) return;
-    socket.emit('play-again', { code: roomState.code }, (res: { success: boolean; message?: string }) => {
-      if (!res.success) {
-        const msg = res.message || 'Failed to restart game';
-        setError(msg);
-        showError(msg);
-      } else {
-        setMyRolePayload(null);
-      }
-    });
-  }, [socket, roomState, showError]);
+    socket.emit('ready-for-next-game', { code: roomState.code });
+    sound.playClick();
+  }, [socket, roomState]);
 
   const leaveRoom = useCallback(() => {
+    if (socket && roomState) {
+      socket.emit('leave-room', { code: roomState.code });
+    }
     localStorage.removeItem('imposter_room_code');
     setRoomState(null);
     setMyRolePayload(null);
-    if (socket) {
-      socket.disconnect();
-      socket.connect();
-    }
-  }, [socket]);
+  }, [socket, roomState]);
 
   const sendChatMessage = useCallback((message: string): Promise<boolean> => {
     return new Promise((resolve) => {

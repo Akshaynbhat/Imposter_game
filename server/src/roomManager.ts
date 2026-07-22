@@ -60,6 +60,7 @@ export class RoomManager {
       secretWord: '',
       isConnected: true,
       isReady: true, // Host is ready by default
+      isReadyForNextGame: false,
     };
 
     const room: Room = {
@@ -129,6 +130,7 @@ export class RoomManager {
       secretWord: '',
       isConnected: true,
       isReady: false,
+      isReadyForNextGame: false,
     };
 
     room.players.set(socket.id, player);
@@ -218,6 +220,74 @@ export class RoomManager {
     return true;
   }
 
+  public leaveRoom(socket: Socket, roomCode: string): { success: boolean } {
+    const code = roomCode.toUpperCase().trim();
+    const room = this.rooms.get(code);
+    if (!room) return { success: false };
+
+    const player = room.players.get(socket.id);
+    if (!player) return { success: false };
+
+    room.players.delete(socket.id);
+    room.decisionVotes.delete(socket.id);
+    room.votes.delete(socket.id);
+    socket.leave(code);
+
+    // Remove from session map if present
+    for (const [sessId, sockId] of room.sessionToSocketMap.entries()) {
+      if (sockId === socket.id) {
+        room.sessionToSocketMap.delete(sessId);
+        break;
+      }
+    }
+
+    // Host transfer if player was host
+    if (player.isHost) {
+      this.transferHost(room);
+    }
+
+    const connectedPlayers = Array.from(room.players.values()).filter((p) => p.isConnected);
+    if (connectedPlayers.length === 0) {
+      if (room.timerInterval) clearInterval(room.timerInterval);
+      this.rooms.delete(code);
+      return { success: true };
+    }
+
+    if (room.phase === 'GAME_OVER') {
+      this.checkPlayAgainStatus(room);
+    } else {
+      this.checkPauseStatus(room);
+    }
+
+    this.broadcastRoomState(code);
+    return { success: true };
+  }
+
+  private transferHost(room: Room) {
+    let newHostFound = false;
+    for (const sessId of room.joinOrder) {
+      const sockId = room.sessionToSocketMap.get(sessId);
+      if (sockId) {
+        const p = room.players.get(sockId);
+        if (p && p.isConnected) {
+          p.isHost = true;
+          p.isReady = true;
+          newHostFound = true;
+          this.io.to(room.code).emit('host-changed', { newHostName: p.name });
+          break;
+        }
+      }
+    }
+    if (!newHostFound) {
+      const nextHost = Array.from(room.players.values()).find((p) => p.isConnected);
+      if (nextHost) {
+        nextHost.isHost = true;
+        nextHost.isReady = true;
+        this.io.to(room.code).emit('host-changed', { newHostName: nextHost.name });
+      }
+    }
+  }
+
   public handleDisconnect(socket: Socket) {
     for (const [code, room] of this.rooms.entries()) {
       if (room.players.has(socket.id)) {
@@ -225,29 +295,7 @@ export class RoomManager {
         player.isConnected = false;
 
         if (player.isHost) {
-          player.isHost = false;
-          let newHostFound = false;
-          for (const sessId of room.joinOrder) {
-            const sockId = room.sessionToSocketMap.get(sessId);
-            if (sockId) {
-              const p = room.players.get(sockId);
-              if (p && p.isConnected) {
-                p.isHost = true;
-                p.isReady = true;
-                newHostFound = true;
-                this.io.to(code).emit('host-changed', { newHostName: p.name });
-                break;
-              }
-            }
-          }
-          if (!newHostFound) {
-            const nextHost = Array.from(room.players.values()).find((p) => p.isConnected);
-            if (nextHost) {
-              nextHost.isHost = true;
-              nextHost.isReady = true;
-              this.io.to(code).emit('host-changed', { newHostName: nextHost.name });
-            }
-          }
+          this.transferHost(room);
         }
 
         room.decisionVotes.delete(socket.id);
@@ -259,7 +307,9 @@ export class RoomManager {
           return;
         }
 
-        if (room.phase === 'CLUE_SUBMISSION') {
+        if (room.phase === 'GAME_OVER') {
+          this.checkPlayAgainStatus(room);
+        } else if (room.phase === 'CLUE_SUBMISSION') {
           this.checkClueSubmissionsComplete(room);
         } else if (room.phase === 'ROUND_DECISION') {
           this.checkDecisionVotesComplete(room);
@@ -294,6 +344,127 @@ export class RoomManager {
         this.io.to(room.code).emit('game-resumed', { message: 'Players reconnected. Resuming!' });
       }
     }
+  }
+
+  public playerReadyForNextGame(socket: Socket, roomCode: string): { success: boolean; message?: string } {
+    const room = this.rooms.get(roomCode);
+    if (!room) return { success: false, message: 'Room not found.' };
+
+    if (room.phase !== 'GAME_OVER') {
+      return { success: false, message: 'Game is not over.' };
+    }
+
+    const player = room.players.get(socket.id);
+    if (!player || !player.isConnected) return { success: false, message: 'Player not found.' };
+
+    player.isReadyForNextGame = true;
+    this.checkPlayAgainStatus(room);
+    return { success: true };
+  }
+
+  private checkPlayAgainStatus(room: Room) {
+    const connectedPlayers = Array.from(room.players.values()).filter((p) => p.isConnected);
+    if (connectedPlayers.length === 0) return;
+
+    const readyCount = connectedPlayers.filter((p) => p.isReadyForNextGame).length;
+
+    if (readyCount >= connectedPlayers.length) {
+      if (connectedPlayers.length >= 3) {
+        this.startFreshGame(room);
+      } else {
+        this.returnToLobbyWithWaiting(room);
+      }
+    } else {
+      this.broadcastRoomState(room.code);
+    }
+  }
+
+  private startFreshGame(room: Room) {
+    if (room.timerInterval) clearInterval(room.timerInterval);
+
+    const connectedPlayers = Array.from(room.players.values()).filter((p) => p.isConnected);
+
+    // Pick new random word pair
+    let pool = wordPairs;
+    if (room.settings.category !== 'All') {
+      pool = pool.filter((w) => w.category === room.settings.category);
+    }
+    if (room.settings.difficulty !== 'All') {
+      pool = pool.filter((w) => w.difficulty === room.settings.difficulty);
+    }
+    if (pool.length === 0) pool = wordPairs;
+
+    const pair = pool[Math.floor(Math.random() * pool.length)];
+    room.civilianWord = pair.civilian;
+    room.imposterWord = pair.imposter;
+
+    // Pick new random imposter
+    const imposterIndex = Math.floor(Math.random() * connectedPlayers.length);
+    const imposterPlayer = connectedPlayers[imposterIndex];
+    room.imposterId = imposterPlayer.id;
+
+    for (const p of room.players.values()) {
+      p.isReadyForNextGame = false;
+      if (p.id === room.imposterId) {
+        p.isImposter = true;
+        p.secretWord = room.imposterWord;
+      } else {
+        p.isImposter = false;
+        p.secretWord = room.civilianWord;
+      }
+    }
+
+    room.currentRound = 1;
+    room.clues = [];
+    room.votes.clear();
+    room.decisionVotes.clear();
+    room.eliminatedPlayerId = undefined;
+    room.winner = undefined;
+    room.tieBreakCandidates = [];
+    room.tieBreakIteration = 0;
+    room.isPaused = false;
+
+    // Send secret word ONLY to respective sockets
+    for (const p of room.players.values()) {
+      const clientSocket = this.io.sockets.sockets.get(p.id);
+      if (clientSocket) {
+        clientSocket.emit('assign-role', {
+          role: p.isImposter ? 'IMPOSTER' : 'CIVILIAN',
+          secretWord: p.secretWord,
+        } as PersonalRolePayload);
+      }
+    }
+
+    this.startClueRound(room);
+  }
+
+  private returnToLobbyWithWaiting(room: Room) {
+    if (room.timerInterval) clearInterval(room.timerInterval);
+
+    room.phase = 'LOBBY';
+    room.currentRound = 1;
+    room.timerSeconds = 0;
+    room.clues = [];
+    room.votes.clear();
+    room.decisionVotes.clear();
+    room.eliminatedPlayerId = undefined;
+    room.winner = undefined;
+    room.civilianWord = '';
+    room.imposterWord = '';
+    room.imposterId = '';
+    room.tieBreakCandidates = [];
+    room.tieBreakIteration = 0;
+    room.isPaused = false;
+
+    for (const p of room.players.values()) {
+      p.isImposter = false;
+      p.secretWord = '';
+      p.isReadyForNextGame = false;
+      p.isReady = p.isHost;
+    }
+
+    this.io.to(room.code).emit('lobby-waiting', { message: 'Waiting for more players...' });
+    this.broadcastRoomState(room.code);
   }
 
   public startGame(
@@ -364,6 +535,7 @@ export class RoomManager {
     room.imposterId = imposterPlayer.id;
 
     for (const p of room.players.values()) {
+      p.isReadyForNextGame = false;
       if (p.id === room.imposterId) {
         p.isImposter = true;
         p.secretWord = room.imposterWord;
@@ -401,7 +573,7 @@ export class RoomManager {
     if (room.timerInterval) clearInterval(room.timerInterval);
 
     room.phase = 'CLUE_SUBMISSION';
-    room.timerSeconds = 0; // No countdown timer for clue submission phase
+    room.timerSeconds = 0;
 
     this.broadcastRoomState(room.code);
   }
@@ -491,11 +663,9 @@ export class RoomManager {
       }
 
       if (playAgainCount > guessImposterCount) {
-        // Majority voted to play another round!
         room.currentRound += 1;
         this.startClueRound(room);
       } else {
-        // Majority or tie voted to guess imposter!
         this.startVotingPhase(room, 'VOTING');
       }
     } else {
@@ -507,7 +677,7 @@ export class RoomManager {
     if (room.timerInterval) clearInterval(room.timerInterval);
 
     room.phase = phase;
-    room.timerSeconds = 45; // 45 seconds maximum voting time
+    room.timerSeconds = 45;
     room.votes.clear();
 
     this.broadcastRoomState(room.code);
@@ -615,42 +785,14 @@ export class RoomManager {
     }
 
     room.phase = 'GAME_OVER';
+    for (const p of room.players.values()) {
+      p.isReadyForNextGame = false;
+    }
     this.broadcastRoomState(room.code);
   }
 
   public playAgain(socket: Socket, roomCode: string): { success: boolean; message?: string } {
-    const room = this.rooms.get(roomCode);
-    if (!room) return { success: false, message: 'Room not found.' };
-
-    const player = room.players.get(socket.id);
-    if (!player || !player.isHost) return { success: false, message: 'Only the host can reset the lobby.' };
-
-    if (room.timerInterval) clearInterval(room.timerInterval);
-
-    room.phase = 'LOBBY';
-    room.currentRound = 1;
-    room.timerSeconds = 0;
-    room.clues = [];
-    room.votes.clear();
-    room.decisionVotes.clear();
-    room.eliminatedPlayerId = undefined;
-    room.winner = undefined;
-    room.civilianWord = '';
-    room.imposterWord = '';
-    room.imposterId = '';
-    room.tieBreakCandidates = [];
-    room.tieBreakIteration = 0;
-    room.isPaused = false;
-    room.chatHistory = [];
-
-    for (const p of room.players.values()) {
-      p.isImposter = false;
-      p.secretWord = '';
-      p.isReady = p.isHost;
-    }
-
-    this.broadcastRoomState(room.code);
-    return { success: true };
+    return this.playerReadyForNextGame(socket, roomCode);
   }
 
   public addChatMessage(socket: Socket, roomCode: string, messageText: string): boolean {
@@ -712,6 +854,7 @@ export class RoomManager {
         hasSubmittedClue: room.clues.some((c) => c.playerId === p.id && c.round === room.currentRound),
         hasVoted: room.votes.has(p.id),
         decisionVote: room.decisionVotes.get(p.id),
+        isReadyForNextGame: p.isReadyForNextGame ?? false,
       })),
       clues: room.clues,
       settings: room.settings,

@@ -156,16 +156,43 @@ io.on('connection', (socket) => {
     }
   });
 
-  // 7. Play Again
+  // 7. Play Again / Ready for Next Game
   socket.on('play-again', ({ code }, callback) => {
     try {
-      const result = roomManager.playAgain(socket, code);
+      const result = roomManager.playerReadyForNextGame(socket, code);
       if (typeof callback === 'function') {
         callback(result);
       }
     } catch (err: any) {
       if (typeof callback === 'function') {
-        callback({ success: false, message: err?.message || 'Failed to reset game' });
+        callback({ success: false, message: err?.message || 'Failed to set ready for next game' });
+      }
+    }
+  });
+
+  socket.on('ready-for-next-game', ({ code }, callback) => {
+    try {
+      const result = roomManager.playerReadyForNextGame(socket, code);
+      if (typeof callback === 'function') {
+        callback(result);
+      }
+    } catch (err: any) {
+      if (typeof callback === 'function') {
+        callback({ success: false, message: err?.message || 'Failed to set ready for next game' });
+      }
+    }
+  });
+
+  // 7b. Leave Room
+  socket.on('leave-room', ({ code }, callback) => {
+    try {
+      const result = roomManager.leaveRoom(socket, code);
+      if (typeof callback === 'function') {
+        callback(result);
+      }
+    } catch (err: any) {
+      if (typeof callback === 'function') {
+        callback({ success: false });
       }
     }
   });

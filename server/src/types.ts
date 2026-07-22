@@ -26,6 +26,7 @@ export interface Player {
   isReady: boolean;
   voteForId?: string;
   decisionVote?: DecisionOption;
+  isReadyForNextGame?: boolean;
 }
 
 export interface ClueSubmission {
@@ -51,6 +52,7 @@ export interface PlayerPublic {
   hasSubmittedClue?: boolean;
   hasVoted?: boolean;
   decisionVote?: DecisionOption;
+  isReadyForNextGame?: boolean;
 }
 
 export interface ChatMessage {

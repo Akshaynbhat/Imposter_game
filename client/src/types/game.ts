@@ -25,6 +25,7 @@ export interface PlayerPublic {
   hasSubmittedClue?: boolean;
   hasVoted?: boolean;
   decisionVote?: DecisionOption;
+  isReadyForNextGame?: boolean;
 }
 
 export interface ClueSubmission {
