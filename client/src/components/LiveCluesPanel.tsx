@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FileText, Clock, CheckCircle2 } from 'lucide-react';
+import { FileText, Clock, Edit3 } from 'lucide-react';
 import { RoomPublicState } from '../types/game';
 
 interface LiveCluesPanelProps {
@@ -48,6 +48,20 @@ export const LiveCluesPanel: React.FC<LiveCluesPanelProps> = ({ roomState, myId,
           const roundClues = roomState.clues.filter((c) => c.round === rNum);
           const isCurrentRound = rNum === currentRound;
 
+          const clueOrder = roomState.clueOrder || [];
+          let orderIds = clueOrder.filter((id) => connectedPlayers.some((p) => p.id === id));
+          connectedPlayers.forEach((p) => {
+            if (!orderIds.includes(p.id)) orderIds.push(p.id);
+          });
+          if (orderIds.length === 0) orderIds = connectedPlayers.map((p) => p.id);
+
+          const offset = (rNum - 1) % (orderIds.length || 1);
+          const roundTurnOrderIds = [...orderIds.slice(offset), ...orderIds.slice(0, offset)];
+
+          const roundOrderedPlayers = roundTurnOrderIds
+            .map((id) => connectedPlayers.find((p) => p.id === id))
+            .filter((p): p is typeof connectedPlayers[0] => !!p);
+
           return (
             <div key={rNum} className="space-y-2">
               <div className="flex items-center gap-2">
@@ -58,10 +72,11 @@ export const LiveCluesPanel: React.FC<LiveCluesPanelProps> = ({ roomState, myId,
               </div>
 
               <div className="space-y-1.5">
-                {connectedPlayers.map((player) => {
+                {roundOrderedPlayers.map((player) => {
                   const clueObj = roundClues.find((c) => c.playerId === player.id);
                   const isMe = player.id === myId;
                   const hasSubmitted = !!clueObj;
+                  const isActiveWriter = isCurrentRound && player.id === roomState.activeWriterId;
 
                   return (
                     <AnimatePresence mode="wait" key={`${rNum}-${player.id}`}>
@@ -72,6 +87,8 @@ export const LiveCluesPanel: React.FC<LiveCluesPanelProps> = ({ roomState, myId,
                         className={`flex items-center justify-between p-2.5 rounded-xl border text-xs font-semibold transition-all ${
                           hasSubmitted
                             ? 'bg-purple-950/50 border-purple-500/25 text-white shadow-sm'
+                            : isActiveWriter
+                            ? 'bg-purple-900/70 border-neon-cyan text-white shadow-[0_0_12px_rgba(6,182,212,0.3)] animate-pulse'
                             : isCurrentRound
                             ? 'bg-dark-900/40 border-purple-500/10 text-purple-300/60'
                             : 'opacity-30 border-transparent text-gray-500'
@@ -96,6 +113,11 @@ export const LiveCluesPanel: React.FC<LiveCluesPanelProps> = ({ roomState, myId,
                             >
                               {clueObj.clue}
                             </motion.span>
+                          ) : isActiveWriter ? (
+                            <span className="text-[11px] text-neon-cyan flex items-center gap-1 font-bold font-sans">
+                              <Edit3 className="w-3 h-3 text-neon-cyan animate-bounce" />
+                              <span>Writing...</span>
+                            </span>
                           ) : isCurrentRound ? (
                             <span className="text-[11px] text-purple-400/80 flex items-center gap-1 italic font-sans">
                               <Clock className="w-3 h-3 text-purple-400 animate-spin-slow" />

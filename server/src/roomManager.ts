@@ -28,6 +28,7 @@ interface Room {
   chatHistory: { senderId: string; senderName: string; message: string; timestamp: string }[];
   clueOrder: string[];
   activeWriterIndex: number;
+  activeWriterId?: string;
 }
 
 export class RoomManager {
@@ -423,6 +424,7 @@ export class RoomManager {
     room.tieBreakCandidates = [];
     room.tieBreakIteration = 0;
     room.isPaused = false;
+    room.clueOrder = connectedPlayers.map((p) => p.id);
 
     // Send secret word ONLY to respective sockets
     for (const p of room.players.values()) {
@@ -554,6 +556,7 @@ export class RoomManager {
     room.tieBreakCandidates = [];
     room.tieBreakIteration = 0;
     room.isPaused = false;
+    room.clueOrder = connectedPlayers.map((p) => p.id);
 
     for (const p of room.players.values()) {
       const clientSocket = this.io.sockets.sockets.get(p.id);
@@ -569,12 +572,51 @@ export class RoomManager {
     return { success: true };
   }
 
+  private updateActiveWriter(room: Room) {
+    const connectedPlayers = Array.from(room.players.values()).filter((p) => p.isConnected);
+    if (connectedPlayers.length === 0) {
+      room.activeWriterId = undefined;
+      return;
+    }
+
+    if (!room.clueOrder || room.clueOrder.length === 0) {
+      room.clueOrder = connectedPlayers.map((p) => p.id);
+    }
+
+    let order = room.clueOrder.filter((id) => room.players.get(id)?.isConnected);
+    for (const p of connectedPlayers) {
+      if (!order.includes(p.id)) {
+        order.push(p.id);
+      }
+    }
+    if (order.length === 0) {
+      order = connectedPlayers.map((p) => p.id);
+    }
+    room.clueOrder = order;
+
+    // Rotate starting turn by round: Round 1 starts at index 0, Round 2 starts at index 1, etc.
+    const offset = (room.currentRound - 1) % order.length;
+    const roundTurnOrder = [...order.slice(offset), ...order.slice(0, offset)];
+
+    const nextWriterId = roundTurnOrder.find(
+      (id) => !room.clues.some((c) => c.playerId === id && c.round === room.currentRound)
+    );
+
+    if (nextWriterId) {
+      room.activeWriterId = nextWriterId;
+    } else {
+      room.activeWriterId = undefined;
+      this.startRoundDecisionPhase(room);
+    }
+  }
+
   private startClueRound(room: Room) {
     if (room.timerInterval) clearInterval(room.timerInterval);
 
     room.phase = 'CLUE_SUBMISSION';
     room.timerSeconds = 0;
 
+    this.updateActiveWriter(room);
     this.broadcastRoomState(room.code);
   }
 
@@ -588,6 +630,10 @@ export class RoomManager {
 
     const player = room.players.get(socket.id);
     if (!player) return { success: false, message: 'Player not found.' };
+
+    if (room.activeWriterId && socket.id !== room.activeWriterId) {
+      return { success: false, message: "It's not your turn to submit a clue!" };
+    }
 
     const existing = room.clues.find((c) => c.playerId === socket.id && c.round === room.currentRound);
     if (existing) {
@@ -606,21 +652,13 @@ export class RoomManager {
       clue: cleaned,
     });
 
-    this.checkClueSubmissionsComplete(room);
+    this.updateActiveWriter(room);
+    this.broadcastRoomState(room.code);
     return { success: true };
   }
 
   private checkClueSubmissionsComplete(room: Room) {
-    const connectedPlayers = Array.from(room.players.values()).filter((p) => p.isConnected);
-    const submittedCount = connectedPlayers.filter((p) =>
-      room.clues.some((c) => c.playerId === p.id && c.round === room.currentRound)
-    ).length;
-
-    if (submittedCount >= connectedPlayers.length && connectedPlayers.length > 0) {
-      this.startRoundDecisionPhase(room);
-    } else {
-      this.broadcastRoomState(room.code);
-    }
+    this.updateActiveWriter(room);
   }
 
   private startRoundDecisionPhase(room: Room) {
@@ -861,6 +899,7 @@ export class RoomManager {
       isPaused: room.isPaused,
       tieBreakCandidates: room.tieBreakCandidates,
       chatHistory: room.chatHistory,
+      activeWriterId: room.activeWriterId,
       clueOrder: room.clueOrder,
       voteCounts: room.phase === 'GAME_OVER' ? voteCounts : undefined,
       decisionVotesCount: { PLAY_AGAIN: playAgainCount, GUESS_IMPOSTER: guessImposterCount },
